@@ -1,0 +1,12 @@
+# Cache
+/cache
+
+# Composer packages
+/vendor/rain/*
+/vendor/slim/*
+/vendor/adldap2/*
+/vendor/doctrine/*
+/vendor/illuminate/*
+/vendor/nesbot/*
+/vendor/psr/*
+/vendor/symfony/*

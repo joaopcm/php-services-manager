@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Controle de Acesso | Entrar</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="apple-touch-icon" sizes="57x57" href="\res/img/icons/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="\res/img/icons//apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="\res/img/icons//apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="\res/img/icons//apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="\res/img/icons//apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="\res/img/icons//apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="\res/img/icons//apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="\res/img/icons//apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="\res/img/icons//apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192" href="\res/img/icons//android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="\res/img/icons//favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="\res/img/icons//favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="\res/img/icons//favicon-16x16.png">
+		<link rel="manifest" href="\res/img/icons//manifest.json">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="\res/img/icons//ms-icon-144x144.png">
+		<meta name="theme-color" content="#ffffff">
+		<!-- Local core CSS -->
+		<link href="\res/css/login.css" rel="stylesheet">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- Bootstrap core CSS -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Material Design Bootstrap -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.8/css/mdb.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<!-- Section -->
+		<section>
+			<!-- Container -->
+			<div class="container">
+				<!-- Text Form -->
+				<div class="form_content text-black">
+					<h2>Por que um novo controle de acesso de militantes?</h2>
+					<p>Tendo em vista os problemas com travamentos durante o processamento dos dados da antiga versão do projeto,
+						refatoramos todo o sistema visando o melhor desempenho e visual para facilitar o seu trabalho.
+					</p>
+				</div>
+				<!-- ./Text Form -->
+				<!-- Login Form -->
+				<div class="login_form">
+					<h1>Entrar</h1><span>Controle de Acesso</span>
+					<form class="text-white" action="/login" method="post">
+						<div class="form-group">
+							<label for="username">Usuário</label>
+							<input type="text" class="form-control" id="username" name="login" aria-describedby="username" placeholder="Usuário" required>
+						</div>
+						<div class="form-group">
+							<label for="password">Senha</label>
+							<input type="password" class="form-control" id="password" name="password" aria-describedby="password" placeholder="Senha" required>
+						</div>
+						<p id="error-message" class="text-center" style="color: #ff7675; margin: 0 0 3px 0 !important">
+
+						</p>
+						<button type="submit" class="btn btn-light btn-lg">Entrar</button>
+					</form>
+				</div>
+				<!-- ./Login Form -->
+			</div>
+			<!-- ./Container -->
+			<!-- IPTEC Logo -->
+			<img class="iptec" src="\res/img/iptec.png">
+			<!-- ./IPTEC Logo -->
+		</section>
+		<!-- ./Section -->
+		<!-- JQuery -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<!-- Bootstrap tooltips -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+		<!-- Bootstrap core JavaScript -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<!-- MDB core JavaScript -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.8/js/mdb.min.js"></script>
+	</body>
+</html>

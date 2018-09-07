@@ -1,0 +1,21 @@
+{
+    "name": "projex/cvaClientes",
+    "description": "Aplicação de gerenciamento de clientes da CVA Climatização",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "João Melo",
+            "email": "joao.pedro6532@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "2.0",
+        "rain/raintpl": "3.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Root\\": "vendor\\root\\php-classes\\src"
+        }
+    }
+}
