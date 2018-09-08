@@ -1,12 +1,8 @@
-# Cache
-/cache
+# Cache dir
+/views-cache
 
 # Composer packages
-/vendor/rain/*
-/vendor/slim/*
-/vendor/adldap2/*
-/vendor/doctrine/*
-/vendor/illuminate/*
-/vendor/nesbot/*
-/vendor/psr/*
-/vendor/symfony/*
+/vendor/omposer
+/vendor/rain
+/vendor/slim
+/vendor/autoload.php

@@ -9,7 +9,7 @@
 session_start();
 
 # Desabilita os warnings reports
-error_reporting(E_CORE_WARNING);
+# error_reporting(E_CORE_WARNING);
 
 # Autoload
 require_once("vendor/autoload.php");
@@ -25,7 +25,7 @@ use \Slim\Slim;
 use \Root\Page;
 use \Root\PageAdmin;
 use \Root\Model\User;
-use \Root\Model\Clientes;
+use \Root\Model\Cliente;
 
 # Slim instance
 $app = new Slim();
@@ -38,7 +38,9 @@ $app->get("/", function() {
 
     $page = new PageAdmin();
 
-    $page->setTpl("index");
+    $page->setTpl("index", array(
+        "clientes" => Cliente::listAll()
+    ));
 
 });
 
@@ -49,7 +51,9 @@ $app->get("/clientes", function(){
 
     $page = new PageAdmin();
 
-    $page->setTpl("clientes");
+    $page->setTpl("clientes", array(
+        "clientes" => Cliente::listAll()
+    ));
 
 });
 
@@ -115,7 +119,7 @@ $app->get("/logout", function() {
 });
 
 # Página de criação de clientes
-$app->get("/adicionar/clientes", function() {
+$app->get("/adicionar/cliente", function() {
 
     User::verifyLogin();
 
@@ -132,7 +136,13 @@ $app->get("/editar/cliente/:id", function($id) {
 
     $page = new PageAdmin();
 
-    $page->setTpl("editar-militante");
+    $cliente = new Cliente();
+
+    $cliente->get((int)$id);
+
+    $page->setTpl("editar-cliente", array(
+        "cliente" => $cliente->getValues()
+    ));
 
 });
 
@@ -141,7 +151,13 @@ $app->post("/adicionar/cliente", function() {
 
     User::verifyLogin();
 
-    header("Location: /militantes");
+    $cliente = new Cliente();
+
+    $cliente->setData($_POST);
+
+    $cliente->save();
+
+    header("Location: /clientes");
 
     exit;
 
@@ -152,7 +168,15 @@ $app->post("/editar/cliente/:id", function($id) {
 
     User::verifyLogin();
 
-    header("Location: /militantes");
+    $cliente = new Cliente();
+
+    $cliente->get((int)$id);
+
+    $cliente->setData($_POST);
+
+    $cliente->update();
+
+    header("Location: /clientes");
 
     exit;
 
@@ -163,9 +187,26 @@ $app->get("/excluir/cliente/:id", function($id) {
 
     User::verifyLogin();
 
-    header("Location: /militantes");
+    $cliente = new Cliente();
+
+    $cliente->get((int)$id);
+
+    $cliente->delete();
+
+    header("Location: /clientes");
 
     exit;
+
+});
+
+# Localização de acordo com o CEP
+$app->post("/localizacao/:cep", function($cep) {
+
+    $cliente = new Cliente();
+
+    $result = $cliente->getLocale($cep);
+
+    echo json_encode($result);
 
 });
 

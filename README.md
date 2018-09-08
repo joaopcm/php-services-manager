@@ -24,3 +24,8 @@ $> docker rm -v {volume}
 ```
 
 Após executar o comando acima, gere e execute a imagem Docker da aplicação normalmente.
+
+## Portas de acesso
+* __App__: localhost:80
+* __PhpMyAdmin__: localhost:9000
+* __MySQL__: localhost:3306

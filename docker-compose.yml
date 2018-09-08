@@ -6,12 +6,21 @@ services:
     volumes:
       - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
     ports:
-      - "3307:3307"
+      - "3306:3306"
     environment:
-      - MYSQL_USER=controle
+      - MYSQL_USER=cva
       - MYSQL_PASSWORD=4ut3nt1c4R
       - MYSQL_ROOT_PASSWORD=4ut3nt1c4R
-      - MYSQL_DATABASE=db_controle_acesso
+      - MYSQL_DATABASE=db_cva
+
+  phpMyAdmin:
+    image: phpmyadmin/phpmyadmin:latest
+    links:
+      - mysql
+    ports:
+      - "9000:80"
+    environment:
+      - PMA_ARBITRARY=1
 
   app:
     build: .
@@ -22,7 +31,7 @@ services:
     depends_on:
       - mysql
     ports:
-      - "8080:80"
+      - "80:80"
     environment:
       - DBHOST=mysql
       - MYSQL_USER=cva

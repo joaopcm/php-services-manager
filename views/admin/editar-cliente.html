@@ -1,0 +1,162 @@
+<!-- Header -->
+<header class="bg-homepage text-white">
+        <div class="container black-letter">
+            <h1>
+                <i class="fa fa-pencil"></i>
+                <b>Editar Cliente</b>
+            </h1>
+            <p class="lead">Edite o formulário com os dados do cliente e clique em
+                <span class="badge badge-primary">
+                    <i class="fa fa-save"></i> Salvar</span>.
+            </p>
+        </div>
+    </header>
+    <!-- ./Header -->
+    <!-- First Container -->
+    <div class="container">
+        <div class="space-25"></div>
+        <!-- Row -->
+        <div class="row">
+            <!-- Form -->
+            <form action="/editar/cliente/{$cliente.id}" method="post" style="width: 100%;">
+                <div class="form-group">
+                    <label for="nomeCliente" class="col-form-label">Nome
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-control" id="nomeCliente" name="nomeCliente" value="{$cliente.nomeCliente}" maxlength="56" placeholder="Digite o nome do cliente">
+                </div>
+                <div class="form-group">
+                    <label for="contatoLocal" class="col-form-label">Contato
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="contatoLocal" name="contatoLocal" value="{$cliente.contatoLocal}" maxlength="56"
+                        placeholder="Digite o nome do contato">
+                </div>
+                <div class="form-group">
+                    <label for="cpf" class="col-form-label">CPF
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="cpf" name="cpf" value="{$cliente.cpf}" placeholder="Digite o CPF do cliente"
+                        data-mask="000.000.000-00">
+                </div>
+                <div class="form-group">
+                    <label for="cnpj" class="col-form-label">CNPJ
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="cnpj" name="cnpj" value="{$cliente.cnpj}" placeholder="Digite o CNPJ do cliente"
+                        data-mask="000.000.000-00">
+                </div>
+                <div class="form-group">
+                    <label for="inscricaoEstadual" class="col-form-label">Inscrição Estadual
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="inscricaoEstadual" name="inscricaoEstadual" value="{$cliente.inscricaoEstadual}" maxlength="56"
+                        placeholder="Digite a Inscrição Estadual do cliente" data-mask="000.000.000.000">
+                </div>
+                <div class="form-group">
+                    <label for="telefone" class="col-form-label">Telefone
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="telefone" name="telefone" value="{$cliente.telefone}" placeholder="Digite o telefone do cliente"
+                        maxlength="56">
+                </div>
+                <div class="form-group">
+                    <label for="celular" class="col-form-label">Celular
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="celular" name="celular" value="{$cliente.celular}" placeholder="Digite o celular do cliente"
+                        maxlength="56">
+                </div>
+                <div class="form-group">
+                    <label for="cep" class="col-form-label">CEP
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="cep" name="cep" value="{$cliente.cep}" maxlength="56" placeholder="Digite o CEP do cliente">
+                </div>
+                <div class="form-group">
+                    <label for="endereco" class="col-form-label">Endereço
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="endereco" name="endereco" value="{$cliente.endereco}" maxlength="112" placeholder="Digite o endereço do cliente">
+                </div>
+                <div class="form-group">
+                    <label for="bairro" class="col-form-label">Bairro
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="bairro" name="bairro" value="{$cliente.bairro}" maxlength="56" placeholder="Digite o bairro do cliente">
+                </div>
+                <div class="form-group">
+                    <label for="cidade" class="col-form-label">Cidade
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="cidade" name="cidade" value="{$cliente.cidade}" maxlength="56" placeholder="Digite a cidade do cliente">
+                </div>
+                <div class="form-group">
+                    <label for="estado" class="col-form-label">Estado
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <select name="estado" class="form-control" id="estado" />
+                    <option value="">Selecione</option>
+                    <option value="AC" {if="$cliente.estado === 'AC'"}selected{/if}>Acre</option>
+                    <option value="AL" {if="$cliente.estado === 'AL'"}selected{/if}>Alagoas</option>
+                    <option value="AP" {if="$cliente.estado === 'AP'"}selected{/if}>Amapá</option>
+                    <option value="AM" {if="$cliente.estado === 'AM'"}selected{/if}>Amazonas</option>
+                    <option value="BA" {if="$cliente.estado === 'BA'"}selected{/if}>Bahia</option>
+                    <option value="CE" {if="$cliente.estado === 'CE'"}selected{/if}>Ceará</option>
+                    <option value="DF" {if="$cliente.estado === 'DF'"}selected{/if}>Distrito Federal</option>
+                    <option value="GO" {if="$cliente.estado === 'GO'"}selected{/if}>Goiás</option>
+                    <option value="ES" {if="$cliente.estado === 'ES'"}selected{/if}>Espírito Santo</option>
+                    <option value="MA" {if="$cliente.estado === 'MA'"}selected{/if}>Maranhão</option>
+                    <option value="MT" {if="$cliente.estado === 'MT'"}selected{/if}>Mato Grosso</option>
+                    <option value="MS" {if="$cliente.estado === 'MS'"}selected{/if}>Mato Grosso do Sul</option>
+                    <option value="MG" {if="$cliente.estado === 'MG'"}selected{/if}>Minas Gerais</option>
+                    <option value="PA" {if="$cliente.estado === 'PA'"}selected{/if}>Pará</option>
+                    <option value="PB" {if="$cliente.estado === 'PB'"}selected{/if}>Paraiba</option>
+                    <option value="PR" {if="$cliente.estado === 'PR'"}selected{/if}>Paraná</option>
+                    <option value="PE" {if="$cliente.estado === 'PE'"}selected{/if}>Pernambuco</option>
+                    <option value="PI" {if="$cliente.estado === 'PI'"}selected{/if}>Piauí­</option>
+                    <option value="RJ" {if="$cliente.estado === 'RJ'"}selected{/if}>Rio de Janeiro</option>
+                    <option value="RN" {if="$cliente.estado === 'RN'"}selected{/if}>Rio Grande do Norte</option>
+                    <option value="RS" {if="$cliente.estado === 'RS'"}selected{/if}>Rio Grande do Sul</option>
+                    <option value="RO" {if="$cliente.estado === 'RO'"}selected{/if}>Rondônia</option>
+                    <option value="RR" {if="$cliente.estado === 'RR'"}selected{/if}>Roraima</option>
+                    <option value="SP" {if="$cliente.estado === 'SP'"}selected{/if}>São Paulo</option>
+                    <option value="SC" {if="$cliente.estado === 'SC'"}selected{/if}>Santa Catarina</option>
+                    <option value="SE" {if="$cliente.estado === 'SE'"}selected{/if}>Sergipe</option>
+                    <option value="TO" {if="$cliente.estado === 'TO'"}selected{/if}>Tocantins</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="col-form-label">E-mail
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="email" class="form-control" name="email" value="{$cliente.email}" maxlength="56" placeholder="Digite o endereço de e-mail do cliente">
+                </div>
+                <div class="form-group">
+                    <label for="observacao" class="col-form-label">Observação
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <input type="text" class="form-control" id="observacao" name="observacao" value="{$cliente.observacao}" maxlength="112" placeholder="Digite uma observação">
+                </div>
+                <div class="form-group">
+                    <label for="tipo" class="col-form-label">Tipo
+                        <span class="optional">(Opcional)</span>
+                    </label>
+                    <select name="tipo" class="form-control chosen-select" id="tipo" />
+                    <option value="">Selecione</option>
+                    <option value="PF" {if="$cliente.tipo === 'PF'"}selected{/if}>Pessoa Física</option>
+                    <option value="PJ" {if="$cliente.tipo === 'PJ'"}selected{/if}>Pessoa Jurídica</option>
+                    </select>
+                </div>
+                <div class="space-25"></div>
+                <a href="/clientes" class="btn btn-outline-primary waves-effect btn-lg">
+                    <i class="fa fa-times"></i> Cancelar</a>
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fa fa-plus-square"></i> Adicionar</button>
+                <div class="space-50"></div>
+            </form>
+            <!-- ./Form -->
+        </div>
+        <!-- ./Row -->
+    </div>
+    <!-- ./First Container -->
