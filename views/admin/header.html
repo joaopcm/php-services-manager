@@ -12,6 +12,8 @@
 	<link href="\res/css/main.css" rel="stylesheet">
 	<!-- Chosen core CSS -->
 	<link href="\res/css/chosen.css" rel="stylesheet">
+	<!-- DataTables core CSS -->
+	<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 	<!-- Bootstrap core CSS -->
@@ -28,6 +30,11 @@
 			<img src="\res/img/logo.png" height="64" class="d-inline-block align-top" alt="logo">
 		</mdb-navbar-brand>
 		<!-- ./Navbar brand -->
+		{if="$_SESSION['User']['acessoTotal'] === '1'"}
+			<span class="badge red" data-toggle="tooltip" data-placement="right" title="Você é um administrador!">Acesso Total</span>
+		{else}
+			<span class="badge red" data-toggle="tooltip" data-placement="right" title="Seu usuário não é administrador">Somente Leitura</span>
+		{/if}
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
 		 aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -41,19 +48,32 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/clientes">
+					<a class="nav-link" href="/administrar/clientes">
 						<i class="fa fa-users"></i> Clientes</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/pagamentos">
-						<i class="fa fa-dollar-sign"></i> Pagamentos</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-user"></i> {$_SESSION['User']}</a>
+						<i class="fa fa-dollar-sign"></i> Recebimentos</a>
 					<div class="dropdown-menu dropdown-menu-right dropdown-cyan" aria-labelledby="navbarDropdownMenuLink-4">
-						<a class="dropdown-item" href="javascript:;;" data-toggle="modal" data-target="#modalNews">Ver novidades</a>
-						<a class="dropdown-item" href="/logout"> Sair do sistema</a>
+						<a class="nav-link" href="/administrar/recebimentos/{function="date('m')"}/{function="date('Y')"}">Deste Mês</a>
+						<div class="dropdown-divider"></div>
+
+						<div class="input-group mb-2" style="margin-left: 5px !important; margin-right: 5px !important; width: auto !important;">
+							<div class="input-group-prepend">
+								<div class="input-group-text" style="border-radius: 0 !important"><i class="fa fa-search"></i></div>
+							</div>
+							<input type="text" id="search-recebimentos" class="form-control" placeholder="mm/aaaa">
+						</div>
+
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-toggle="dropdown">
+						<i class="fa fa-user"></i> {$_SESSION['User']['nome']}</a>
+					<div class="dropdown-menu dropdown-menu-right dropdown-cyan" aria-labelledby="navbarDropdownMenuLink-4">
+						{if="$_SESSION['User']['acessoTotal'] === '1'"}<a class="nav-link" href="/administrar/usuarios">Gerenciar Usuários</a>{/if}
+						<a class="nav-link" href="javascript:;;" data-toggle="modal" data-target="#modalNews">Novidades</a>
+						<a class="nav-link" href="/logout"> Desconectar</a>
 					</div>
 				</li>
 			</ul>

@@ -1,5 +1,12 @@
 $(function (c) {
 
+	// Inicializa o DataTables
+	$('.table').DataTable({
+		paging: false,
+		searching: false,
+		info: false
+	});
+
 	// Recupera dados de localização de acordo com o CEP
 	var options = {
 		onComplete: function(cep) {
@@ -17,6 +24,14 @@ $(function (c) {
 		}
 	}
 	$('#cep').mask('00000-000', options);
+
+	// Faz a consulta de recebimentos na data passada
+	var options = {
+		onComplete: function(data) {
+			location.href = "/administrar/recebimentos/" + data;
+		}
+	}
+	$('#search-recebimentos').mask('00/0000', options);
 
 	// Inicializa o Tooltip
 	c('[data-toggle="tooltip"]').tooltip();

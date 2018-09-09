@@ -21,8 +21,16 @@
 						<a href="#!" data-toggle="modal" data-target="#modalNews">Novidades</a>
 					</li>
 					<li>
-						<a href="/clientes">Gerenciar Clientes</a>
+						<a href="/administrar/clientes">Gerenciar Clientes</a>
 					</li>
+					<li>
+						<a href="/administrar/recebimentos/{function="date('m')"}/{function="date('Y')"}">Gerenciar Recebimentos</a>
+					</li>
+					{if="$_SESSION['User']['acessoTotal'] === '1'"}
+					<li>
+						<a href="/administrar/usuarios">Gerenciar Clientes</a>
+					</li>
+					{/if}
 				</ul>
 			</div>
 			<!-- ./Links -->
@@ -46,8 +54,10 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.8/js/mdb.min.js"></script>
 <!-- Masked Input JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js"></script>
-<!-- Chosen core JavaScript -->
+<!-- DataTables core JavaScript -->
 <script src="\res/js/chosen.jquery.min.js"></script>
+<!-- Chosen core JavaScript -->
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <!-- Main core JavaScript -->
 <script src="\res/js/main.js"></script>
 </body>

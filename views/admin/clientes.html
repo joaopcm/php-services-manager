@@ -4,10 +4,12 @@
 		<h1>Gerenciar Clientes</h1>
 		<p class="lead">Crie, edite e delete clientes da CVA Climatização.</p>
 	</div>
+	{if="$_SESSION['User']['acessoTotal'] === '1'"}
 	<div class="container">
 		<a class="btn btn-primary btn-lg" href="/adicionar/cliente" data-toggle="tooltip" data-placement="right" title="Clique para cadastrar um cliente">
-		<i class="fa fa-plus-square"></i> Cadastrar Cliente</a>
+			<i class="fa fa-plus-square"></i> Cadastrar Cliente</a>
 	</div>
+	{/if}
 </header>
 <!-- ./Header -->
 {if="$clientes"}
@@ -18,7 +20,7 @@
 		<h3 class="panel-title">Clientes</h3>
 		<div class="pull-right">
 			<button class="btn btn-primary btn-xs btn-filter">
-			<i class="fa fa-filter"></i> Filtro</button>
+				<i class="fa fa-filter"></i> Filtro</button>
 		</div>
 	</div>
 	<!-- ./Panel Heading -->
@@ -40,7 +42,7 @@
 				</tr>
 				<!-- ./Filter -->
 				<tr>
-					<th>#</th>
+					{if="$_SESSION['User']['acessoTotal'] === '1'"}<th>#</th>{/if}
 					<th>Nome</th>
 					<th>Contato</th>
 					<th>CPF</th>
@@ -72,16 +74,18 @@
 			<tbody>
 				{loop="$clientes"}
 				<tr>
+					{if="$_SESSION['User']['acessoTotal'] === '1'"}
 					<td class="text-left">
-						<a href="/excluir/cliente/{$value.id}" onclick="return confirm('Deseja realmente excluir este cliente?')" data-toggle="tooltip"
-						 data-placement="left" title="Excluir">
+						<a href="/excluir/cliente/{$value.id}" onclick="return confirm('Deseja realmente excluir este cliente?')"
+						 data-toggle="tooltip" data-placement="right" title="Excluir">
 							<i class="fa fa-times mx-1"></i>
 						</a>
-						<a href="/editar/cliente/{$value.id}" data-toggle="tooltip" data-placement="left" title="Editar">
+						<a href="/editar/cliente/{$value.id}" data-toggle="tooltip" data-placement="right" title="Editar">
 							<i class="fa fa-pencil-alt mx-1"></i>
 						</a>
-						<a data-toggle="tooltip" data-placement="left" title="Última vez alterado por {$value.alteradoPor} em {function="date('d/m/Y', strtotime($value.alteradoEm))"} às {function="date('H:i', strtotime($value.alteradoEm))"}"><i class="fa fa-info-circle"></i></a>
+						<a data-toggle="tooltip" data-placement="right" title="Última vez alterado por {$value.alteradoPor} em {function="date('d/m/Y', strtotime($value.alteradoEm))"} às {function="date('H:i', strtotime($value.alteradoEm))"}"><i class="fa fa-info-circle"></i></a>
 					</td>
+					{/if}
 					<td><strong>{$value.nomeCliente}</strong></td>
 					<td>{$value.contatoLocal}</td>
 					<td>{$value.cpf}</td>
@@ -111,7 +115,9 @@
 <div class="container">
 	<div class="alert alert-danger" role="alert">
 		<i class="fa fa-exclamation-triangle"></i>
-		<strong>Ah não!</strong> Não existem cadastros de clientes em nossos registros. <a href="/adicionar/cliente" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="right" title="Clique para cadastrar um cliente"><i class="fa fa-plus-square"></i> Cadastrar</a>
+		<strong>Ah não!</strong> Não existem cadastros de clientes em nossos registros. <a href="/adicionar/cliente" class="btn btn-danger btn-sm"
+		 data-toggle="tooltip" data-placement="right" title="Clique para cadastrar um cliente"><i class="fa fa-plus-square"></i>
+			Cadastrar</a>
 	</div>
 </div>
 {/if}

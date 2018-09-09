@@ -1,0 +1,118 @@
+<!-- Header -->
+<header class="bg-homepage text-white">
+    <div class="container black-letter">
+        <h1>
+            <i class="fa fa-plus-square"></i>
+            <b>Adicionar Recebimento</b>
+        </h1>
+        <p class="lead">Preencha o formulário com os dados do recebimento e clique em
+            <span class="badge badge-primary">
+                <i class="fa fa-plus-square"></i> Adicionar</span>.
+        </p>
+    </div>
+</header>
+<!-- ./Header -->
+<!-- First Container -->
+<div class="container">
+    <div class="space-25"></div>
+    <!-- Row -->
+    <div class="row">
+        <!-- Form -->
+        <form action="/adicionar/recebimento" method="post" style="width: 100%;">
+            <div class="form-group">
+                <label for="dataRecebimento" class="col-form-label">Data de Recebimento
+                    <span class="required">*</span>
+                </label>
+                <input type="date" class="form-control" id="dataRecebimento" name="dataRecebimento" value="{function="date('Y-m-d')"}" placeholder="Digite a data de recebimento" required>
+            </div>
+            <div class="form-group">
+                <label for="fornecedor" class="col-form-label">Fornecedor
+                    <span class="required">*</span>
+                </label>
+                <input type="text" class="form-control" id="fornecedor" name="fornecedor" maxlength="56" placeholder="Digite o nome do fornecedor"
+                    required>
+            </div>
+            <label for="valorBoleto" class="col-form-label">Valor do Boleto
+                <span class="required">*</span>
+            </label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend" >
+                    <div class="input-group-text" style="border-radius: 0 !important">R$</div>
+                </div>
+                <input type="text" class="form-control" id="valorBoleto" name="valorBoleto" data-mask="000.000,00"
+                    data-mask-reverse="true" placeholder="Digite o valor do boleto" required>
+            </div>
+            <div class="form-group">
+                <label for="dataVencimento" class="col-form-label">Data de Vencimento
+                    <span class="required">*</span>
+                </label>
+                <input type="date" class="form-control" id="dataVencimento" name="dataVencimento" required>
+            </div>
+            <div class="form-group">
+                <label for="dataCompensacao" class="col-form-label">Data de Compensação
+                    <span class="optional">(Opcional)</span>
+                </label>
+                <input type="date" class="form-control" id="dataCompensacao" name="dataCompensacao">
+            </div>
+            <div class="form-group">
+                <label for="nBoleto" class="col-form-label">Número do Boleto
+                    <span class="optional">(Opcional)</span>
+                </label>
+                <input type="text" class="form-control" id="nBoleto" name="nBoleto" maxlength="15" placeholder="Digite o número do boleto">
+            </div>
+            <div class="form-group">
+                <label for="formaPagamento" class="col-form-label">Forma de Pagamento
+                    <span class="required">*</span>
+                </label>
+                <select name="formaPagamento" class="form-control chosen-select" id="formaPagamento" />
+                <option value="Boleto">Boleto</option>
+                <option value="Depósito">Depósito</option>
+                <option value="Cheque">Cheque</option>
+                <option value="Dinheiro">Dinheiro</option>
+                <option value="Transferência Bancária">Transferência Bancária</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantidade" class="col-form-label">Quantidade
+                    <span class="required">*</span>
+                </label>
+                <input type="text" class="form-control" id="quantidade" name="quantidade" value="1/1" data-mask="0/0" maxlength="3" placeholder="Digite quantidade" required>
+            </div>
+            <div class="form-group">
+                <label for="referente" class="col-form-label">Referente
+                    <span class="optional">(Opcional)</span>
+                </label>
+                <input type="text" class="form-control" id="referente" name="referente" maxlength="112" placeholder="Digite a referência do recebimento">
+            </div>
+            <div class="form-group">
+                <label for="formaEnvio" class="col-form-label">Forma de Envio
+                    <span class="required">*</span>
+                </label>
+                <select name="formaEnvio" class="form-control chosen-select" id="formaEnvio" />
+                <option value="E-mail">E-mail</option>
+                <option value="Whatsapp">Whatsapp</option>
+                <option value="Recebido no local">Recebido no local</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="enviadoPor" class="col-form-label">Enviado Por
+                    <span class="required">*</span>
+                </label>
+                <select name="enviadoPor" class="form-control chosen-select" id="enviadoPor" />
+                {loop="$usuarios"}
+                <option value="{$value.nome}">{$value.nome}</option>
+                {/loop}
+                </select>
+            </div>
+            <div class="space-25"></div>
+            <a href="/administrar/recebimentos/{function="date('m')"}/{function="date('Y')"}" class="btn btn-outline-primary waves-effect btn-lg">
+                <i class="fa fa-times"></i> Cancelar</a>
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fa fa-plus-square"></i> Adicionar</button>
+            <div class="space-50"></div>
+        </form>
+        <!-- ./Form -->
+    </div>
+    <!-- ./Row -->
+</div>
+<!-- ./First Container -->

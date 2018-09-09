@@ -2,7 +2,8 @@
 
 /*
 * Classe responsável por todas as ações
-* relacionadas aos usuários do sistema
+* de acesso relacionadas aos usuários
+* do sistema
 */
 
 namespace Root\Model;
@@ -10,10 +11,19 @@ namespace Root\Model;
 use \Root\DB\Sql;
 use \Root\Model;
 
-/* Constantes Docker*/
 define('SESSION', 'User');
 
 class User extends Model {
+
+    /* Lista todos os usuários */
+    public static function listAll()
+    {
+
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM tb_usuarios");
+
+    }
 
     /* Efetua o login de um usuário */
     public function login($login,  $password)
@@ -36,7 +46,8 @@ class User extends Model {
             if (isset($verifyPass[0]))
             {
 
-                $_SESSION[SESSION] = $verifyPass[0]["nome"];
+                $_SESSION[SESSION] = $verifyPass[0];
+                
                 return "OK";
 
             } else {
@@ -53,7 +64,7 @@ class User extends Model {
 
     }
 
-    /* verifica se um usuário está logado */
+    /* Verifica se um usuário está logado */
     public static function verifyLogin()
     {
 
@@ -65,6 +76,21 @@ class User extends Model {
         {
 
             header("Location: /login");
+
+            exit;
+
+        }
+
+    }
+
+    /* Verifica o nível de acesso do usuário */
+    public static function verifyAccess()
+    {
+
+        if ($_SESSION[SESSION]['acessoTotal'] != 1)
+        {
+
+            header("Location: /");
 
             exit;
 

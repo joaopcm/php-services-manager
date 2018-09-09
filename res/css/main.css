@@ -152,3 +152,7 @@ table td {
 .space-25 {
  height: 25px !important;
 }
+
+th.sorting_asc, th.sorting_desc, th.sorting, table.dataTable  {
+	border: none !important;
+}

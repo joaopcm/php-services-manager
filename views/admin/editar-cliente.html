@@ -2,7 +2,7 @@
 <header class="bg-homepage text-white">
         <div class="container black-letter">
             <h1>
-                <i class="fa fa-pencil"></i>
+                <i class="fa fa-pencil-alt"></i>
                 <b>Editar Cliente</b>
             </h1>
             <p class="lead">Edite o formulário com os dados do cliente e clique em
@@ -23,7 +23,7 @@
                     <label for="nomeCliente" class="col-form-label">Nome
                         <span class="required">*</span>
                     </label>
-                    <input type="text" class="form-control" id="nomeCliente" name="nomeCliente" value="{$cliente.nomeCliente}" maxlength="56" placeholder="Digite o nome do cliente">
+                    <input type="text" class="form-control" id="nomeCliente" name="nomeCliente" value="{$cliente.nomeCliente}" maxlength="56" placeholder="Digite o nome do cliente" required>
                 </div>
                 <div class="form-group">
                     <label for="contatoLocal" class="col-form-label">Contato
@@ -149,10 +149,10 @@
                     </select>
                 </div>
                 <div class="space-25"></div>
-                <a href="/clientes" class="btn btn-outline-primary waves-effect btn-lg">
+                <a href="/administrar/clientes" class="btn btn-outline-primary waves-effect btn-lg">
                     <i class="fa fa-times"></i> Cancelar</a>
                 <button type="submit" class="btn btn-primary btn-lg">
-                    <i class="fa fa-plus-square"></i> Adicionar</button>
+                    <i class="fa fa-save"></i> Salvar</button>
                 <div class="space-50"></div>
             </form>
             <!-- ./Form -->

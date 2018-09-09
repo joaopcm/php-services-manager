@@ -88,7 +88,7 @@ class Cliente extends Model {
                 ":email" => $this->getemail(),
                 ":observacao" => $this->getobservacao(),
                 ":tipo" => $this->gettipo(),
-                ":alteradoPor" => $_SESSION["User"],
+                ":alteradoPor" => $_SESSION["User"]["nome"],
                 ":alteradoEm" => date("Y/m/d H:i")
             ));
 
@@ -136,7 +136,7 @@ class Cliente extends Model {
             ":email" => $this->getemail(),
             ":observacao" => $this->getobservacao(),
             ":tipo" => $this->gettipo(),
-            ":alteradoPor" => $_SESSION["User"],
+            ":alteradoPor" => $_SESSION["User"]["nome"],
             ":alteradoEm" => date("Y/m/d H:i")
         ));
 

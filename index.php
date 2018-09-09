@@ -25,7 +25,9 @@ use \Slim\Slim;
 use \Root\Page;
 use \Root\PageAdmin;
 use \Root\Model\User;
+use \Root\Model\Usuario;
 use \Root\Model\Cliente;
+use \Root\Model\Recebimento;
 
 # Slim instance
 $app = new Slim();
@@ -44,15 +46,49 @@ $app->get("/", function() {
 
 });
 
-# Lista de clientes
-$app->get("/clientes", function(){
+# Lista de clientes/usuários
+$app->get("/administrar/:opcao", function($opcao){
 
     User::verifyLogin();
 
     $page = new PageAdmin();
 
-    $page->setTpl("clientes", array(
-        "clientes" => Cliente::listAll()
+    switch ($opcao)
+    {
+
+        case 'clientes':
+
+            $page->setTpl("clientes", array(
+                "clientes" => Cliente::listAll()
+            ));
+
+            break;
+
+        case 'usuarios':
+
+            User::verifyAccess();
+
+            $page->setTpl("usuarios", array(
+                "usuarios" => Usuario::listAll()
+            ));
+
+            break;
+
+    }
+
+});
+
+# Lista de recebimentos
+$app->get("/administrar/recebimentos/:mes/:ano", function($mes, $ano){
+
+    User::verifyLogin();
+
+    $page = new PageAdmin();
+
+    $page->setTpl("recebimentos", array(
+        "recebimentos" => Recebimento::listAll($mes, $ano),
+        "mes" => $mes,
+        "ano" => $ano
     ));
 
 });
@@ -118,84 +154,328 @@ $app->get("/logout", function() {
 
 });
 
-# Página de criação de clientes
-$app->get("/adicionar/cliente", function() {
+# Página de criação de clientes/recebimentos
+$app->get("/adicionar/:opcao", function($opcao) {
 
     User::verifyLogin();
+
+    User::verifyAccess();
 
     $page = new PageAdmin();
 
-    $page->setTpl("adicionar-cliente");
+    switch ($opcao)
+    {
+
+        case 'cliente':
+
+            $page->setTpl("adicionar-cliente");
+
+            break;
+
+        case 'recebimento':
+
+            $page->setTpl("adicionar-recebimento", array(
+                "usuarios" => Usuario::listAll()
+            ));
+
+            break;
+
+        case 'usuario':
+
+            $page->setTpl("adicionar-usuario");
+
+            break;
+
+        default:
+
+            header('Location: /');
+
+            exit;
+
+            break;
+
+    }
 
 });
 
-# Página de edição de clientes
-$app->get("/editar/cliente/:id", function($id) {
+# Página de edição de clientes/recebimentos
+$app->get("/editar/:opcao/:id", function($opcao, $id) {
 
     User::verifyLogin();
+
+    User::verifyAccess();
 
     $page = new PageAdmin();
 
-    $cliente = new Cliente();
+    switch ($opcao)
+    {
 
-    $cliente->get((int)$id);
+        case 'cliente':
 
-    $page->setTpl("editar-cliente", array(
-        "cliente" => $cliente->getValues()
-    ));
+            $cliente = new Cliente();
+
+            $cliente->get((int)$id);
+
+            $page->setTpl("editar-cliente", array(
+                "cliente" => $cliente->getValues()
+            ));
+
+            break;
+        
+        case 'recebimento':
+
+            $recebimento = new Recebimento();
+
+            $recebimento->get((int)$id);
+
+            $page->setTpl("editar-recebimento", array(
+                "recebimento" => $recebimento->getValues(),
+                "usuarios" => Usuario::listAll()
+            ));
+
+            break;
+
+        case 'usuario':
+
+            $usuario = new Usuario();
+
+            $usuario->get((int)$id);
+
+            $page->setTpl("editar-usuario", array(
+                "usuario" => $usuario->getValues()
+            ));
+
+            break;
+        
+        default:
+
+            header('Location: /');
+
+            exit;
+
+            break;
+
+    }
 
 });
 
-# Método POST de adicionar cliente
-$app->post("/adicionar/cliente", function() {
+# Método POST de adicionar cliente/recebimento
+$app->post("/adicionar/:opcao", function($opcao) {
 
     User::verifyLogin();
 
-    $cliente = new Cliente();
+    User::verifyAccess();
 
-    $cliente->setData($_POST);
+    switch ($opcao)
+    {
 
-    $cliente->save();
+        case 'cliente':
 
-    header("Location: /clientes");
+            $cliente = new Cliente();
 
-    exit;
+            $cliente->setData($_POST);
+        
+            $cliente->save();
+        
+            header("Location: /administrar/clientes");
+        
+            exit;
+
+            break;
+
+        case 'recebimento':
+
+            $recebimento = new Recebimento();
+
+            $recebimento->setData($_POST);
+
+            $recebimento->save();
+
+            header("Location: /administrar/recebimentos/" . date('m') . "/" . date('Y'));
+
+            exit;
+
+            break;
+
+        case 'usuario':
+
+            $usuario = new Usuario();
+
+            if (isset($_POST["acesso"]))
+            {
+
+                $_POST["acesso"] = 1;
+
+            } else {
+
+                $_POST["acesso"] = 0;
+
+            }
+
+            $usuario->setData($_POST);
+
+            $usuario->save();
+
+            header("Location: /administrar/usuarios");
+
+            exit;
+
+            break;
+
+        default:
+
+            header('Location: /');
+
+            exit;
+
+            break;
+
+    }
 
 });
 
-# Método POST de editar clientes
-$app->post("/editar/cliente/:id", function($id) {
+# Método POST de editar clientes/recebimentos
+$app->post("/editar/:opcao/:id", function($opcao, $id) {
 
     User::verifyLogin();
 
-    $cliente = new Cliente();
+    User::verifyAccess();
 
-    $cliente->get((int)$id);
+    switch ($opcao)
+    {
 
-    $cliente->setData($_POST);
+        case 'cliente':
 
-    $cliente->update();
+            $cliente = new Cliente();
 
-    header("Location: /clientes");
+            $cliente->get((int)$id);
 
-    exit;
+            $cliente->setData($_POST);
+
+            $cliente->update();
+
+            header("Location: /administrar/clientes");
+
+            exit;
+
+            break;
+
+        case 'recebimento':
+
+            $recebimento = new Recebimento();
+
+            $recebimento->get((int)$id);
+
+            $recebimento->setData($_POST);
+
+            $recebimento->update();
+
+            header("Location: /administrar/recebimentos/" . date('m') . "/" . date('Y'));
+
+            exit;
+
+            break;
+
+        case 'usuario':
+
+            $usuario = new Usuario();
+
+            $usuario->get((int)$id);
+
+            if (isset($_POST["acesso"]))
+            {
+
+                $_POST["acesso"] = 1;
+
+            } else {
+
+                $_POST["acesso"] = 0;
+
+            }
+
+            $usuario->setData($_POST);
+
+            $usuario->update();
+
+            header("Location: /administrar/usuarios");
+
+            exit;
+
+            break;
+
+        default:
+
+            header('Location: /');
+
+            exit;
+
+            break;
+
+    }
 
 });
 
-# Método GET de excluir cliente
-$app->get("/excluir/cliente/:id", function($id) {
+# Método GET de excluir cliente/recebimento
+$app->get("/excluir/:opcao/:id", function($opcao, $id) {
 
     User::verifyLogin();
 
-    $cliente = new Cliente();
+    User::verifyAccess();
 
-    $cliente->get((int)$id);
+    switch ($opcao)
+    {
 
-    $cliente->delete();
+        case 'cliente':
 
-    header("Location: /clientes");
+            $cliente = new Cliente();
 
-    exit;
+            $cliente->get((int)$id);
+
+            $cliente->delete();
+
+            header("Location: /administrar/clientes");
+
+            exit;
+
+            break;
+
+        case 'recebimento':
+
+            $recebimento = new Recebimento();
+
+            $recebimento->get((int)$id);
+
+            $recebimento->delete();
+
+            header("Location: /administrar/recebimentos/" . date('m') . "/" . date('Y'));
+
+            exit;
+
+            break;
+
+        case 'usuario':
+
+            $usuario = new Usuario();
+
+            $usuario->get((int)$id);
+
+            $usuario->delete();
+
+            header("Location: /administrar/usuarios");
+
+            exit;
+
+            break;
+
+        default:
+
+            header('Location: /');
+
+            exit;
+
+            break;
+
+    }
 
 });
 

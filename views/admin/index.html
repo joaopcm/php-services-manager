@@ -2,13 +2,15 @@
 <header class="bg-homepage text-white">
 	<div class="container text-center black-letter">
 		<h1>Olá,
-			<b>{$_SESSION['User']}</b>!
+			<b>{$_SESSION['User']['nome']}</b>!
 		</h1>
 		<p class="lead">Este é o novo gerenciador de clientes da CVA Climatização.</p>
 	</div>
 	<div class="container text-center">
-		<a class="btn btn-primary btn-lg" href="/clientes" data-toggle="tooltip" data-placement="bottom" title="Clique para gerenciar clientes">
+		<a class="btn btn-primary btn-lg" href="/administrar/clientes" data-toggle="tooltip" data-placement="bottom" title="Clique para gerenciar clientes">
 			<i class="fa fa-users"></i> Gerenciar Clientes</a>
+		<a class="btn btn-primary btn-lg" href="/administrar/recebimentos/{function="date('m')"}/{function="date('Y')"}" data-toggle="tooltip" data-placement="bottom" title="Clique para gerenciar recebimentos de {function="date('m')"}/{function="date('Y')"}">
+			<i class="fa fa-dollar-sign"></i> Gerenciar Recebimentos</a>
 	</div>
 </header>
 <!-- ./Header -->
@@ -49,7 +51,7 @@
 						<!-- Table Head -->
 						<thead>
 							<tr>
-								<th>#</th>
+								{if="$_SESSION['User']['acessoTotal'] === '1'"}<th>#</th>{/if}
 								<th>Nome</th>
 								<th>Contato</th>
 								<th>CPF</th>
@@ -79,15 +81,18 @@
 						<tbody id="results">
 							{loop="$clientes"}
 							<tr>
+								{if="$_SESSION['User']['acessoTotal'] === '1'"}
 								<td class="text-left">
 									<a href="/excluir/cliente/{$value.id}" onclick="return confirm('Deseja realmente excluir este cliente?')" data-toggle="tooltip"
-									 data-placement="left" title="Excluir">
+									 data-placement="right" title="Excluir">
 										<i class="fa fa-times mx-1"></i>
 									</a>
-									<a href="/editar/cliente/{$value.id}" data-toggle="tooltip" data-placement="left" title="Editar">
+									<a href="/editar/cliente/{$value.id}" data-toggle="tooltip" data-placement="right" title="Editar">
 										<i class="fa fa-pencil-alt mx-1"></i>
 									</a>
+									<a data-toggle="tooltip" data-placement="right" title="Última vez alterado por {$value.alteradoPor} em {function="date('d/m/Y', strtotime($value.alteradoEm))"} às {function="date('H:i', strtotime($value.alteradoEm))"}"><i class="fa fa-info-circle"></i></a>
 								</td>
+								{/if}
 								<td><strong>{$value.nomeCliente}</strong></td>
 								<td>{$value.contatoLocal}</td>
 								<td>{$value.cpf}</td>
