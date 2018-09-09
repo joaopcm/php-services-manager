@@ -59,7 +59,8 @@ $app->get("/administrar/:opcao", function($opcao){
         case 'clientes':
 
             $page->setTpl("clientes", array(
-                "clientes" => Cliente::listAll()
+                "clientes" => Cliente::listAll(),
+                "total" => count(Cliente::listAll())
             ));
 
             break;
@@ -69,7 +70,8 @@ $app->get("/administrar/:opcao", function($opcao){
             User::verifyAccess();
 
             $page->setTpl("usuarios", array(
-                "usuarios" => Usuario::listAll()
+                "usuarios" => Usuario::listAll(),
+                "total" => count(Usuario::listAll())
             ));
 
             break;
@@ -88,7 +90,8 @@ $app->get("/administrar/recebimentos/:mes/:ano", function($mes, $ano){
     $page->setTpl("recebimentos", array(
         "recebimentos" => Recebimento::listAll($mes, $ano),
         "mes" => $mes,
-        "ano" => $ano
+        "ano" => $ano,
+        "total" => count(Recebimento::listAll($mes, $ano))
     ));
 
 });

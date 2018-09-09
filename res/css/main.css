@@ -156,3 +156,57 @@ table td {
 th.sorting_asc, th.sorting_desc, th.sorting, table.dataTable  {
 	border: none !important;
 }
+
+.titulo {
+	position: relative;
+	opacity: 0;
+	color: #fff;
+	line-height: 60px;
+	font-size: 30px;
+	transition: .2s;
+	padding: 0 10px;
+}
+
+.box table {
+	position: relative;
+}
+
+.box {
+	position: fixed;
+	bottom: 3%;
+	right: 3%;
+	z-index: 1;
+}
+
+.box th {
+	color: #fff;
+}
+
+.notifications {
+	width: 60px;
+	height: 60px;
+	background: #4580F0;
+	border-radius: 5px;
+	box-sizing: border-box;
+	text-align: center;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .4);
+	padding: 0 15px;
+	transition: .3s !important;
+}
+
+.notifications:hover {
+	width: 350px;
+	height: 300px;
+	text-align: left;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, .4);
+}
+
+.notifications:hover .titulo {
+	opacity: 1;
+}
+
+.notifications .fa {
+	color: #fff;
+	line-height: 60px;
+	font-size: 30px;
+}
