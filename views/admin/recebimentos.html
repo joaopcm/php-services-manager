@@ -42,7 +42,9 @@
 				</tr>
 				<!-- ./Filter -->
 				<tr>
-					{if="$_SESSION['User']['acessoTotal'] === '1'"}<th>#</th>{/if}
+					{if="$_SESSION['User']['acessoTotal'] === '1'"}
+					<th>#</th>
+					{/if}
 					<th>Data de Envio</th>
 					<th>Cliente</th>
 					<th>Valor do Boleto</th>
@@ -73,14 +75,17 @@
 				<tr>
 					{if="$_SESSION['User']['acessoTotal'] === '1'"}
 					<td class="text-left">
-						<a href="/excluir/recebimento/{$value.id}" onclick="return confirm('Deseja realmente excluir este recebimento?')"
+						<a href="/excluir/recebimento/{$value.id}" class="btn btn-outline-danger btn-sm" style="padding: 0 !important; padding-left: 5px !important; padding-right: 5px !important" onclick="return confirm('Deseja realmente excluir este recebimento?')"
 						 data-toggle="tooltip" data-placement="right" title="Excluir">
 							<i class="fa fa-times mx-1"></i>
 						</a>
-						<a href="/editar/recebimento/{$value.id}" data-toggle="tooltip" data-placement="right" title="Editar">
+						<a href="/editar/recebimento/{$value.id}" class="btn btn-outline-primary btn-sm" style="padding: 0 !important; padding-left: 5px !important; padding-right: 5px !important" data-toggle="tooltip" data-placement="right" title="Editar">
 							<i class="fa fa-pencil-alt mx-1"></i>
 						</a>
-						<a data-toggle="tooltip" data-placement="right" title="Última vez alterado por {$value.alteradoPor} em {function="date('d/m/Y', strtotime($value.alteradoEm))"} às {function="date('H:i', strtotime($value.alteradoEm))"}"><i class="fa fa-info-circle"></i></a>
+						<a class="btn btn-outline-black btn-sm" style="padding: 0 !important; padding-left: 5px !important; padding-right: 5px !important" data-toggle="tooltip" data-placement="right" title="Última vez alterado por {$value.alteradoPor} em {function="date('d/m/Y', strtotime($value.alteradoEm))"} às {function="date('H:i', strtotime($value.alteradoEm))"}">
+							<i class="fa fa-info-circle"></i>
+						</a>
+						
 					</td>
 					{/if}
 					<td>{function="date('d/m/Y', strtotime($value.dataRecebimento))"}</td>

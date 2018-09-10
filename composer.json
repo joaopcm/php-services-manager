@@ -1,6 +1,6 @@
 {
-    "name": "projex/cvaClientes",
-    "description": "Aplicação de gerenciamento de clientes da CVA Climatização",
+    "name": "projex/cvaAdmin",
+    "description": "Aplicação de gerenciamento de dados da CVA Climatização",
     "minimum-stability": "stable",
     "license": "proprietary",
     "authors": [

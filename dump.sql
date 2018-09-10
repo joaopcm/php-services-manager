@@ -1,47 +1,26 @@
--- phpMyAdmin SQL Dump
--- version 4.8.3
--- https://www.phpmyadmin.net/
---
--- Host: mysql
--- Generation Time: 09-Set-2018 às 01:53
--- Versão do servidor: 5.7.23
--- versão do PHP: 7.2.8
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+DELIMITER //
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `db_cva`
---
-
-DELIMITER $$
---
--- Procedures
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_clientes_delete` (`pid` INT(6))  BEGIN
+CREATE PROCEDURE `sp_clientes_delete` (IN `pid` INT(6))  BEGIN
 
 	DELETE FROM tb_clientes WHERE id = pid;
 
-END$$
+END //
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_clientes_save` (IN `pnomeCliente` VARCHAR(56), IN `pcontatoLocal` VARCHAR(56), IN `pcpf` VARCHAR(14), IN `pcnpj` VARCHAR(18), IN `pinscricaoEstadual` VARCHAR(15), IN `ptelefone` VARCHAR(56), IN `pcelular` VARCHAR(56), IN `pcep` VARCHAR(9), IN `pendereco` VARCHAR(112), IN `pbairro` VARCHAR(56), IN `pcidade` VARCHAR(56), IN `pestado` VARCHAR(2), IN `pemail` VARCHAR(56), IN `pobservacao` VARCHAR(112), IN `ptipo` VARCHAR(2), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  BEGIN
+CREATE PROCEDURE `sp_clientes_save` (IN `pnomeCliente` VARCHAR(56), IN `pcontatoLocal` VARCHAR(56), IN `pcpf` VARCHAR(14), IN `pcnpj` VARCHAR(18), IN `pinscricaoEstadual` VARCHAR(15), IN `ptelefone` VARCHAR(56), IN `pcelular` VARCHAR(56), IN `pcep` VARCHAR(9), IN `pendereco` VARCHAR(112), IN `pbairro` VARCHAR(56), IN `pcidade` VARCHAR(56), IN `pestado` VARCHAR(2), IN `pemail` VARCHAR(56), IN `pobservacao` VARCHAR(112), IN `ptipo` VARCHAR(2), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  BEGIN
 
 	INSERT INTO tb_clientes (nomeCliente, contatoLocal, cpf, cnpj, inscricaoEstadual, telefone, celular, cep, endereco, bairro, cidade, estado, email, observacao, tipo, alteradoPor, alteradoEm)
 			VALUES (pnomeCliente, pcontatoLocal, pcpf, pcnpj, pinscricaoEstadual, ptelefone, pcelular, pcep, pendereco, pbairro, pcidade, pestado, pemail, pobservacao, ptipo, palteradoPor,     palteradoEm);
 
 	SELECT * FROM tb_clientes;
 
-END$$
+END //
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_clientes_update` (IN `pid` INT(6), IN `pnomeCliente` VARCHAR(56), IN `pcontatoLocal` VARCHAR(56), IN `pcpf` VARCHAR(14), IN `pcnpj` VARCHAR(18), IN `pinscricaoEstadual` VARCHAR(15), IN `ptelefone` VARCHAR(56), IN `pcelular` VARCHAR(56), IN `pcep` VARCHAR(9), IN `pendereco` VARCHAR(112), IN `pbairro` VARCHAR(56), IN `pcidade` VARCHAR(56), IN `pestado` VARCHAR(2), IN `pemail` VARCHAR(56), IN `pobservacao` VARCHAR(112), IN `ptipo` VARCHAR(2), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  BEGIN
+CREATE PROCEDURE `sp_clientes_update` (IN `pid` INT(6), IN `pnomeCliente` VARCHAR(56), IN `pcontatoLocal` VARCHAR(56), IN `pcpf` VARCHAR(14), IN `pcnpj` VARCHAR(18), IN `pinscricaoEstadual` VARCHAR(15), IN `ptelefone` VARCHAR(56), IN `pcelular` VARCHAR(56), IN `pcep` VARCHAR(9), IN `pendereco` VARCHAR(112), IN `pbairro` VARCHAR(56), IN `pcidade` VARCHAR(56), IN `pestado` VARCHAR(2), IN `pemail` VARCHAR(56), IN `pobservacao` VARCHAR(112), IN `ptipo` VARCHAR(2), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  BEGIN
 
 	UPDATE tb_clientes
 		SET nomeCliente = pnomeCliente,
@@ -65,16 +44,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_clientes_update` (IN `pid` INT(6
         
 	SELECT * FROM tb_clientes;
 
-END$$
+END //
 
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_recebimentos_delete` (IN `pid` INT(6))  NO SQL
+CREATE PROCEDURE `sp_recebimentos_delete` (IN `pid` INT(6))  NO SQL
 BEGIN
 
 	DELETE FROM tb_recebimentos WHERE id = pid;
 
-END$$
+END //
 
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_recebimentos_save` (IN `pdataRecebimento` VARCHAR(10), IN `pfornecedor` VARCHAR(56), IN `pvalorBoleto` VARCHAR(10), IN `pdataVencimento` VARCHAR(10), IN `pdataCompensacao` VARCHAR(10), IN `pnBoleto` VARCHAR(15), IN `pformaPagamento` VARCHAR(25), IN `pquantidade` VARCHAR(3), IN `preferente` VARCHAR(112), IN `pformaEnvio` VARCHAR(25), IN `penviadoPor` VARCHAR(56), IN `pmes` INT(2), IN `pano` INT(4), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  NO SQL
+CREATE PROCEDURE `sp_recebimentos_save` (IN `pdataRecebimento` VARCHAR(10), IN `pfornecedor` VARCHAR(56), IN `pvalorBoleto` VARCHAR(10), IN `pdataVencimento` VARCHAR(10), IN `pdataCompensacao` VARCHAR(10), IN `pnBoleto` VARCHAR(15), IN `pformaPagamento` VARCHAR(25), IN `pquantidade` VARCHAR(3), IN `preferente` VARCHAR(112), IN `pformaEnvio` VARCHAR(25), IN `penviadoPor` VARCHAR(56), IN `pmes` INT(2), IN `pano` INT(4), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  NO SQL
 BEGIN
 
 	INSERT INTO tb_recebimentos (dataRecebimento, fornecedor, valorBoleto, dataVencimento, dataCompensacao, nBoleto, formaPagamento, quantidade, referente, formaEnvio, enviadoPor, mes, ano, alteradoPor, alteradoEm)
@@ -82,9 +61,9 @@ BEGIN
 
 	SELECT * FROM tb_recebimentos;
 
-END$$
+END //
 
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_recebimentos_update` (IN `pid` INT(6), IN `pdataRecebimento` VARCHAR(10), IN `pfornecedor` VARCHAR(56), IN `pvalorBoleto` VARCHAR(10), IN `pdataVencimento` VARCHAR(10), IN `pdataCompensacao` VARCHAR(10), IN `pnBoleto` VARCHAR(15), IN `pformaPagamento` VARCHAR(25), IN `pquantidade` VARCHAR(3), IN `preferente` VARCHAR(112), IN `pformaEnvio` VARCHAR(25), IN `penviadoPor` VARCHAR(56), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  NO SQL
+CREATE PROCEDURE `sp_recebimentos_update` (IN `pid` INT(6), IN `pdataRecebimento` VARCHAR(10), IN `pfornecedor` VARCHAR(56), IN `pvalorBoleto` VARCHAR(10), IN `pdataVencimento` VARCHAR(10), IN `pdataCompensacao` VARCHAR(10), IN `pnBoleto` VARCHAR(15), IN `pformaPagamento` VARCHAR(25), IN `pquantidade` VARCHAR(3), IN `preferente` VARCHAR(112), IN `pformaEnvio` VARCHAR(25), IN `penviadoPor` VARCHAR(56), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  NO SQL
 BEGIN
 
 	UPDATE tb_recebimentos
@@ -105,16 +84,16 @@ BEGIN
         
 	SELECT * FROM tb_recebimentos;
 
-END$$
+END //
 
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_usuarios_delete` (IN `pid` INT(6))  NO SQL
+CREATE PROCEDURE `sp_usuarios_delete` (IN `pid` INT(6))  NO SQL
 BEGIN
 
 	DELETE FROM tb_usuarios WHERE id = pid;
 
-END$$
+END //
 
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_usuarios_save` (IN `pnome` VARCHAR(56), IN `pusuario` VARCHAR(25), IN `psenha` VARCHAR(32), IN `pacessoTotal` TINYINT(1))  NO SQL
+CREATE PROCEDURE `sp_usuarios_save` (IN `pnome` VARCHAR(56), IN `pusuario` VARCHAR(25), IN `psenha` VARCHAR(32), IN `pacessoTotal` TINYINT(1))  NO SQL
 BEGIN
 
 	INSERT INTO tb_usuarios (nome, usuario, senha, acessoTotal)
@@ -122,9 +101,9 @@ BEGIN
         
     SELECT * FROM tb_usuarios;
 
-END$$
+END //
 
-CREATE DEFINER=`root`@`%` PROCEDURE `sp_usuarios_update` (IN `pid` INT(6), IN `pnome` VARCHAR(56), IN `pusuario` VARCHAR(25), IN `psenha` VARCHAR(32), IN `pacessoTotal` TINYINT(1))  NO SQL
+CREATE PROCEDURE `sp_usuarios_update` (IN `pid` INT(6), IN `pnome` VARCHAR(56), IN `pusuario` VARCHAR(25), IN `psenha` VARCHAR(32), IN `pacessoTotal` TINYINT(1))  NO SQL
 BEGIN
 
 	UPDATE tb_usuarios
@@ -136,15 +115,9 @@ BEGIN
         
 	SELECT * FROM tb_usuarios;
 
-END$$
+END //
 
 DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tb_clientes`
---
 
 CREATE TABLE `tb_clientes` (
   `id` int(6) NOT NULL,
@@ -168,10 +141,6 @@ CREATE TABLE `tb_clientes` (
   `alteradoEm` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `tb_clientes`
---
-
 INSERT INTO `tb_clientes` (`id`, `dataCadastro`, `nomeCliente`, `contatoLocal`, `cpf`, `cnpj`, `inscricaoEstadual`, `telefone`, `celular`, `cep`, `endereco`, `bairro`, `cidade`, `estado`, `email`, `observacao`, `tipo`, `alteradoPor`, `alteradoEm`) VALUES
 (1, '2018-09-07 23:04:43', 'FLAVIO DUARTE ALVAREZ ', '', '226.057.048-82', '', '', '', '947713717 - Flavio ', '01548020', 'RUA MARIANO PROCOPIO 201 APTO 83 ', 'VILA MONUMENTO', 'SÃO PAULO', 'SP', '', 'NAUTILUS AA25', NULL, 'Admin', '07/09/2018 21:08'),
 (2, '2018-09-07 23:04:43', 'COND EDIF SAN DEMETRIO', '', '', '10.157.789/0001-31', '', '2276-2837 Portaria', '99808-6728 - Luisinho Zelador ', '04143-010', 'RUA ITAPIRU 572', 'SAUDE', 'SAO PAULO', 'SP', 'cipriano.suely@gmail.com', 'HELIOTEK ', NULL, 'Admin', '07/09/2018 21:08'),
@@ -181,7 +150,7 @@ INSERT INTO `tb_clientes` (`id`, `dataCadastro`, `nomeCliente`, `contatoLocal`, 
 (6, '2018-09-07 23:04:43', 'COND NEW ORLEANS ', '', '', '61.864.021/0001-40', '', '5044-2385', '', '', 'RUA BACAETAVA 121', 'VILA GERTUDES ', 'SÃO PAULO', 'SP', 'neworleans.sindico@gmail.com', 'TP1000', NULL, 'Admin', '07/09/2018 21:08'),
 (7, '2018-09-07 23:04:43', 'COND ENERGY BROOKLIN', '', '', '', '', '', '94010-2755 Nilton Zelador ', '', 'RUA JACERU 346', 'VL GERTUDES', 'SÃO PAUO', 'SP', 'niltonccn@hotmail.com', '', NULL, 'Admin', '07/09/2018 21:08'),
 (8, '2018-09-07 23:04:43', 'ColÃ©gio Albert Sabin', '', '715.822.580-00', '', '', '', '', '', 'AV DARCY REIS ', 'PQ DES PRINCES', '', 'SP', 'eder@albertsabin.com.br', '', '', 'Admin', '2018/09/08 20:39'),
-(9, '2018-09-07 23:04:43', 'COND L\'ESPACE', '', '', '21.600.316/0001-94', '', '2539-2759', '96306-0455 Marisio Zelador', '', 'RUA PAULO FRANCO 194', 'VILA HAMBURGUESA', 'SAO PAULO', 'SP', 'marisio.farias120@gmail.com', 'PLACA SOLAR ', NULL, 'Admin', '07/09/2018 21:08'),
+(9, '2018-09-07 23:04:43', 'COND LESPACE', '', '', '21.600.316/0001-94', '', '2539-2759', '96306-0455 Marisio Zelador', '', 'RUA PAULO FRANCO 194', 'VILA HAMBURGUESA', 'SAO PAULO', 'SP', 'marisio.farias120@gmail.com', 'PLACA SOLAR ', NULL, 'Admin', '07/09/2018 21:08'),
 (10, '2018-09-07 23:04:43', 'CONDOMINIO WIDE VIEW', '', '', '', '', '4508-4462', '96307-2017 Daniel Zelador', '', 'RUA MARIA ANTONIA LADALARDO 20', 'JD FONTE DO MORUMBI', 'SAO PAULO', 'SP', 'gestor.wideview@outlook.com', '1 HT14 E 1 HT20', NULL, 'Admin', '07/09/2018 21:08'),
 (11, '2018-09-07 23:04:43', 'SUELI MOLLES - RODOLFO SANTOS', '', '199.703.409-30', '', '', '3758-1262', '99555-4445 Rodolfo ', '', 'RUA FORTE WILLIAM 140 APTO 231', 'VILA ANDRADE', 'SAO PAULO', 'SP', 'sms.molles@gmail.com', 'SODRAMAR SD80', NULL, 'Admin', '07/09/2018 21:08'),
 (12, '2018-09-07 23:04:43', 'CONDOMINIO PARQUE PANAMBY', '', '', '09.575.958/0001-85', '', '3758-5203', '', '', 'RUA FORTE WILLIAM 100', 'JD FONTE DO MORUMBI', 'SAO PAULO', 'SP', 'condominioparquepanamby@gmail.com', '3 HT', NULL, 'Admin', '07/09/2018 21:08'),
@@ -207,12 +176,6 @@ INSERT INTO `tb_clientes` (`id`, `dataCadastro`, `nomeCliente`, `contatoLocal`, 
 (32, '2018-09-07 23:04:43', 'CONDOMIO ESPAÃ‡O A RESIDENCE ', 'MAURICIO', '', '092.781.350-00', '', '4332-6734', '97150-2905', '09732-580', 'RUA MORVAM DIAS DE FIGUEIREDO 155', 'VILA DEYSE ', '', 'SP', '', '', '', 'Admin', '07/09/2018 21:08'),
 (33, '2018-09-07 23:04:43', 'CONDOMINIO PORTAL NATHALIE', '', '', '21.212.999/0001-02', '', '', '95861-9133', '', 'RUA JOSE DE ANDRADE FIGUEIRA 217', 'VILA SUZANA', 'SÃO PAULO', 'SP', 'portalnathalie217@gmai.com', 'JELLY FISHER VC180', NULL, 'Admin', '07/09/2018 21:08');
 
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tb_recebimentos`
---
-
 CREATE TABLE `tb_recebimentos` (
   `id` int(6) NOT NULL,
   `dataRecebimento` varchar(10) NOT NULL,
@@ -232,11 +195,10 @@ CREATE TABLE `tb_recebimentos` (
   `alteradoEm` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tb_usuarios`
---
+INSERT INTO `tb_recebimentos` (`id`, `dataRecebimento`, `fornecedor`, `valorBoleto`, `dataVencimento`, `dataCompensacao`, `nBoleto`, `formaPagamento`, `quantidade`, `referente`, `formaEnvio`, `enviadoPor`, `mes`, `ano`, `alteradoPor`, `alteradoEm`) VALUES
+(1, '2018-09-09', 'teste', '1.448,00', '2018-09-20', '2018-09-19', '', 'Boleto', '1/1', '', 'E-mail', 'CVA', 9, 2018, 'CVA', '09/09/2018 17:44'),
+(2, '2018-09-09', 'teste2', '350,87', '2018-09-05', '', '', 'Boleto', '1/1', '', 'E-mail', 'CVA', 9, 2018, 'CVA', '09/09/2018 18:22'),
+(3, '2018-09-09', 'teste3', '3.500,00', '2018-09-20', '', '', 'Boleto', '1/1', '', 'E-mail', 'CVA', 9, 2018, 'CVA', '09/09/2018 18:26');
 
 CREATE TABLE `tb_usuarios` (
   `id` int(6) NOT NULL,
@@ -247,58 +209,24 @@ CREATE TABLE `tb_usuarios` (
   `dataCadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `tb_usuarios`
---
-
 INSERT INTO `tb_usuarios` (`id`, `nome`, `usuario`, `senha`, `acessoTotal`, `dataCadastro`) VALUES
 (1, 'CVA', 'cva', '3d7c76317dc02619cbf97464f0541e8d', 1, '2018-09-09 01:06:30');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `tb_clientes`
---
 ALTER TABLE `tb_clientes`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `tb_recebimentos`
---
 ALTER TABLE `tb_recebimentos`
   ADD PRIMARY KEY (`id`);
 
---
--- Indexes for table `tb_usuarios`
---
 ALTER TABLE `tb_usuarios`
   ADD PRIMARY KEY (`id`);
 
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `tb_clientes`
---
 ALTER TABLE `tb_clientes`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
---
--- AUTO_INCREMENT for table `tb_recebimentos`
---
 ALTER TABLE `tb_recebimentos`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `tb_usuarios`
---
-ALTER TABLE `tb_usuarios`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+ALTER TABLE `tb_usuarios`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+COMMIT;

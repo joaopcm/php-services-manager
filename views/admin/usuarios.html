@@ -64,16 +64,16 @@
                     <tr>
                         {if="$_SESSION['User']['acessoTotal'] === '1'"}
                         <td class="text-left">
-                            <a href="/excluir/usuario/{$value.id}" onclick="return confirm('Deseja realmente excluir este usuário?')"
+                            <a href="/excluir/usuario/{$value.id}" class="btn btn-outline-danger btn-sm" style="padding: 0 !important; padding-left: 5px !important; padding-right: 5px !important" onclick="return confirm('Deseja realmente excluir este usuário?')"
                              data-toggle="tooltip" data-placement="right" title="Excluir">
                                 <i class="fa fa-times mx-1"></i>
                             </a>
-                            <a href="/editar/usuario/{$value.id}" data-toggle="tooltip" data-placement="right" title="Editar">
+                            <a href="/editar/usuario/{$value.id}" class="btn btn-outline-primary btn-sm" style="padding: 0 !important; padding-left: 5px !important; padding-right: 5px !important" data-toggle="tooltip" data-placement="right" title="Editar">
                                 <i class="fa fa-pencil-alt mx-1"></i>
                             </a>
                         </td>
                         {/if}
-                        <td><strong>{$value.nome}</strong></td>
+                        <td><strong>{if="$value.acessoTotal === '1'"}<i class="fa fa-star" style="color: orange;" data-toggle="tooltip" data-placement="left" title="Usuário administrador"></i> {/if}{$value.nome}</strong></td>
                         <td>{$value.usuario}</td>
                         <td>{if="$value.acessoTotal === '1'"}Total{else}Restrito{/if}</td>
                     </tr>

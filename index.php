@@ -9,7 +9,7 @@
 session_start();
 
 # Desabilita os warnings reports
-# error_reporting(E_CORE_WARNING);
+error_reporting(E_CORE_WARNING);
 
 # Autoload
 require_once("vendor/autoload.php");
@@ -31,7 +31,7 @@ use \Root\Model\Recebimento;
 
 # Slim instance
 $app = new Slim();
-$app->config("debug", true);
+$app->config("debug", false);
 
 # Página principal
 $app->get("/", function() {

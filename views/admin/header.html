@@ -73,6 +73,7 @@
 					<div class="dropdown-menu dropdown-menu-right dropdown-cyan" aria-labelledby="navbarDropdownMenuLink-4">
 						{if="$_SESSION['User']['acessoTotal'] === '1'"}<a class="nav-link" href="/administrar/usuarios">Gerenciar Usuários</a>{/if}
 						<a class="nav-link" href="javascript:;;" data-toggle="modal" data-target="#modalNews">Novidades</a>
+						<div class="dropdown-divider"></div>
 						<a class="nav-link" href="/logout"> Desconectar</a>
 					</div>
 				</li>
@@ -85,13 +86,21 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title" id="exampleModalLongTitle">Novidades</h1>
+					<h1 class="modal-title">Novidades</h1><span class="badge black">v1.0</span>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<h5><span class="badge blue">Não há nada para mostrar</span> - Esta é a primeira versão do sistema</h5>
+					<h5><span class="badge blue">Sistema de Clientes</span> - Gerencie clientes da <strong>CVA Climatização</strong></h5>
+					<h5><span class="badge blue">Consulta de CEP</span> - No módulo de clientes, ao digitar um CEP no cadastro, os dados de localização serão automaticamente preenchidos</h5>
+					<h5><span class="badge blue">Sistema de Recebimentos</span> - Gerencie recebimentos da <strong>CVA Climatização</strong></h5>
+					<h5><span class="badge blue">Cálculos Automáticos</span> - No módulo de recebimentos, você tem acesso à soma de cada estado dos recebimentos</h5>
+					<h5><span class="badge blue">Atrasos e Pendências</span> - No módulo de recebimentos, você tem acesso à quantidade de dias que o recebimento está atrasado ou pendente</h5>
+					<h5><span class="badge blue">Sistema de Usuários</span> - Gerencie quem terá acesso a este sistema</h5>
+					<h5><span class="badge blue">Pesquisa Inteligente</span> - Nos campos de pesquisa você pode procurar por qualquer dado de qualquer coluna</h5>
+					<h5><span class="badge blue">Novo Visual</span> - Não dependa mais de planilhas, agora você tem acesso à uma interface simples e prática</h5>
+					<h5><span class="badge blue">Responsivo</span> - Total compatibilidade com dispositivos móveis</h5>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-outline-primary waves-effect btn-lg" data-dismiss="modal"><i class="fa fa-times"></i>
