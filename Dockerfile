@@ -1,5 +1,7 @@
 FROM php:7.2-apache
 
+LABEL maintener 'João Melo <joao.pedro6532@gmail.com>'
+
 ADD . /var/www/html/
 
 RUN a2enmod rewrite
