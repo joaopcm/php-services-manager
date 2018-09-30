@@ -35,121 +35,77 @@ $app->config("debug", true);
 
 # Página principal
 $app->get("/", function() {
-
     User::verifyLogin();
-
     header("Location: /visualizar/cliente/" . $_SESSION['User']['idcliente']);
-
     exit;
-
 });
 
 # Página de login
 $app->get("/login", function() {
-
     if (isset($_SESSION["User"]))
     {
-
         header("Location: /");
-
         exit;
-
     }
-
     $page = new PageAdmin([
         "header" => false,
         "footer" => false
     ]);
-
     $page->setTpl("login");
-
 });
 
 # Método POST de login
 $app->post("/login", function() {
-
     $user = new User();
-
     if ($user->login($_POST["login"], $_POST["password"]) === "OK")
     {
-
         header("Location: /");
-
         exit;
-    
     } elseif ($user->login($_POST["login"], $_POST["password"]) === 1) {
-
         $page = new PageAdmin([
             "header" => false,
             "footer" => false
         ]);
-
         $page->setTpl("login");
-
         echo '<script language="javascript">';
         echo '$("#error-message").append("Dados de acesso inválidos")';
         echo '</script>';
-
     }
-
 });
 
 # Método GET de logout
 $app->get("/logout", function() {
-
     User::logout();
-
     header("Location: /");
-
     exit;
-
 });
 
 # Págine de visualização de clientes
 $app->get("/visualizar/:opt/:id", function($opt, $id) {
-
     User::verifyLogin();
-
     $page = new PageAdmin();
-
     switch($opt)
     {
-
         case "cliente":
-
             if ($_SESSION['User']['acessoTotal'] == 0 && $_SESSION['User']['idcliente'] != $id)
             {
-
                 header("Location: /visualizar/cliente/" . $_SESSION['User']['idcliente']);
-
                 exit;
-
             }
-
             $cliente = new Cliente();
-
             $recebimento = new Recebimento();
-
             $cliente->get((int)$id);
-
             $page->setTpl("visualizar-cliente", array(
                 "cliente" => $cliente->getValues(),
                 "recebimentos" => $recebimento->getByClient($id),
                 "total" => count($recebimento->getByClient($id))
             ));
-
             break;
-
         default:
-
             header("Location: /");
-
             exit;
-
             break;
-
     }
-
 });
 
 # Inicia a API

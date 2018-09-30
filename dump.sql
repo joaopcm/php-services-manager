@@ -17,6 +17,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_clientes_delete` (IN `pid` INT(6
 	DELETE FROM tb_clientes WHERE id = pid;
     
     DELETE FROM tb_clientes_usuarios WHERE idcliente = pid;
+    
+    DELETE FROM tb_protocolos WHERE idcliente = pid;
 
 END$$
 
@@ -53,6 +55,29 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_clientes_update` (IN `pid` INT(6
 		WHERE id = pid;
         
 	SELECT * FROM tb_clientes;
+
+END$$
+
+CREATE DEFINER=`cva`@`%` PROCEDURE `sp_protocolos_delete` (IN `pid` INT(6))  NO SQL
+BEGIN
+
+	DELETE FROM tb_protocolos WHERE id = pid;
+
+END$$
+
+CREATE DEFINER=`cva`@`%` PROCEDURE `sp_protocolos_save` (IN `pidcliente` INT(6), IN `pidservico` INT(6), IN `pnumero` VARCHAR(20))  NO SQL
+BEGIN
+
+	INSERT INTO tb_protocolos (idcliente, idservico, numero) VALUES (pidcliente, pidservico, pnumero);
+    
+    SELECT
+		c.nomeCliente as cliente,
+    	c.email AS email,
+        s.titulo AS servico
+	FROM tb_protocolos AS p
+    	JOIN tb_clientes AS c ON p.idcliente = c.id
+        JOIN tb_servicos AS s ON p.idservico = s.id
+	WHERE c.id = pidcliente;
 
 END$$
 
@@ -187,6 +212,21 @@ CREATE TABLE `tb_clientes_usuarios` (
   `dataCadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `tb_protocolos` (
+  `id` int(6) NOT NULL,
+  `idcliente` int(6) NOT NULL,
+  `idservico` int(6) NOT NULL,
+  `numero` varchar(20) NOT NULL,
+  `dataCadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tb_protocolos_estado` (
+  `id` int(6) NOT NULL,
+  `idprotocolo` int(6) NOT NULL,
+  `estado` varchar(56) NOT NULL,
+  `data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `tb_recebimentos` (
   `id` int(6) NOT NULL,
   `dataRecebimento` date NOT NULL,
@@ -224,11 +264,16 @@ CREATE TABLE `tb_usuarios` (
 INSERT INTO `tb_usuarios` (`id`, `nome`, `usuario`, `senha`, `acessoTotal`, `dataCadastro`) VALUES
 (1, 'CVA ClimatizaÃ§Ã£o', 'cva', '3d7c76317dc02619cbf97464f0541e8d', 1, '2018-09-09 01:06:30');
 
-
 ALTER TABLE `tb_clientes`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `tb_clientes_usuarios`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tb_protocolos`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tb_protocolos_estado`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `tb_recebimentos`
@@ -242,13 +287,19 @@ ALTER TABLE `tb_usuarios`
 
 
 ALTER TABLE `tb_clientes`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 ALTER TABLE `tb_clientes_usuarios`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+ALTER TABLE `tb_protocolos`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+ALTER TABLE `tb_protocolos_estado`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `tb_recebimentos`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `tb_servicos`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;

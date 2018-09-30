@@ -1,0 +1,73 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <div class="row">
+              <div class="col-md-8">
+                <h4 class="card-title ">Protocolos</h4>
+                <p class="card-category">Foram encontrados <strong>{$total}</strong> resultados</p>
+              </div>
+              <div class="col-md-4 text-right">
+                {if="$_SESSION['User']['acessoTotal'] === '1'"}
+                <a href="/adicionar/protocolo" class="btn btn-primary btn-lg">Adicionar Protocolo</a>
+                {/if}
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                {if="$protocolos"}
+                <thead class=" text-primary">
+                  {if="$_SESSION['User']['acessoTotal'] === '1'"}
+                  <th>
+                    #
+                  </th>
+                  {/if}
+                  <th>
+                    Cliente
+                  </th>
+                  <th>
+                    Código
+                  </th>
+                  <th>
+                    Serviço
+                  </th>
+                  <th>
+                    Criado Em
+                  </th>
+                </thead>
+                <tbody>
+                  {loop="$protocolos"}
+                  <tr>
+                    {if="$_SESSION['User']['acessoTotal'] === '1'"}
+                    <td>
+                      <a href="/excluir/protocolo/{$value.id}" class="btn btn-danger btn-table" onclick="return confirm('Deseja realmente excluir este protocolo?')" data-toggle="tooltip"
+                        data-placement="right" title="Excluir">
+                        <i class="material-icons">close</i>
+                      </a>
+                    </td>
+                    {/if}
+                    <td><a href="/visualizar/cliente/{$value.idcliente}">{$value.cliente}</a></td>
+                    <td><a href="/visualizar/protocolo/{$value.id}">{$value.codigo}</a></td>
+                    <td>{$value.servico}</td>
+                    <td>{function="date('d/m/Y', strtotime($value.data))"}</td>
+                  </tr>
+                  {/loop}
+                </tbody>
+                {else}
+                <div class="alert alert-danger" role="alert">
+                  <strong>Ah não!</strong> Não existem protocolos em nossos registros.
+                  <a href="/adicionar/protocolo" class="btn btn-danger">Cadastrar um protocolo</a>
+                </div>
+                {/if}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

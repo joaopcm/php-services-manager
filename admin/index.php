@@ -29,6 +29,7 @@ use \Root\Model\Usuario;
 use \Root\Model\Cliente;
 use \Root\Model\Recebimento;
 use \Root\Model\Servico;
+use \Root\Model\Protocolo;
 
 # Slim instance
 $app = new Slim();
@@ -68,6 +69,12 @@ $app->get("/administrar/:opcao", function($opcao){
             $page->setTpl("servicos", array(
                 "servicos" => Servico::listAll(),
                 "total" => count(Servico::listAll())
+            ));
+            break;
+        case 'protocolos':
+            $page->setTpl("protocolos", array(
+                "protocolos" => Protocolo::listAll(),
+                "total" => count(Protocolo::listAll())
             ));
             break;
     }
@@ -125,7 +132,7 @@ $app->get("/logout", function() {
     exit;
 });
 
-# Página de criação de clientes/recebimentos
+# Página de criação de clientes/recebimentos/usuarios/servicos/protocolos
 $app->get("/adicionar/:opcao", function($opcao) {
     User::verifyLogin();
     User::verifyAccess();
@@ -146,6 +153,12 @@ $app->get("/adicionar/:opcao", function($opcao) {
             break;
         case 'servico':
             $page->setTpl("adicionar-servico");
+            break;
+        case 'protocolo':
+            $page->setTpl("adicionar-protocolo", array(
+                "clientes" => Cliente::listAll(),
+                "servicos" => Servico::listAll()
+            ));
             break;
         default:
             header('Location: /');
@@ -226,7 +239,7 @@ $app->get("/editar/:opcao/:id", function($opcao, $id) {
     }
 });
 
-# Método POST de adicionar cliente/recebimento
+# Método POST de adicionar cliente/recebimento/usuario/servico/protocolo
 $app->post("/adicionar/:opcao", function($opcao) {
     User::verifyLogin();
     User::verifyAccess();
@@ -266,6 +279,13 @@ $app->post("/adicionar/:opcao", function($opcao) {
             header("Location: /administrar/servicos");
             exit;
             break;
+        case 'protocolo':
+            $protocolo = new Protocolo();
+            $protocolo->setData($_POST);
+            $protocolo->save();
+            header("Location: /administrar/protocolos");
+            exit;
+            break;
         default:
             header('Location: /');
             exit;
@@ -273,7 +293,7 @@ $app->post("/adicionar/:opcao", function($opcao) {
     }
 });
 
-# Método POST de editar clientes/recebimentos
+# Método POST de editar clientes/recebimentos/usuarios/servicos
 $app->post("/editar/:opcao/:id", function($opcao, $id) {
     User::verifyLogin();
     User::verifyAccess();
@@ -324,7 +344,7 @@ $app->post("/editar/:opcao/:id", function($opcao, $id) {
     }
 });
 
-# Método GET de excluir cliente/recebimento
+# Método GET de excluir cliente/recebimento/usuario/servico/protocolo
 $app->get("/excluir/:opcao/:id", function($opcao, $id) {
     User::verifyLogin();
     User::verifyAccess();
@@ -356,6 +376,13 @@ $app->get("/excluir/:opcao/:id", function($opcao, $id) {
             $servico->get((int)$id);
             $servico->delete();
             header("Location: /administrar/servicos");
+            exit;
+            break;
+        case 'protocolo':
+            $protocolo = new Protocolo();
+            $protocolo->get((int)$id);
+            $protocolo->delete();
+            header("Location: /administrar/protocolos");
             exit;
             break;
         default:

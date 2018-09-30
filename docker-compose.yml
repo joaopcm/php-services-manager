@@ -2,6 +2,9 @@ version: "3"
 
 networks:
   banco:
+  # appsite:
+  appadmin:
+  appclient:
 
 services:
   # Banco de dados
@@ -19,9 +22,18 @@ services:
       - MYSQL_ROOT_PASSWORD=4ut3nt1c4R
       - MYSQL_DATABASE=db_cva
 
+  #App site
+  # appsite:
+  #   build: ./site
+  #   volumes: ./site:/var/www/html:z
+  #   ports:
+  #   - "4000:80"
+  #   networks:
+  #   - appsite
+
   # App admin
-  app:
-    build: .
+  appadmin:
+    build: ./admin
     volumes:
       - ./admin:/var/www/html:z
     links:
@@ -32,11 +44,15 @@ services:
       - "4100:80"
     networks:
       - banco
+      - appadmin
     environment:
       - DBHOST=mysql
       - MYSQL_USER=cva
       - MYSQL_PASSWORD=4ut3nt1c4R
       - MYSQL_DATABASE=db_cva
+      - MAIL_USERNAME=emailworkerwithpy@gmail.com
+      - MAIL_PASSWORD=emailworkerwithpy123
+      - MAIL_PORT=587
 
   # App client
   appclient:
@@ -51,6 +67,7 @@ services:
       - "4200:80"
     networks:
       - banco
+      - appclient
     environment:
       - DBHOST=mysql
       - MYSQL_USER=cva

@@ -1,14 +1,4 @@
 {
-    "name": "_projex/cva-climatizacao-admin",
-    "description": "Aplicação de gerenciamento de dados da CVA Climatização",
-    "minimum-stability": "stable",
-    "license": "proprietary",
-    "authors": [
-        {
-            "name": "João Melo",
-            "email": "joao.pedro6532@gmail.com"
-        }
-    ],
     "require": {
         "slim/slim": "2.0",
         "rain/raintpl": "3.0.0"

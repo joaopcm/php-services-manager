@@ -19,57 +19,40 @@ class Sql {
 	/* Método mágico construct */
 	public function __construct()
 	{
-
 		$this->conn = new \PDO(
-			"mysql:dbname=" . MYSQL_DATABASE . ";host=" . DBHOST, "root", MYSQL_PASSWORD
+			"mysql:dbname=" . MYSQL_DATABASE . ";host=" . DBHOST, MYSQL_USER, MYSQL_PASSWORD
 		);
-
 	}
 
 	/* Seta os parâmetros */
 	private function setParams($statement, $parameters = array())
 	{
-
 		foreach ($parameters as $key => $value) {
-
 			$this->bindParam($statement, $key, $value);
-
 		}
-
 	}
 
 	/* Binda os parâmetros */
 	private function bindParam($statement, $key, $value)
 	{
-
 		$statement->bindParam($key, $value);
-
 	}
 
 	/* Faz uma query */
 	public function query($rawQuery, $params = array())
 	{
-
 		$stmt = $this->conn->prepare($rawQuery);
-
 		$this->setParams($stmt, $params);
-
 		$stmt->execute();
-
 	}
 
 	/* executa uma consulta */
 	public function select($rawQuery, $params = array()):array
 	{
-
 		$stmt = $this->conn->prepare($rawQuery);
-
 		$this->setParams($stmt, $params);
-
 		$stmt->execute();
-
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		
 	}
 
 }
