@@ -1,0 +1,139 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <div class="row">
+              <div class="col-md-8">
+                <h4 class="card-title ">Recebimentos de {$mes}/{$ano}</h4>
+                <p class="card-category">Foram encontrados <strong>{$total}</strong> resultados</p>
+              </div>
+              <div class="col-md-4 text-right">
+                {if="$_SESSION['User']['acessoTotal'] === '1'"}
+                <a href="/adicionar/recebimento" class="btn btn-primary btn-lg">Adicionar Recebimento</a>
+                {/if}
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table text-center">
+                {if="$recebimentos"}
+                <thead class=" text-primary">
+                  {if="$_SESSION['User']['acessoTotal'] === '1'"}
+                  <th>
+                    #
+                  </th>
+                  {/if}
+                  <th>
+                    Data de Envio
+                  </th>
+                  <th>
+                    Cliente
+                  </th>
+                  <th>
+                    Valor do Boleto
+                  </th>
+                  <th>
+                    Data de Vencimento
+                  </th>
+                  <th>
+                    Data de Compensação
+                  </th>
+                  <th>
+                    Estado
+                  </th>
+                  <th>
+                    Nº do Boleto
+                  </th>
+                  <th>
+                    Forma de Pagamento
+                  </th>
+                  <th>
+                    Parcelas
+                  </th>
+                  <th>
+                    Referência
+                  </th>
+                  <th>
+                    Forma de Envio
+                  </th>
+                  <th>
+                    Enviado Por
+                  </th>
+                </thead>
+                <tbody>
+                  {loop="$recebimentos"}
+                  <tr>
+                    {if="$_SESSION['User']['acessoTotal'] === '1'"}
+                    <td>
+                      <a href="/excluir/recebimento/{$value.id}" class="btn btn-danger btn-table" onclick="return confirm('Deseja realmente excluir este recebimento?')" data-toggle="tooltip"
+                        data-placement="right" title="Excluir">
+                        <i class="material-icons">close</i>
+                      </a>
+                      <a href="/editar/recebimento/{$value.id}" class="btn btn-success btn-table" data-toggle="tooltip" data-placement="right" title="Editar">
+                        <i class="material-icons">edit</i>
+                      </a>
+                      <a  href="javascript:;;" class="btn btn-info btn-table" data-toggle="tooltip" data-placement="right" title="Última vez alterado por {$value.alteradoPor} em {function="date('d/m/Y', strtotime($value.alteradoEm))"} às {function="date('H:i', strtotime($value.alteradoEm))"}">
+                        <i class="material-icons">history</i>
+                      </a>
+                    </td>
+                    {/if}
+                    <td>{function="date('d/m/Y', strtotime($value.dataRecebimento))"}</td>
+                    <td>
+                      {if="$value.cliente === null"}
+                      Cliente deletado
+                      {else}
+                      <a href="/visualizar/cliente/{$value.idcliente}">{$value.cliente}</a>
+                      {/if}
+                    </td>
+                    <td>R$ {function="number_format($value.valorBoleto, 2, ',', '.')"}</td>
+                    <td>
+                      {if="$value.dataVencimento != ''"}
+                          {function="date('d/m/Y', strtotime($value.dataVencimento))"}
+                      {/if}
+                    </td>
+                    <td>
+                      {if="$value.dataCompensacao != ''"}
+                          {function="date('d/m/Y', strtotime($value.dataCompensacao))"}
+                      {/if}
+                    </td>
+                    <td>
+                      {if="$value.dataCompensacao != ''"}
+                          <span style="font-weight: bold; color:green;">Pago</span>
+                      {else}
+                          {$d1 = strtotime($value.dataVencimento)}
+                          {$d2 = strtotime(date('Y-m-d'))}
+                          {$dataFinal = ($d2 - $d1) / 86400}
+                          {if="$dataFinal < 0"}
+                              {$dataFinal = $dataFinal * -1}
+                              <span style="font-weight: bold; color:orange;">{$dataFinal} dias restantes</span>
+                          {else}
+                              <span style="font-weight: bold; color: red;">{$dataFinal} dias atrasados</span>
+                          {/if}
+                      {/if}
+                    </td>
+                    <td>{$value.nBoleto}</td>
+                    <td>{$value.formaPagamento}</td>
+                    <td>{$value.parcelas}</td>
+                    <td>{$value.referencia}</td>
+                    <td>{$value.formaEnvio}</td>
+                    <td>{$value.enviadoPor}</td>
+                  </tr>
+                  {/loop}
+                </tbody>
+                {else}
+                <div class="alert alert-danger" role="alert">
+                    <strong>Ah não!</strong> Não existem cadastros de recebimentos em <strong>{$mes}/{$ano}</strong> em nossos registros. <a href="/adicionar/recebimento" class="btn btn-danger" data-toggle="tooltip" data-placement="right" title="ATENÇÃO! Cadastrar um novo recebimento não irá preencher a base de dados de {$mes}/{$ano}!">Cadastrar um cliente</a>
+                 </div>
+                </div>
+                {/if}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

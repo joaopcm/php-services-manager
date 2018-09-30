@@ -1,0 +1,169 @@
+<div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Editar Cliente</h4>
+                  <p class="card-category">Edite um cliente para a CVA Climatização</p>
+                </div>
+                <div class="card-body">
+                  <form action="/editar/cliente/{$cliente.id}" method="POST">
+                    <div class="row">
+                      <div class="col-md-5">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Nome</label>
+                          <input type="text" class="form-control" name="nomeCliente" value="{$cliente.nomeCliente}" maxlength="56" required>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Contato</label>
+                          <input type="text" class="form-control" name="contatoLocal" value="{$cliente.contatoLocal}" maxlength="56">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">CPF</label>
+                          <input type="text" class="form-control" name="cpf" value="{$cliente.cpf}" data-mask="000.000.000-00">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">CNPJ</label>
+                          <input type="text" class="form-control" name="cnpj" value="{$cliente.cnpj}" data-mask="00.000.000/0000-00">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Inscrição Estadual</label>
+                          <input type="text" class="form-control" name="inscricaoEstadual" value="{$cliente.inscricaoEstadual}" maxlength="56">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Telefone</label>
+                          <input type="text" class="form-control" name="telefone" value="{$cliente.telefone}" maxlength="56">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Celular</label>
+                          <input type="text" class="form-control" name="celular" value="{$cliente.celular}" maxlength="56">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">CEP</label>
+                          <input type="text" class="form-control" id="cep" name="cep" value="{$cliente.cep}">
+                        </div>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Endereço</label>
+                          <input type="text" class="form-control" id="endereco" name="endereco" value="{$cliente.endereco}" maxlength="112">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Bairro</label>
+                          <input type="text" class="form-control" id="bairro" name="bairro" value="{$cliente.bairro}" maxlength="56">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Cidade</label>
+                          <input type="text" class="form-control" id="cidade" name="cidade" value="{$cliente.cidade}" maxlength="56">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Estado</label>
+                          <select class="form-control" name="estado" id="estado" />
+                            <option value="">Selecione</option>
+                            <option value="AC" {if="$cliente.estado === 'AC'"}selected{/if}>Acre</option>
+                            <option value="AL" {if="$cliente.estado === 'AL'"}selected{/if}>Alagoas</option>
+                            <option value="AP" {if="$cliente.estado === 'AP'"}selected{/if}>Amapá</option>
+                            <option value="AM" {if="$cliente.estado === 'AM'"}selected{/if}>Amazonas</option>
+                            <option value="BA" {if="$cliente.estado === 'BA'"}selected{/if}>Bahia</option>
+                            <option value="CE" {if="$cliente.estado === 'CE'"}selected{/if}>Ceará</option>
+                            <option value="DF" {if="$cliente.estado === 'DF'"}selected{/if}>Distrito Federal</option>
+                            <option value="GO" {if="$cliente.estado === 'GO'"}selected{/if}>Goiás</option>
+                            <option value="ES" {if="$cliente.estado === 'ES'"}selected{/if}>Espírito Santo</option>
+                            <option value="MA" {if="$cliente.estado === 'MA'"}selected{/if}>Maranhão</option>
+                            <option value="MT" {if="$cliente.estado === 'MT'"}selected{/if}>Mato Grosso</option>
+                            <option value="MS" {if="$cliente.estado === 'MS'"}selected{/if}>Mato Grosso do Sul</option>
+                            <option value="MG" {if="$cliente.estado === 'MG'"}selected{/if}>Minas Gerais</option>
+                            <option value="PA" {if="$cliente.estado === 'PA'"}selected{/if}>Pará</option>
+                            <option value="PB" {if="$cliente.estado === 'PB'"}selected{/if}>Paraiba</option>
+                            <option value="PR" {if="$cliente.estado === 'PR'"}selected{/if}>Paraná</option>
+                            <option value="PE" {if="$cliente.estado === 'PE'"}selected{/if}>Pernambuco</option>
+                            <option value="PI" {if="$cliente.estado === 'PI'"}selected{/if}>Piauí­</option>
+                            <option value="RJ" {if="$cliente.estado === 'RJ'"}selected{/if}>Rio de Janeiro</option>
+                            <option value="RN" {if="$cliente.estado === 'RN'"}selected{/if}>Rio Grande do Norte</option>
+                            <option value="RS" {if="$cliente.estado === 'RS'"}selected{/if}>Rio Grande do Sul</option>
+                            <option value="RO" {if="$cliente.estado === 'RO'"}selected{/if}>Rondônia</option>
+                            <option value="RR" {if="$cliente.estado === 'RR'"}selected{/if}>Roraima</option>
+                            <option value="SP" {if="$cliente.estado === 'SP'"}selected{/if}>São Paulo</option>
+                            <option value="SC" {if="$cliente.estado === 'SC'"}selected{/if}>Santa Catarina</option>
+                            <option value="SE" {if="$cliente.estado === 'SE'"}selected{/if}>Sergipe</option>
+                            <option value="TO" {if="$cliente.estado === 'TO'"}selected{/if}>Tocantins</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">E-mail Principal</label>
+                          <input type="email" class="form-control" name="email"  value="{$cliente.email}" maxlength="56">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">E-mails Secundários</label>
+                          <input type="text" class="form-control" name="emails"  value="{$cliente.emails}" maxlength="224">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Observação</label>
+                          <div class="form-group">
+                            <label class="bmd-label-floating"> Digite uma observação sobre o cliente.</label>
+                            <textarea class="form-control" rows="3" name="observacao"  value="{$cliente.observacao}" maxlength="112"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Tipo</label>
+                          <select class="form-control" name="tipo" />
+                            <option value="PF" {if="$cliente.tipo === 'PF'"}selected{/if}>Pessoa Física</option>
+                            <option value="PJ" {if="$cliente.tipo === 'PJ'"}selected{/if}>Pessoa Jurídica</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+                    <div class="clearfix"></div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>

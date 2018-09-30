@@ -1,39 +1,70 @@
 version: "3"
 
+networks:
+  banco:
+
 services:
+  # Banco de dados
   mysql:
     image: mysql:5.7
     volumes:
       - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
     ports:
       - "3306:3306"
+    networks:
+      - banco
     environment:
       - MYSQL_USER=cva
       - MYSQL_PASSWORD=4ut3nt1c4R
       - MYSQL_ROOT_PASSWORD=4ut3nt1c4R
       - MYSQL_DATABASE=db_cva
 
+  # App admin
   app:
     build: .
     volumes:
-      - .:/var/www/html:z
+      - ./admin:/var/www/html:z
     links:
       - mysql
     depends_on:
       - mysql
     ports:
-      - "80:80"
+      - "4100:80"
+    networks:
+      - banco
     environment:
       - DBHOST=mysql
       - MYSQL_USER=cva
       - MYSQL_PASSWORD=4ut3nt1c4R
       - MYSQL_DATABASE=db_cva
 
+  # App client
+  appclient:
+    build: ./client
+    volumes:
+      - ./client:/var/www/html:z
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    ports:
+      - "4200:80"
+    networks:
+      - banco
+    environment:
+      - DBHOST=mysql
+      - MYSQL_USER=cva
+      - MYSQL_PASSWORD=4ut3nt1c4R
+      - MYSQL_DATABASE=db_cva
+
+  # PhpMyAdmin
   phpMyAdmin:
     image: phpmyadmin/phpmyadmin:latest
     links:
       - mysql
     ports:
-      - "9000:80"
+      - "4300:80"
+    networks:
+      - banco
     environment:
       - PMA_ARBITRARY=1
