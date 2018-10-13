@@ -1,4 +1,5 @@
-<?php if(!class_exists('Rain\Tpl')){exit;}?><div class="modal fade bd-example-modal-lg" id="img-modal" tabindex="-1" role="dialog">
+<?php if(!class_exists('Rain\Tpl')){exit;}?><?php if( $protocolos ){ ?>
+<div class="modal fade bd-example-modal-lg" id="img-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -19,14 +20,16 @@
         </div>
     </div>
 </div>
+<?php } ?>
 <div class="content">
     <div class="container-fluid">
+        <?php if( $protocolos ){ ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header card-header-primary">
+                    <div class="card-header-primary">
                         <h4 class="card-title">Consultar protocolo</h4>
-                        <p class="card-category">Digite o código de um protocolo para consultar seu estado</p>
+                        <!-- <p class="card-category">Digite o código de um protocolo para consultar seu estado</p> -->
                     </div>
                     <div class="card-body noresults-card">
                         <div class="row">
@@ -63,6 +66,7 @@
                 </div>
             </div>
         </div>
+        <?php } ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="card">

@@ -60,7 +60,9 @@ $(function (c) {
 			onCompleteS()
 		} else {
 			$("#row-table-protocols").hide();
-			$(".list-a").remove()
+			$(".list-a").remove();
+			$("div.noresults-card div.alert").remove();
+			error = 1;
 		}
 	});
 	var options = {

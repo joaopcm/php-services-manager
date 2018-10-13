@@ -45,8 +45,12 @@ class Protocolo extends Model {
         /* Envia o protocolo para o cliente por e-mail */
         if ($this->getemail() !== '')
         {
-            $mail = new Mail();
-            $mail->sendProtocol($this->getcliente(), $this->getservico(), $protocol, $this->getemail());
+            $array = array(
+                "name" => $this->getcliente(),
+                "protocol" => $protocol,
+                "service" => $this->getservico()
+            );
+            $mail = new Mail($array, "new_protocol", $this->getemail());
         }
     }
 
@@ -130,6 +134,35 @@ class Protocolo extends Model {
                 ORDER BY e.data DESC";
         $results = $sql->select($query, array(
             ":codigo" => $code
+        ));
+        return $results;
+    }
+
+    /* Recupera os dados de um protocolo junto com um pagamento de acordo com o ID do cliente */
+    public function getByClient($id)
+    {
+        $sql = new Sql();
+        $query = "SELECT
+                    p.id AS idprotocolo,
+                    p.numero AS codigo,
+                    p.dataCadastro AS dataCadastro,
+                    s.titulo AS servico,
+                    r.valorBoleto AS valorBoleto,
+                    r.dataRecebimento AS dataRecebimento,
+                    r.dataCompensacao AS dataCompensacao,
+                    r.dataVencimento AS dataVencimento,
+                    r.nBoleto AS nBoleto,
+                    r.formaPagamento AS formaPagamento,
+                    r.formaEnvio AS formaEnvio,
+                    r.parcelas AS parcelas
+                FROM tb_protocolos AS p
+                    JOIN tb_servicos AS s ON p.idservico = s.id
+                    JOIN tb_clientes AS c ON p.idcliente = c.id
+                    LEFT JOIN tb_recebimentos AS r ON r.idprotocolo = p.id
+                WHERE c.id = :id
+                ORDER BY p.dataCadastro DESC;";
+        $results = $sql->select($query, array(
+            ":id" => $id
         ));
         return $results;
     }

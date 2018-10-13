@@ -184,12 +184,12 @@ $app->get("/visualizar/:opt/:id", function($opt, $id) {
   {
     case "cliente":
       $cliente = new Cliente();
-      $recebimento = new Recebimento();
+      $protocolo = new Protocolo();
       $cliente->get((int)$id);
       $page->setTpl("visualizar-cliente", array(
           "cliente" => $cliente->getValues(),
-          "recebimentos" => $recebimento->getByClient($id),
-          "total" => count($recebimento->getByClient($id))
+          "protocolos" => $protocolo->getByClient($id),
+          "total" => count($protocolo->getByClient($id))
       ));
       break;
     case "protocolo":

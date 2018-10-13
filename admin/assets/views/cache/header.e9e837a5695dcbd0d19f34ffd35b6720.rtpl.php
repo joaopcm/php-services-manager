@@ -38,12 +38,6 @@
               <p>Clientes</p>
             </a>
           </li>
-          <li class="nav-item <?php if( $array["2"] === 'servicos' or $array["2"] === 'servico' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="Módulo de administração de serviços">
-            <a class="nav-link" href="/administrar/servicos">
-              <i class="material-icons">work</i>
-              <p>Serviços</p>
-            </a>
-          </li>
           <li class="nav-item <?php if( $array["2"] === 'protocolos' or $array["2"] === 'protocolo' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="Módulo de administração de protocolos">
             <a class="nav-link" href="/administrar/protocolos">
               <i class="material-icons">assignment</i>
@@ -62,6 +56,18 @@
                 <input type="text" id="search-recebimentos" class="form-control" placeholder="mm/aaaa">
               </div>
             </div>
+          </li>
+          <li class="nav-item <?php if( $array["2"] === 'campanhas' or $array["2"] === 'campanha' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="Módulo de administração de campanhas de e-mail">
+            <a class="nav-link" href="/administrar/campanhas">
+              <i class="material-icons">show_chart</i>
+              <p>Campanhas</p>
+            </a>
+          </li>
+          <li class="nav-item <?php if( $array["2"] === 'servicos' or $array["2"] === 'servico' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="Módulo de administração de serviços">
+            <a class="nav-link" href="/administrar/servicos">
+              <i class="material-icons">work</i>
+              <p>Serviços</p>
+            </a>
           </li>
           <?php if( $_SESSION['User']['acessoTotal'] === '1' ){ ?>
           <li class="nav-item <?php if( $array["2"] === 'usuarios' or $array["2"] === 'usuario' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="Módulo de administração de usuários que têm acesso ao CVA Admin">

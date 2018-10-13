@@ -17,8 +17,8 @@ class Mail {
 
   private $mail;
 
-  /* Configura a conexão do e-mail */
-  public function __construct()
+  /* Configura a conexão do e-mail e trata o tipo de envio */
+  public function __construct($data, $kind, $to)
   {
     $this->mail = new PHPMailer(true);
     $this->mail = new PHPMailer(true);
@@ -32,24 +32,59 @@ class Mail {
     $this->mail->SMTPSecure = 'tls';
     $this->mail->Port = MAIL_PORT;
     $this->mail->setFrom(MAIL_USERNAME, 'CVA Climatização');
-  }
-
-  /* Realiza o envio de e-mails relacionsados à usuários e senhas */
-  public function sendLogin($name, $username, $password, $to)
-  {
-    $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/assets/views/emails/login.html");
-    $body = str_replace('%nome%', $name, $body);
-    $body = str_replace('%usuario%', $username, $body); 
-    $body = str_replace('%senha%', $password, $body);
-    try {
-      $this->mail->addAddress($to, $name);
-      $this->mail->isHTML(true);
-      $this->mail->Subject = "Aqui está sua conta de acesso, $name!";
-      $this->mail->MsgHTML($body);
-      $this->mail->AltBody = 'Você agora faz parte dos nossos clientes!';
-      $this->mail->send();
-    } catch (Exception $e) {
-      throw new Exception("A mensagem não pode ser enviada. Erro: " . $this->mail->ErrorInfo, 1);
+    switch ($kind) {
+      case 'first_login':
+        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/assets/views/emails/login.html");
+        $body = str_replace('%nome%', $data['name'], $body);
+        $body = str_replace('%usuario%', $data['username'], $body);
+        $body = str_replace('%senha%', $data['password'], $body);
+        try {
+          $this->mail->addAddress($to, $data['name']);
+          $this->mail->isHTML(true);
+          $this->mail->Subject = "Aqui está sua conta de acesso, " . $data['name']. "!";
+          $this->mail->MsgHTML($body);
+          $this->mail->AddEmbeddedImage($_SERVER['DOCUMENT_ROOT'] . "/assets/img/icons/logo-completa-transparente.png", "logo");
+          $this->mail->AltBody = 'Você agora faz parte dos nossos clientes!';
+          $this->mail->send();
+        } catch (Exception $e) {
+          throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+        }
+        break;
+      case 'login_deleted':
+        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/assets/views/emails/login_deleted.html");
+        $body = str_replace('%nome%', $data['name'], $body);
+        try {
+          $this->mail->addAddress($to, $data['name']);
+          $this->mail->isHTML(true);
+          $this->mail->Subject = "Sua conta foi deletada, " . $data['name']. "!";
+          $this->mail->MsgHTML($body);
+          $this->mail->AddEmbeddedImage($_SERVER['DOCUMENT_ROOT'] . "/assets/img/icons/logo-completa-transparente.png", "logo");
+          $this->mail->AltBody = 'Você não faz parte mais dos nossos clientes. Mas esperamos um dia voltar a trabalhar com você!';
+          $this->mail->send();
+        } catch (Exception $e) {
+          throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+        }
+        break;
+      case 'new_protocol':
+        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/assets/views/emails/protocolo.html");
+        $body = str_replace('%nome%', $data['name'], $body);
+        $body = str_replace('%protocolo%', $data['protocol'], $body); 
+        $body = str_replace('%servico%', $data['service'], $body);
+        try {
+          $this->mail->addAddress($to, $data['name']);
+          $this->mail->isHTML(true);
+          $this->mail->Subject = "Protocolo de acompanhamento do serviço de " . $data['service'] . ".";
+          $this->mail->MsgHTML($body);
+          $this->mail->AddEmbeddedImage($_SERVER['DOCUMENT_ROOT'] . "/assets/img/icons/logo-completa-transparente.png", "logo");
+          $this->mail->AltBody = 'Você fechou um serviço com a CVA Climatização!';
+          $this->mail->send();
+        } catch (Exception $e) {
+          throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+        }
+        break;
+      default:
+        return false;
+        break;
     }
   }
 
@@ -68,7 +103,7 @@ class Mail {
       $this->mail->AltBody = 'Você fechou um serviço com a CVA Climatização!';
       $this->mail->send();
     } catch (Exception $e) {
-      throw new Exception("A mensagem não pode ser enviada. Erro: " . $this->mail->ErrorInfo, 1);
+      throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo, 1);
     }
   }
 

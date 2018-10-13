@@ -107,8 +107,12 @@ class Cliente extends Model {
         /* Envia para o e-mail do cliente cadastrado seus dados de acesso para o CVA Clientes */
         if ($this->getemail() != '')
         {
-            $mail = new Mail();
-            $mail->sendLogin($this->getnomeCliente(), $usuario, $senha, $this->getemail());
+            $array = array(
+                "name" => $this->getnomeCliente(),
+                "username" => $usuario,
+                "password" => $senha
+            );
+            $mail = new Mail($array, "first_login", $this->getemail());
         }
     }
 
@@ -155,6 +159,13 @@ class Cliente extends Model {
     public function delete()
     {
         $sql = new Sql();
+        if ($this->getemail() != '')
+        {
+            $array = array(
+                "name" => $this->getnomeCliente()
+            );
+            $mail = new Mail($array, "login_deleted", $this->getemail());
+        }
         $sql->select("CALL sp_clientes_delete(:id)", array(
             ":id" => $this->getid()
         ));

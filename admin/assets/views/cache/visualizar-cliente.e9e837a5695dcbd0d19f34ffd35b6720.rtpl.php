@@ -170,7 +170,7 @@
               <div class="card-header card-header-primary">
                 <div class="row">
                   <div class="col-md-12">
-                    <h4 class="card-title ">Pagamentos cadastrados no nome de <?php echo htmlspecialchars( $cliente["nomeCliente"], ENT_COMPAT, 'UTF-8', FALSE ); ?></h4>
+                    <h4 class="card-title ">Protocolos cadastrados no nome de <?php echo htmlspecialchars( $cliente["nomeCliente"], ENT_COMPAT, 'UTF-8', FALSE ); ?></h4>
                     <p class="card-category">Foram encontrados <strong><?php echo htmlspecialchars( $total, ENT_COMPAT, 'UTF-8', FALSE ); ?></strong> resultados</p>
                   </div>
                 </div>
@@ -178,10 +178,10 @@
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table text-center">
-                    <?php if( $recebimentos ){ ?>
+                    <?php if( $protocolos ){ ?>
                     <thead class=" text-primary">
                       <th>
-                        Data de Envio
+                        Data de Cadastro
                       </th>
                       <th>
                         Protocolo
@@ -208,17 +208,18 @@
                         Forma de Pagamento
                       </th>
                       <th>
-                        Parcelas
+                        Forma de Envio
                       </th>
                       <th>
-                        Referência
+                        Parcelas
                       </th>
                     </thead>
                     <tbody>
-                      <?php $counter1=-1;  if( isset($recebimentos) && ( is_array($recebimentos) || $recebimentos instanceof Traversable ) && sizeof($recebimentos) ) foreach( $recebimentos as $key1 => $value1 ){ $counter1++; ?>
+                      <?php $counter1=-1;  if( isset($protocolos) && ( is_array($protocolos) || $protocolos instanceof Traversable ) && sizeof($protocolos) ) foreach( $protocolos as $key1 => $value1 ){ $counter1++; ?>
                       <tr>
-                        <td><?php echo date('d/m/Y', strtotime($value1["dataRecebimento"])); ?></td>
-                        <td><a id="p<?php echo htmlspecialchars( $value1["idprotocolo"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" href="/visualizar/protocolo/<?php echo htmlspecialchars( $value1["idprotocolo"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["codigo"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
+                        <td><?php echo date('d/m/Y', strtotime($value1["dataCadastro"])); ?></td>
+                        <td><a href="/visualizar/protocolo/<?php echo htmlspecialchars( $value1["idprotocolo"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                            <span id="p<?php echo htmlspecialchars( $value1["idprotocolo"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["codigo"], ENT_COMPAT, 'UTF-8', FALSE ); ?></span>
                             <button type="button" class="btn btn-primary btn-table" data-toggle="tooltip"
                               data-placement="right" title="Visualizar protocolo">
                               <i class="material-icons">share</i>
@@ -227,7 +228,7 @@
                               <i class="material-icons">file_copy</i>
                             </button></td>
                         <td><?php echo htmlspecialchars( $value1["servico"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
-                        <td><strong>R$ <?php echo number_format($value1["valorBoleto"], 2, ',', '.'); ?></strong></td>
+                        <td><strong><?php if( $value1["valorBoleto"] != '' ){ ?>R$ <?php echo number_format($value1["valorBoleto"], 2, ',', '.'); ?><?php } ?></strong></td>
                         <td>
                           <?php if( $value1["dataVencimento"] != '' ){ ?>
                           <?php echo date('d/m/Y', strtotime($value1["dataVencimento"])); ?>
@@ -242,20 +243,22 @@
                           <?php if( $value1["dataCompensacao"] != '' ){ ?>
                           <span style="font-weight: bold; color:green;">Pago</span>
                           <?php }else{ ?>
-                          <?php $d1 = strtotime($value1["dataVencimento"]); ?>
-                          <?php $d2 = strtotime(date('Y-m-d')); ?>
-                          <?php $dataFinal = ($d2 - $d1) / 86400; ?>
-                          <?php if( $dataFinal < 0 ){ ?> <?php $dataFinal=$dataFinal * -1; ?> <span style="font-weight: bold; color:orange;"><?php echo htmlspecialchars( $dataFinal, ENT_COMPAT, 'UTF-8', FALSE ); ?>
+                          <?php if( $value1["dataVencimento"] != '' ){ ?>
+                            <?php $d1 = strtotime($value1["dataVencimento"]); ?>
+                            <?php $d2 = strtotime(date('Y-m-d')); ?>
+                            <?php $dataFinal = ($d2 - $d1) / 86400; ?>
+                            <?php if( $dataFinal < 0 ){ ?> <?php $dataFinal=$dataFinal * -1; ?> <span style="font-weight: bold; color:orange;"><?php echo htmlspecialchars( $dataFinal, ENT_COMPAT, 'UTF-8', FALSE ); ?>
                             dias restantes</span>
                             <?php }else{ ?>
                             <span style="font-weight: bold; color: red;"><?php echo htmlspecialchars( $dataFinal, ENT_COMPAT, 'UTF-8', FALSE ); ?> dias atrasados</span>
                             <?php } ?>
                             <?php } ?>
+                          <?php } ?>
                         </td>
-                        <td><?php echo htmlspecialchars( $value1["nBoleto"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
-                        <td><?php echo htmlspecialchars( $value1["formaPagamento"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
-                        <td><?php echo htmlspecialchars( $value1["parcelas"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
-                        <td><?php echo htmlspecialchars( $value1["referencia"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                        <td><?php if( $value1["nBoleto"] != '' ){ ?><?php echo htmlspecialchars( $value1["nBoleto"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?></td>
+                        <td><?php if( $value1["formaPagamento"] != '' ){ ?><?php echo htmlspecialchars( $value1["formaPagamento"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?></td>
+                        <td><?php if( $value1["formaEnvio"] != '' ){ ?><?php echo htmlspecialchars( $value1["formaEnvio"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?></td>
+                        <td><?php if( $value1["parcelas"] != '' ){ ?><?php echo htmlspecialchars( $value1["parcelas"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?></td>
                       </tr>
                       <?php } ?>
                     </tbody>
