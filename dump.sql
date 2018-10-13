@@ -1,3 +1,4 @@
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -15,10 +16,6 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_clientes_delete` (IN `pid` INT(6))  BEGIN
 
 	DELETE FROM tb_clientes WHERE id = pid;
-    
-    DELETE FROM tb_clientes_usuarios WHERE idcliente = pid;
-    
-    DELETE FROM tb_protocolos WHERE idcliente = pid;
 
 END$$
 
@@ -58,6 +55,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_clientes_update` (IN `pid` INT(6
 
 END$$
 
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_estados_delete` (IN `pid` INT(6))  NO SQL
+BEGIN
+	
+    DELETE FROM tb_protocolos_estado WHERE id = pid;
+
+END$$
+
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_estados_save` (IN `pidprotocolo` INT(6), IN `pestado` VARCHAR(112), IN `pdata` DATE, IN `panexo` VARCHAR(56))  NO SQL
+BEGIN
+
+	INSERT INTO tb_protocolos_estado (idprotocolo, estado, data, anexo) VALUES (pidprotocolo, pestado, pdata, panexo);
+
+END$$
+
 CREATE DEFINER=`cva`@`%` PROCEDURE `sp_protocolos_delete` (IN `pid` INT(6))  NO SQL
 BEGIN
 
@@ -88,21 +99,21 @@ BEGIN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recebimentos_save` (IN `pdataRecebimento` DATE, IN `pidcliente` INT(6), IN `pvalorBoleto` DECIMAL(10,2), IN `pdataVencimento` DATE, IN `pdataCompensacao` DATE, IN `pnBoleto` VARCHAR(15), IN `pformaPagamento` VARCHAR(25), IN `pparcelas` VARCHAR(3), IN `preferencia` VARCHAR(112), IN `pformaEnvio` VARCHAR(25), IN `penviadoPor` VARCHAR(56), IN `pmes` INT(2), IN `pano` INT(4), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recebimentos_save` (IN `pdataRecebimento` DATE, IN `pidprotocolo` INT(6), IN `pvalorBoleto` DECIMAL(10,2), IN `pdataVencimento` DATE, IN `pdataCompensacao` DATE, IN `pnBoleto` VARCHAR(15), IN `pformaPagamento` VARCHAR(25), IN `pparcelas` VARCHAR(3), IN `preferencia` VARCHAR(112), IN `pformaEnvio` VARCHAR(25), IN `penviadoPor` VARCHAR(56), IN `pmes` INT(2), IN `pano` INT(4), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  NO SQL
 BEGIN
 
-	INSERT INTO tb_recebimentos (dataRecebimento, idcliente, valorBoleto, dataVencimento, dataCompensacao, nBoleto, formaPagamento, parcelas, referencia, formaEnvio, enviadoPor, mes, ano, alteradoPor, alteradoEm) VALUES (pdataRecebimento, pidcliente, pvalorBoleto, pdataVencimento, pdataCompensacao, pnBoleto, pformaPagamento, pparcelas, preferencia, pformaEnvio, penviadoPor, pmes, pano, palteradoPor, palteradoEm);
+	INSERT INTO tb_recebimentos (dataRecebimento, idprotocolo, valorBoleto, dataVencimento, dataCompensacao, nBoleto, formaPagamento, parcelas, referencia, formaEnvio, enviadoPor, mes, ano, alteradoPor, alteradoEm) VALUES (pdataRecebimento, pidprotocolo, pvalorBoleto, pdataVencimento, pdataCompensacao, pnBoleto, pformaPagamento, pparcelas, preferencia, pformaEnvio, penviadoPor, pmes, pano, palteradoPor, palteradoEm);
     
     SELECT * FROM tb_recebimentos;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recebimentos_update` (IN `pid` INT(6), IN `pdataRecebimento` DATE, IN `pidcliente` INT(6), IN `pvalorBoleto` DECIMAL(10,2), IN `pdataVencimento` DATE, IN `pdataCompensacao` DATE, IN `pnBoleto` VARCHAR(15), IN `pformaPagamento` VARCHAR(25), IN `pparcelas` VARCHAR(3), IN `preferencia` VARCHAR(112), IN `pformaEnvio` VARCHAR(25), IN `penviadoPor` VARCHAR(56), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recebimentos_update` (IN `pid` INT(6), IN `pdataRecebimento` DATE, IN `pidprotocolo` INT(6), IN `pvalorBoleto` DECIMAL(10,2), IN `pdataVencimento` DATE, IN `pdataCompensacao` DATE, IN `pnBoleto` VARCHAR(15), IN `pformaPagamento` VARCHAR(25), IN `pparcelas` VARCHAR(3), IN `preferencia` VARCHAR(112), IN `pformaEnvio` VARCHAR(25), IN `penviadoPor` VARCHAR(56), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  NO SQL
 BEGIN
 
 	UPDATE tb_recebimentos
 		SET dataRecebimento = pdataRecebimento,
-        	idcliente = pidcliente,
+            idprotocolo = pidprotocolo,
             valorBoleto = pvalorBoleto,
             dataVencimento = pdataVencimento,
             dataCompensacao = pdataCompensacao,
@@ -223,14 +234,15 @@ CREATE TABLE `tb_protocolos` (
 CREATE TABLE `tb_protocolos_estado` (
   `id` int(6) NOT NULL,
   `idprotocolo` int(6) NOT NULL,
-  `estado` varchar(56) NOT NULL,
-  `data` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `estado` varchar(112) CHARACTER SET utf8mb4 NOT NULL,
+  `data` date NOT NULL,
+  `anexo` varchar(56) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tb_recebimentos` (
   `id` int(6) NOT NULL,
   `dataRecebimento` date NOT NULL,
-  `idcliente` int(6) NOT NULL,
+  `idprotocolo` int(6) DEFAULT NULL,
   `valorBoleto` decimal(10,2) NOT NULL,
   `dataVencimento` date NOT NULL,
   `dataCompensacao` date DEFAULT NULL,
@@ -262,22 +274,26 @@ CREATE TABLE `tb_usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `tb_usuarios` (`id`, `nome`, `usuario`, `senha`, `acessoTotal`, `dataCadastro`) VALUES
-(1, 'CVA ClimatizaÃ§Ã£o', 'cva', '3d7c76317dc02619cbf97464f0541e8d', 1, '2018-09-09 01:06:30');
+(2, 'Admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, '2018-10-06 02:13:17');
 
 ALTER TABLE `tb_clientes`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `tb_clientes_usuarios`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_idcliente_idx` (`idcliente`);
 
 ALTER TABLE `tb_protocolos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_idcliente_idx` (`idcliente`);
 
 ALTER TABLE `tb_protocolos_estado`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_idprotocolo_idx` (`idprotocolo`);
 
 ALTER TABLE `tb_recebimentos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_idprotocolo_idx` (`idprotocolo`);
 
 ALTER TABLE `tb_servicos`
   ADD PRIMARY KEY (`id`);
@@ -287,25 +303,38 @@ ALTER TABLE `tb_usuarios`
 
 
 ALTER TABLE `tb_clientes`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 ALTER TABLE `tb_clientes_usuarios`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 ALTER TABLE `tb_protocolos`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 ALTER TABLE `tb_protocolos_estado`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+
+ALTER TABLE `tb_recebimentos`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+ALTER TABLE `tb_servicos`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+ALTER TABLE `tb_usuarios`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
+
+ALTER TABLE `tb_clientes_usuarios`
+  ADD CONSTRAINT `fk_idcliente_cu` FOREIGN KEY (`idcliente`) REFERENCES `tb_clientes` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `tb_protocolos`
+  ADD CONSTRAINT `fk_idcliente_p` FOREIGN KEY (`idcliente`) REFERENCES `tb_clientes` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `tb_protocolos_estado`
+  ADD CONSTRAINT `fk_idprotocolo_e` FOREIGN KEY (`idprotocolo`) REFERENCES `tb_protocolos` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
 ALTER TABLE `tb_recebimentos`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `tb_servicos`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
-ALTER TABLE `tb_usuarios`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  ADD CONSTRAINT `fk_idprotocolo_r` FOREIGN KEY (`idprotocolo`) REFERENCES `tb_protocolos` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

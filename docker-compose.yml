@@ -7,6 +7,7 @@ networks:
   appclient:
 
 services:
+
   # Banco de dados
   mysql:
     image: mysql:5.7
@@ -46,6 +47,7 @@ services:
       - banco
       - appadmin
     environment:
+      - ON_PRODUCTION=false
       - DBHOST=mysql
       - MYSQL_USER=cva
       - MYSQL_PASSWORD=4ut3nt1c4R
@@ -69,6 +71,7 @@ services:
       - banco
       - appclient
     environment:
+    - ON_PRODUCTION=false
       - DBHOST=mysql
       - MYSQL_USER=cva
       - MYSQL_PASSWORD=4ut3nt1c4R

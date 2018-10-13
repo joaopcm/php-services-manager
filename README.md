@@ -18,10 +18,6 @@ Em seguida, gere e execute a imagem Docker da aplicação com o seguinte comando
 ```sh
 $> docker-compose up
 ```
-Caso tenha problemas com diretórios em cache no momento da geração e execução da imagem, execute o seguinte comando:
-```sh
-$> docker rm -v {volume}
-```
 
 Após executar o comando acima, gere e execute a imagem Docker da aplicação normalmente.
 

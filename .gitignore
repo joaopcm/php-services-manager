@@ -1,11 +1,5 @@
-# Cache dir
-*/views-cache/*
-
-# Composer packages
-*/vendor/bin
-*/vendor/composer
-*/vendor/rain
-*/vendor/slim
-*/vendor/autoload.php
+*/admin/assets/views/cache
+*/libs
 */composer.lock
 */composer.phar
+*/uploads

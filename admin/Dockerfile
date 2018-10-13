@@ -1,6 +1,6 @@
 FROM php:7.2-apache
 
-LABEL maintener 'João Melo <joao.pedro6532@gmail.com>'
+LABEL maintener 'João Pedro da Cruz Melo <joao.pedro6532@gmail.com>'
 
 ADD . /var/www/html/
 

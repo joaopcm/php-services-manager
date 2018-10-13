@@ -1,12 +1,15 @@
 {
     "require": {
-        "slim/slim": "2.0",
+        "slim/slim": "2.4.0",
         "rain/raintpl": "3.0.0",
         "phpmailer/phpmailer": "6.0"
     },
+    "config": {
+        "vendor-dir": "libs"
+    },
     "autoload": {
         "psr-4": {
-            "Root\\": "vendor\\root\\php-classes\\src"
+            "CVA\\": "classes"
         }
     }
 }

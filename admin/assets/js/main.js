@@ -1,80 +1,154 @@
+function copyToClipboard(a) {
+	var b = $("<input>");
+	$("body").append(b);
+	b.val($(a).text()).select();
+	document.execCommand("copy");
+	b.remove()
+};
 $(function (c) {
-
-	// Recupera dados de localização de acordo com o CEP
+	var error = 1;
+	$(".btn-copy-p").on("click", function () {
+		$(this).removeClass("btn-primary");
+		$(this).addClass("btn-success");
+		setTimeout(function () {
+			$(".btn-copy-p").removeClass("btn-success");
+			$(".btn-copy-p").addClass("btn-primary")
+		}, 1500)
+	});
+	$("#row-table-protocols").hide();
+	$(".open-img-modal").on("click", function () {
+		anexo = $(this).attr("data-image");
+		$("#download-img").attr("download-link", "\\baixar/anexo/" + anexo);
+		$("img#img-md").attr("src", "\\uploads/" + anexo);
+		$("a#img-link").attr("href", "\\uploads/" + anexo);
+		$("#img-modal").modal()
+	});
+	$("#redirect-btn").on("click", function () {
+		anexo = $("#redirect-btn").attr("data-image");
+		window.location.href = "\\uploads/" + anexo
+	});
+	$("#download-img").on("click", function () {
+		window.location.href = $(this).attr("download-link")
+	});
+	$("input#opload-os").change(function () {
+		i = $(this).prev("label").clone();
+		file = $("#opload-os")[0].files[0].name;
+		$("#label-upload-os").removeClass("btn-warning");
+		$("#label-upload-os").addClass("btn-success")
+	});
 	var options = {
-		onComplete: function(cep) {
+		onComplete: function (a) {
 			$.ajax({
 				type: "POST",
 				url: "/localizacao/" + $("#cep").cleanVal(),
-				success: function (f) {
-					f = $.parseJSON(f);
-					$("#endereco").val(f.logradouro);
-					$("#bairro").val(f.bairro);
-					$("#cidade").val(f.localidade);
-					$("#estado").val(f.uf);
+				success: function (b) {
+					b = $.parseJSON(b);
+					$("#endereco").val(b.logradouro);
+					$("#bairro").val(b.bairro);
+					$("#cidade").val(b.localidade);
+					$("#estado").val(b.uf)
+				},
+				error: function () {
+					console.log("CVA Error - Não foi possível recuperar a lçocalização do CEP: " + $("#cep").cleanVal() + ".")
 				}
 			})
 		}
-	}
-	$('#cep').mask('00000-000', options);
-
-	// Faz a consulta de recebimentos na data passada
-	var options = {
-		onComplete: function(data) {
-			location.href = "/administrar/recebimentos/" + data;
+	};
+	$("#cep").mask("00000-000", options);
+	$("#pesquisar-protocolo").on("keyup", function () {
+		if ($(this).val().length === 20) {
+			onCompleteS()
+		} else {
+			$("#row-table-protocols").hide();
+			$(".list-a").remove()
 		}
-	}
-	$('#search-recebimentos').mask('00/0000', options);
-
-	// Inicializa o Tooltip
+	});
+	var options = {
+		onComplete: function (a) {
+			location.href = "/administrar/recebimentos/" + a
+		}
+	};
+	$("#search-recebimentos").mask("00/0000", options);
 	c('[data-toggle="tooltip"]').tooltip();
 
-	// Campos de pesquisa
-	c(".fix").on("keyup", function () {
-		if (c(this).val().length > 0) {
-			c(".counter").removeClass("invisible");
-			c(".results").removeClass("invisible")
-		} else {
-			c(".counter").addClass("invisible");
-			c(".results").addClass("invisible")
-		}
-	});
-	c("#search").on("keyup", function () {
-		var f = c("#search").val();
-		var i = c(".results tbody").children("tr");
-		var h = f.replace(/ /g, "'):containsi('");
-		c.extend(c.expr[":"], {
-			containsi: function (l, k, j, m) {
-				return (l.textContent || l.innerText || "").toLowerCase().indexOf((j[3] || "").toLowerCase()) >= 0
+	function onCompleteS() {
+		var code = $("#pesquisar-protocolo").val();
+		$.ajax({
+			type: "POST",
+			url: "/consultar/protocolo/" + code,
+			success: function (data) {
+				data = $.parseJSON(data);
+				if (data.length === 0) {
+					console.log("CVA Warning - O protocolo " + code + " não existe.");
+					if (error === 1) {
+						info = '<div class="alert alert-danger" role="alert"><strong>Ah não!</strong> Este protocolo não existe ou não foi atualizado.</div>';
+						$("div.noresults-card").append(info);
+					}
+					error = error + 1;
+				} else {
+					$("div.noresults-card div.alert").remove();
+					$(".list-a").remove();
+					data.forEach(data => {
+						estado = data['estado'];
+						if (data['anexo'] != null && data['anexo'] != '') {
+							anexo = data['anexo'];
+						} else {
+							anexo = null;
+						}
+						$("#row-table-protocols").show();
+						data = new Date(data['data']);
+						dia = data.getDate();
+						if (dia.toString().length == 1) {
+							dia = "0" + dia;
+						}
+						mes = data.getMonth() + 1;
+						if (mes.toString().length == 1) {
+							mes = "0" + mes;
+						}
+						ano = data.getFullYear();
+						cdata = dia + "/" + mes + "/" + ano;
+						tr1 = "<tr class='list-a'><td>" + estado + "</td><td>" + cdata + "</td><td>";
+						tr2 = '<a data-image="' + anexo + '" class="open-img-modal btn btn-primary btn-table" data-toggle="tooltip" data-placement="left"title="Abrir anexo"><i class="material-icons text-white">image</i></a>';
+						tr3 = "</td></tr>";
+						tr4 = tr1 + tr2 + tr3;
+                        $("table#table-protocols tbody").append(tr4);
+                        $(".open-img-modal").on("click", function () {
+                            anexo = $(this).attr("data-image");
+                            $("#download-img").attr("download-link", "\\baixar/anexo/" + anexo);
+                            $("#redirect-btn").attr("data-image", anexo)
+                            $("img#img-md").attr("src", "\\uploads/" + anexo);
+                            $("a#img-link").attr("href", "\\uploads/" + anexo);
+                            $("#img-modal").modal()
+                        });
+						error = 1;
+					});
+				}
+			},
+			error: function () {
+				console.log("CVA Error - Não foi possível consultar o protocolo: " + code);
 			}
-		});
-		c(".results tbody tr").not(":containsi('" + h + "')").each(function (j) {
-			c(this).attr("visible", "false")
-		});
-		c(".results tbody tr:containsi('" + h + "')").each(function (j) {
-			c(this).attr("visible", "true")
-		});
-		var g = c('.results tbody tr[visible="true"]').length;
-		c(".counter").text(g + " registros");
-		if (g == "0") {
-			c(".no-result").show()
-		} else {
-			c(".no-result").hide()
-		}
+		})
+    };
+	$("select#cliente").on("change", function () {
+		id = this.value;
+		$.ajax({
+			type: 'post',
+			url: '/recuperar/protocolos/' + id,
+			data: {},
+			success: function (data) {
+				data = $.parseJSON(data);
+				$("select#protocolo").find('option').remove();
+				data.forEach(data => {
+					option = new Option(data.protocolo + ' - ' + data.servico, data.id);
+					$("select#protocolo").append(option);
+				});
+			},
+			error: function () {
+				$("select#protocolo").find('option').remove();
+				option = new Option("Selecione um cliente", null);
+				$("select#protocolo").append(option);
+				console.log("CVA Error - Cliente não encontrado.");
+			}
+		})
 	});
-	c(".filterable .btn-filter").click(function () {
-		c(".filters").toggleClass("invisible");
-		var h = c(this).parents(".filterable"),
-			g = h.find(".filters input"),
-			f = h.find(".table tbody");
-		if (g.prop("disabled") == true) {
-			g.prop("disabled", false);
-			g.first().focus()
-		} else {
-			g.val("").prop("disabled", true);
-			f.find(".no-result").remove();
-			f.find("tr").show()
-		}
-	});
-
 });

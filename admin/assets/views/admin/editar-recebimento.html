@@ -1,0 +1,124 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Editar Recebimento</h4>
+            <p class="card-category">Edite um recebimento para a CVA Climatização</p>
+          </div>
+          <div class="card-body">
+            <form action="/editar/recebimento/{$recebimento.id}" method="POST">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Cliente</label>
+                    <select type="text" class="form-control" name="cliente" id="cliente">
+                      {loop="$clientes"}
+                      <option value="{$value.id}" {if="$recebimento.idcliente === $value.id"}selected{/if}>{$value.nomeCliente}</option>
+                      {/loop}
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Protocolo</label>
+                    <select type="text" class="form-control" name="protocolo" id="protocolo">
+                      <option value="{$recebimento.idprotocolo}" selected>{$recebimento.codigo} - {$recebimento.servico}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label>Data de Recebimento</label>
+                    <input type="date" class="form-control" name="dataRecebimento" value="{$recebimento.dataRecebimento}" required>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Valor do Boleto (R$)</label>
+                    <input type="text" class="form-control" name="valorBoleto" value="{$recebimento.valorBoleto}" data-mask="000.000.000,00" data-mask-reverse="true" required>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Data de Vencimento</label>
+                    <input type="date" class="form-control" name="dataVencimento" value="{$recebimento.dataVencimento}" required>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Data de Compensação</label>
+                    <input type="date" class="form-control" name="dataCompensacao" value="{$recebimento.dataCompensacao}">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Número do Boleto</label>
+                    <input type="text" class="form-control" name="nBoleto" value="{$recebimento.nBoleto}" maxlength="15">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                      <label>Forma de Pagamento</label>
+                      <select type="text" class="form-control" name="formaPagamento">
+                        <option value="Boleto" {if="$recebimento.formaPagamento === 'Boleto'"}selected{/if}>Boleto</option>
+                        <option value="Depósito" {if="$recebimento.formaPagamento === 'Depósito'"}selected{/if}>Depósito</option>
+                        <option value="Cheque" {if="$recebimento.formaPagamento === 'Cheque'"}selected{/if}>Cheque</option>
+                        <option value="Dinheiro" {if="$recebimento.formaPagamento === 'Dinheiro'"}selected{/if}>Dinheiro</option>
+                        <option value="Transferência Bancária" {if="$recebimento.formaPagamento === 'Transferência Bancária'"}selected{/if}>Transferência Bancária</option>
+                      </select>
+                    </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Parcelas</label>
+                    <input type="text" class="form-control" name="parcelas" value="{$recebimento.parcelas}" max="56" value="1/1" data-mask="0/0" maxlength="3" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Referência</label>
+                    <input type="text" class="form-control" name="referencia" value="{$recebimento.referencia}" maxlength="112">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Forma de Envio</label>
+                    <select type="text" class="form-control" name="formaEnvio">
+                      <option value="E-mail" {if="$recebimento.formaEnvio === 'E-mail'"}selected{/if}>E-mail</option>
+                      <option value="Whatsapp" {if="$recebimento.formaEnvio === 'Whatsapp'"}selected{/if}>Whatsapp</option>
+                      <option value="Recebido no local" {if="$recebimento.formaEnvio === 'Recebido no local'"}selected{/if}>Recebido no local</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Enviado Por</label>
+                    <select type="text" class="form-control" name="enviadoPor">
+                      {loop="$usuarios"}
+                      <option value="{$value.nome}" {if="$recebimento.enviadoPor === $value.nome"}selected{/if}>{$value.nome}</option>
+                      {/loop}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary pull-right">Salvar</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
