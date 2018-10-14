@@ -17,17 +17,7 @@ class Protocolo extends Model {
     public static function listAll()
     {
         $sql = new Sql();
-        $query = "SELECT
-                    c.nomeCliente AS cliente,
-                    c.id AS idcliente,
-                    p.numero AS codigo,
-                    p.id AS id,
-                    p.dataCadastro AS data,
-                    s.titulo AS servico
-                FROM tb_clientes AS c
-                    JOIN tb_protocolos AS p ON p.idcliente = c.id
-                    JOIN tb_servicos AS s ON p.idservico = s.id
-                ORDER BY p.dataCadastro DESC";
+        $query = "SELECT c.nomeCliente AS cliente, c.id AS idcliente, p.numero AS codigo, p.id AS id, p.dataCadastro AS data, s.titulo AS servico FROM tb_clientes AS c JOIN tb_protocolos AS p ON p.idcliente = c.id LEFT JOIN tb_servicos AS s ON p.idservico = s.id ORDER BY p.dataCadastro DESC";
         return $sql->select($query);
     }
 
@@ -71,6 +61,12 @@ class Protocolo extends Model {
         } else {
             $new_name = null;
         }
+        $array = array(
+            "name" => $this->getcliente(),
+            "protocol" => $this->getcodigo(),
+            "service" => $this->getservico()
+        );
+        $mail = new Mail($array, 'update_protocol', $this->getemail());
         $sql->select("CALL sp_estados_save(:idprotocolo, :estado, :data, :anexo)", array(
             ":idprotocolo" => $this->getid(),
             ":estado" => $this->getpestado(),
@@ -97,23 +93,7 @@ class Protocolo extends Model {
     public function get($id)
     {
         $sql = new Sql();
-        $query = "SELECT
-                    c.nomeCliente AS cliente,
-                    c.email AS email,
-                    c.endereco AS endereco,
-                    c.bairro AS bairro,
-                    c.cidade AS cidade,
-                    c.estado AS estado,
-                    c.cep AS cep,
-                    p.numero AS codigo,
-                    p.id AS id,
-                    p.dataCadastro AS dataCadastro,
-                    s.titulo AS servico
-                FROM tb_protocolos AS p
-                    JOIN tb_clientes AS c ON p.idcliente = c.id
-                    JOIN tb_servicos AS s ON p.idservico = s.id
-                WHERE p.id = :id
-                ORDER BY p.dataCadastro DESC";
+        $query = "SELECT c.nomeCliente AS cliente, c.email AS email, c.endereco AS endereco, c.bairro AS bairro, c.cidade AS cidade, c.estado AS estado, c.cep AS cep, p.numero AS codigo, p.id AS id, p.dataCadastro AS dataCadastro, s.titulo AS servico FROM tb_protocolos AS p JOIN tb_clientes AS c ON p.idcliente = c.id LEFT JOIN tb_servicos AS s ON p.idservico = s.id WHERE p.id = :id ORDER BY p.dataCadastro DESC";
         $results = $sql->select($query, array(
             ":id" => $id
         ));
@@ -124,14 +104,7 @@ class Protocolo extends Model {
     public function getByCode($code)
     {
         $sql = new Sql();
-        $query = "SELECT
-                    e.estado AS estado,
-                    e.data AS data,
-                    e.anexo AS anexo
-                FROM tb_protocolos AS p
-                    JOIN tb_protocolos_estado AS e ON e.idprotocolo = p.id
-                WHERE p.numero = :codigo
-                ORDER BY e.data DESC";
+        $query = "SELECT e.estado AS estado, e.data AS data, e.anexo AS anexo FROM tb_protocolos AS p JOIN tb_protocolos_estado AS e ON e.idprotocolo = p.id WHERE p.numero = :codigo ORDER BY e.data DESC";
         $results = $sql->select($query, array(
             ":codigo" => $code
         ));
@@ -142,25 +115,7 @@ class Protocolo extends Model {
     public function getByClient($id)
     {
         $sql = new Sql();
-        $query = "SELECT
-                    p.id AS idprotocolo,
-                    p.numero AS codigo,
-                    p.dataCadastro AS dataCadastro,
-                    s.titulo AS servico,
-                    r.valorBoleto AS valorBoleto,
-                    r.dataRecebimento AS dataRecebimento,
-                    r.dataCompensacao AS dataCompensacao,
-                    r.dataVencimento AS dataVencimento,
-                    r.nBoleto AS nBoleto,
-                    r.formaPagamento AS formaPagamento,
-                    r.formaEnvio AS formaEnvio,
-                    r.parcelas AS parcelas
-                FROM tb_protocolos AS p
-                    JOIN tb_servicos AS s ON p.idservico = s.id
-                    JOIN tb_clientes AS c ON p.idcliente = c.id
-                    LEFT JOIN tb_recebimentos AS r ON r.idprotocolo = p.id
-                WHERE c.id = :id
-                ORDER BY p.dataCadastro DESC;";
+        $query = "SELECT p.id AS idprotocolo, p.numero AS codigo, p.dataCadastro AS dataCadastro, s.titulo AS servico, r.valorBoleto AS valorBoleto, r.dataRecebimento AS dataRecebimento, r.dataCompensacao AS dataCompensacao, r.dataVencimento AS dataVencimento, r.nBoleto AS nBoleto, r.formaPagamento AS formaPagamento, r.formaEnvio AS formaEnvio, r.parcelas AS parcelas FROM tb_protocolos AS p LEFT JOIN tb_servicos AS s ON p.idservico = s.id JOIN tb_clientes AS c ON p.idcliente = c.id LEFT JOIN tb_recebimentos AS r ON r.idprotocolo = p.id WHERE c.id = :id ORDER BY p.dataCadastro DESC";
         $results = $sql->select($query, array(
             ":id" => $id
         ));
@@ -171,12 +126,7 @@ class Protocolo extends Model {
     public function getRecebimento()
     {
         $sql = new Sql();
-        $query = "SELECT
-                    c.nomeCliente AS cliente,
-                    r.*
-                FROM tb_protocolos AS p
-                    JOIN tb_clientes AS c ON p.idcliente = c.id
-                    JOIN tb_recebimentos AS r ON r.idprotocolo = :id";
+        $query = "SELECT c.nomeCliente AS cliente, r.* FROM tb_protocolos AS p JOIN tb_clientes AS c ON p.idcliente = c.id JOIN tb_recebimentos AS r ON r.idprotocolo = :id";
         $results = $sql->select($query, array(
             ":id" => $this->getid()
         ));
@@ -187,15 +137,7 @@ class Protocolo extends Model {
     public function getStatus() 
     {
         $sql = new Sql();
-        $query = "SELECT
-                    e.id AS id,
-                    e.estado AS estado,
-                    e.data AS data,
-                    e.anexo AS anexo
-                FROM tb_protocolos AS p
-                    JOIN tb_protocolos_estado AS e ON e.idprotocolo = p.id
-                WHERE p.id = :id
-                ORDER BY e.data DESC";
+        $query = "SELECT e.id AS id, e.estado AS estado, e.data AS data, e.anexo AS anexo FROM tb_protocolos AS p JOIN tb_protocolos_estado AS e ON e.idprotocolo = p.id WHERE p.id = :id ORDER BY e.data DESC";
         $results = $sql->select($query, array(
             ":id" => $this->getid()
         ));
@@ -206,18 +148,12 @@ class Protocolo extends Model {
     public function delete()
     {
         $sql = new Sql();
-        $query = "SELECT
-                    e.anexo
-                FROM tb_protocolos_estado AS e
-                    JOIN tb_protocolos AS p ON e.idprotocolo = p.id
-                WHERE p.id = :id
-                    AND e.anexo != ''";
+        $query = "SELECT e.anexo FROM tb_protocolos_estado AS e JOIN tb_protocolos AS p ON e.idprotocolo = p.id WHERE p.id = :id AND e.anexo != ''";
         $results = $sql->select($query,
             array(
             ":id" => $this->getid()
         ));
         $dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/";
-        var_dump($results);
         if ($results) {
             foreach ($results as $key => $value) {
                 $anexo = $value['anexo'];
@@ -256,7 +192,6 @@ class Protocolo extends Model {
             echo "<script type='text/javascript'>alert('Este arquivo não está em nossos servidores.'); window.location.href = '/administrar/protocolos';</script>";
             exit;
         }
-        
     }
 
 }

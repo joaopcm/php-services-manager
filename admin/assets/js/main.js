@@ -19,9 +19,10 @@ $(function (c) {
 	$(".open-img-modal").on("click", function () {
 		anexo = $(this).attr("data-image");
 		$("#download-img").attr("download-link", "\\baixar/anexo/" + anexo);
+		$("#redirect-btn").attr("data-image", anexo);
 		$("img#img-md").attr("src", "\\uploads/" + anexo);
 		$("a#img-link").attr("href", "\\uploads/" + anexo);
-		$("#img-modal").modal()
+		$("#img-modal").modal();
 	});
 	$("#redirect-btn").on("click", function () {
 		anexo = $("#redirect-btn").attr("data-image");
@@ -110,14 +111,18 @@ $(function (c) {
 						ano = data.getFullYear();
 						cdata = dia + "/" + mes + "/" + ano;
 						tr1 = "<tr class='list-a'><td>" + estado + "</td><td>" + cdata + "</td><td>";
-						tr2 = '<a data-image="' + anexo + '" class="open-img-modal btn btn-primary btn-table" data-toggle="tooltip" data-placement="left"title="Abrir anexo"><i class="material-icons text-white">image</i></a>';
+						if (anexo != '' && anexo != null) {
+							tr2 = '<a data-image="' + anexo + '" class="open-img-modal btn btn-primary btn-table" data-toggle="tooltip" data-placement="left"title="Abrir anexo"><i class="material-icons text-white">image</i></a>';	
+						} else {
+							tr2 = 'Sem anexo';
+						}
 						tr3 = "</td></tr>";
 						tr4 = tr1 + tr2 + tr3;
                         $("table#table-protocols tbody").append(tr4);
                         $(".open-img-modal").on("click", function () {
-                            anexo = $(this).attr("data-image");
+							anexo = $(this).attr("data-image");
                             $("#download-img").attr("download-link", "\\baixar/anexo/" + anexo);
-                            $("#redirect-btn").attr("data-image", anexo)
+							$("#redirect-btn").attr("data-image", anexo);
                             $("img#img-md").attr("src", "\\uploads/" + anexo);
                             $("a#img-link").attr("href", "\\uploads/" + anexo);
                             $("#img-modal").modal()

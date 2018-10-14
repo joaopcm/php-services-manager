@@ -227,7 +227,7 @@
                           </a><button type="button" class="btn btn-primary btn-table btn-copy-p" data-toggle="tooltip" data-placement="right" title="Copiar protocolo" onclick="copyToClipboard('#p{$value.idprotocolo}')">
                               <i class="material-icons">file_copy</i>
                             </button></td>
-                        <td>{$value.servico}</td>
+                        <td>{if="$value.servico != ''"}{$value.servico}{else}Serviço deletado{/if}</td>
                         <td><strong>{if="$value.valorBoleto != ''"}R$ {function="number_format($value.valorBoleto, 2, ',', '.')"}{/if}</strong></td>
                         <td>
                           {if="$value.dataVencimento != ''"}
@@ -274,6 +274,7 @@
               </div>
             </div>
           </div>
+          {if="$protocolos"}
           <div class="row">
             <div class="col-md-12">
               <div class="card">
@@ -316,6 +317,7 @@
               </div>
             </div>
           </div>
+          {/if}
         </div>
       </div>
     </div>

@@ -51,7 +51,7 @@ class Mail {
         }
         break;
       case 'login_deleted':
-        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/assets/views/emails/login_deleted.html");
+        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/assets/views/emails/account-deleted.html");
         $body = str_replace('%nome%', $data['name'], $body);
         try {
           $this->mail->addAddress($to, $data['name']);
@@ -82,28 +82,43 @@ class Mail {
           throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
         }
         break;
+      case 'update_protocol':
+        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/assets/views/emails/update-protocol.html");
+        $body = str_replace('%nome%', $data['name'], $body);
+        $body = str_replace('%protocolo%', $data['protocol'], $body); 
+        $body = str_replace('%servico%', $data['service'], $body);
+        try {
+          $this->mail->addAddress($to, $data['name']);
+          $this->mail->isHTML(true);
+          $this->mail->Subject = "Protocolo referente ao serviço de " . $data['service'] . " foi atualizado.";
+          $this->mail->MsgHTML($body);
+          $this->mail->AddEmbeddedImage($_SERVER['DOCUMENT_ROOT'] . "/assets/img/icons/logo-completa-transparente.png", "logo");
+          $this->mail->AltBody = 'O serviço que você contratou está em andamento!';
+          $this->mail->send();
+        } catch (Exception $e) {
+          throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+        }
+        break;
+      case 'new_payment':
+      $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/assets/views/emails/pagamento.html");
+      $body = str_replace('%nome%', $data['name'], $body);
+      $body = str_replace('%protocolo%', $data['protocol'], $body);
+      $body = str_replace('%servico%', $data['service'], $body);
+      try {
+        $this->mail->addAddress($to, $data['name']);
+        $this->mail->isHTML(true);
+        $this->mail->Subject = "Pagamento referente ao protocolo " . $data['protocol'] . " de serviço de " . $data['service'] . ".";
+        $this->mail->MsgHTML($body);
+        $this->mail->AddEmbeddedImage($_SERVER['DOCUMENT_ROOT'] . "/assets/img/icons/logo-completa-transparente.png", "logo");
+        $this->mail->AltBody = 'Estamos na última etapa! O pagamento já foi criado.';
+        $this->mail->send();
+      } catch (Exception $e) {
+        throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+      }
+        break;
       default:
         return false;
         break;
-    }
-  }
-
-  /* Realiza o envio de e-mails relacionados à protocolos */
-  public function sendProtocol($name, $service, $protocol, $to)
-  {
-    $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/assets/views/emails/protocolo.html");
-    $body = str_replace('%nome%', $name, $body);
-    $body = str_replace('%protocolo%', $protocol, $body); 
-    $body = str_replace('%servico%', $service, $body);
-    try {
-      $this->mail->addAddress($to, $name);
-      $this->mail->isHTML(true);
-      $this->mail->Subject = "Protocolo de acompanhamento do serviço de $service.";
-      $this->mail->MsgHTML($body);
-      $this->mail->AltBody = 'Você fechou um serviço com a CVA Climatização!';
-      $this->mail->send();
-    } catch (Exception $e) {
-      throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo, 1);
     }
   }
 

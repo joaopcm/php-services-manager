@@ -76,9 +76,11 @@
                                             <a href="/excluir/recebimento/<?php echo htmlspecialchars( $value1["id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="btn btn-danger btn-table" onclick="return confirm('Deseja realmente excluir este recebimento?')" data-toggle="tooltip" data-placement="right" title="Excluir">
                                                 <i class="material-icons">close</i>
                                             </a>
+                                            <?php if( $value1["cliente"] != null ){ ?>
                                             <a href="/editar/recebimento/<?php echo htmlspecialchars( $value1["id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="btn btn-success btn-table" data-toggle="tooltip" data-placement="right" title="Editar">
                                                 <i class="material-icons">edit</i>
                                             </a>
+                                            <?php } ?>
                                             <a href="javascript:;;" class="btn btn-info btn-table" data-toggle="tooltip" data-placement="right" title="Última vez alterado por <?php echo htmlspecialchars( $value1["alteradoPor"], ENT_COMPAT, 'UTF-8', FALSE ); ?> em <?php echo date( 'd/m/Y', strtotime($value1["alteradoEm"])); ?> às <?php echo date('H:i', strtotime($value1["alteradoEm"])); ?>">
                                                 <i class="material-icons">history</i>
                                             </a>

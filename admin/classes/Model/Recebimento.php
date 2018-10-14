@@ -16,20 +16,7 @@ class Recebimento extends Model {
     public static function listAll($mes, $ano)
     {
         $sql = new Sql();
-        $query = "SELECT
-                    c.nomeCliente AS cliente,
-                    c.id AS idcliente,
-                    p.numero AS codigo,
-                    p.id AS idprotocolo,
-                    s.titulo AS servico,
-                    r.*
-                FROM tb_recebimentos AS r
-                    LEFT JOIN tb_protocolos AS p ON r.idprotocolo = p.id
-                    LEFT JOIN tb_clientes AS c ON p.idcliente = c.id
-                    LEFT JOIN tb_servicos AS s ON p.idservico = s.id
-                WHERE r.mes = :mesAtual
-                    AND r.ano = :anoAtual
-                ORDER BY r.dataRecebimento DESC;";
+        $query = "SELECT c.nomeCliente AS cliente, c.id AS idcliente, p.numero AS codigo, p.id AS idprotocolo, s.titulo AS servico, r.* FROM tb_recebimentos AS r LEFT JOIN tb_protocolos AS p ON r.idprotocolo = p.id LEFT JOIN tb_clientes AS c ON p.idcliente = c.id LEFT JOIN tb_servicos AS s ON p.idservico = s.id WHERE r.mes = :mesAtual AND r.ano = :anoAtual ORDER BY r.dataRecebimento DESC";
         return $sql->select($query, array(
             ":mesAtual" => $mes,
             ":anoAtual" => $ano
@@ -58,23 +45,25 @@ class Recebimento extends Model {
             ":alteradoEm" => date('Y-m-d H:i')
         ));
         $this->setData($results[0]);
+        $query = "SELECT p.numero AS codigo, c.nomeCliente AS cliente, c.email AS email, s.titulo AS servico FROM tb_recebimentos AS r JOIN tb_protocolos AS p ON r.idprotocolo = p.id JOIN tb_servicos AS s ON p.idservico = s.id JOIN tb_clientes AS c ON p.idcliente = c.id WHERE p.id = :id";
+        $results = $sql->select($query, array(
+            ":id" => $this->getprotocolo()
+        ));
+        if ($this->getemail() != '') {
+            $array = array(
+                "name" => $results[0]['cliente'],
+                "protocol" => $results[0]['codigo'],
+                "service" => $results[0]['servico']
+            );
+            $mail = new Mail($array, "new_payment", $results[0]['email']);
+        }
     }
 
     /* Recupera todos os dados de um recebimento pelo ID */
     public function get($id)
     {
         $sql = new Sql();
-        $query = "SELECT
-                    r.*, p.numero AS codigo,
-                    c.nomeCliente AS cliente,
-                    c.id AS idcliente,
-                    p.id AS idprotocolo,
-                    s.titulo AS servico
-                FROM tb_recebimentos AS r
-                    LEFT JOIN tb_protocolos AS p ON r.idprotocolo = p.id
-                    LEFT JOIN tb_servicos AS s ON p.idservico = s.id
-                    LEFT JOIN tb_clientes AS c ON p.idcliente = c.id
-                WHERE r.id = :id";
+        $query = "SELECT r.*, p.numero AS codigo, c.nomeCliente AS cliente, c.email AS email, c.id AS idcliente, p.id AS idprotocolo, p.numero AS codigo, s.titulo AS servico FROM tb_recebimentos AS r LEFT JOIN tb_protocolos AS p ON r.idprotocolo = p.id LEFT JOIN tb_servicos AS s ON p.idservico = s.id LEFT JOIN tb_clientes AS c ON p.idcliente = c.id WHERE r.id = :id";
         $results = $sql->select($query,
         array(
             ":id" => $id
@@ -86,17 +75,7 @@ class Recebimento extends Model {
     public function getByClient($id)
     {
         $sql = new Sql();
-        $query = "SELECT
-                    r.*,
-                    p.numero AS codigo,
-                    p.id AS idprotocolo,
-                    s.titulo AS servico
-                FROM tb_recebimentos AS r
-                    JOIN tb_protocolos AS p ON r.idprotocolo = p.id
-                    JOIN tb_clientes AS c ON p.idcliente = c.id
-                    JOIN tb_servicos AS s ON p.idservico = s.id
-                WHERE c.id = :id
-                ORDER BY r.dataRecebimento DESC";
+        $query = "SELECT r.*, p.numero AS codigo, p.id AS idprotocolo, s.titulo AS servico FROM tb_recebimentos AS r JOIN tb_protocolos AS p ON r.idprotocolo = p.id JOIN tb_clientes AS c ON p.idcliente = c.id JOIN tb_servicos AS s ON p.idservico = s.id WHERE c.id = :id ORDER BY r.dataRecebimento DESC";
         return $sql->select($query, array(
             ":id" => $id
         ));

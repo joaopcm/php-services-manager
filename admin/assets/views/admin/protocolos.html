@@ -29,7 +29,6 @@
                 <div class="card">
                     <div class="card-header-primary">
                         <h4 class="card-title">Consultar protocolo</h4>
-                        <!-- <p class="card-category">Digite o código de um protocolo para consultar seu estado</p> -->
                     </div>
                     <div class="card-body noresults-card">
                         <div class="row">
@@ -127,7 +126,7 @@
                       <button type="button" class="btn btn-primary btn-table btn-copy-p" data-toggle="tooltip" data-placement="right" title="Copiar protocolo" onclick="copyToClipboard('#p{$value.id}')">
                             <i class="material-icons">file_copy</i>
                           </button></td>
-                                        <td>{$value.servico}</td>
+                                        <td>{if="$value.serivo != ''"}{$value.servico}{else}Serviço deletado{/if}</td>
                                         <td>{function="date('d/m/Y', strtotime($value.data))"}</td>
                                     </tr>
                                     {/loop}

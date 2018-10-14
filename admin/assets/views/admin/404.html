@@ -14,7 +14,7 @@
             <p class="card-description">
               Certifique-se que você está no endereço correto. Caso esteja, entre em contato com a equipe de desenvolvimento para realizar os devidos tratamentos.
             </p>
-            <a href="/" class="btn btn-primary btn-round">Voltar ao início</a>
+            <a href="/" class="btn btn-primary">Voltar ao início</a>
           </div>
         </div>
       </div>

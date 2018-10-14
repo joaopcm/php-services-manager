@@ -13,17 +13,11 @@ use \CVA\Model\Mail;
 
 class Cliente extends Model {
 
-    /* Lsita todos os militantes cadastrados */
+    /* Lista todos os militantes cadastrados */
     public static function listAll()
     {
         $sql = new Sql();
-        return $sql->select("SELECT
-                                c.*,
-                                cu.usuario AS usuario,
-                                cu.senha AS senha
-                            FROM tb_clientes AS c
-                            JOIN tb_clientes_usuarios AS cu ON cu.idcliente = c.id
-                            ORDER BY nomeCliente");
+        return $sql->select("SELECT c.*, cu.usuario AS usuario, cu.senha AS senha FROM tb_clientes AS c JOIN tb_clientes_usuarios AS cu ON cu.idcliente = c.id ORDER BY nomeCliente");
     }
 
     /* Recupera dados de localização de acordo com o CEP */
@@ -43,22 +37,15 @@ class Cliente extends Model {
         $sql = new Sql();
         if ($this->getcnpj() != "")
         {
-            $checkCnpj = $sql->select("SELECT * FROM tb_clientes WHERE cnpj = :cpf", array(
-                ":cpf" => $this->getcnpj()
-            ));
+            $checkCnpj = $sql->select("SELECT * FROM tb_clientes WHERE cnpj = :cpf", array(":cpf" => $this->getcnpj()));
         }
         if ($this->getcpf() != "")
         {
-            $checkCpf = $sql->select("SELECT * FROM tb_clientes WHERE cpf = :cpf", array(
-                ":cpf" => $this->getcpf()
-            ));
+            $checkCpf = $sql->select("SELECT * FROM tb_clientes WHERE cpf = :cpf", array(":cpf" => $this->getcpf()));
         }
         if (isset($checkCpf[0]) || isset($checkCnpj[0]))
         {
-            echo '<script language="javascript">';
-            echo 'alert("Este CPF/CNPJ já está cadastrado na lista de clientes.");';
-            echo 'window.location = "/adicionar/cliente";';
-            echo '</script>';
+            echo '<script language="javascript">alert("Este CPF/CNPJ já está cadastrado na lista de clientes."); window.location = "/adicionar/cliente"</script>';
             die();
         } else {
             $results = $sql->select("CALL sp_clientes_save(:nomeCliente, :contatoLocal, :cpf, :cnpj, :inscricaoEstadual, :telefone, :celular, :cep, :endereco, :bairro, :cidade, :estado, :email, :emails, :observacao, :tipo, :alteradoPor, :alteradoEm)", array(
@@ -159,6 +146,15 @@ class Cliente extends Model {
     public function delete()
     {
         $sql = new Sql();
+        $query = "SELECT e.anexo FROM tb_protocolos_estado AS e JOIN tb_protocolos AS p ON e.idprotocolo = p.id JOIN tb_clientes AS c ON p.idcliente = c.id WHERE c.id = :id AND e.anexo != ''";
+        $anexos = $sql->select($query, array(":id" => $this->getid()));
+        if ($anexos != NULL && $anexos != '')
+        {
+            foreach ($anexos as $key => $value) {
+                $anexo = $value['anexo'];
+                unlink($_SERVER['DOCUMENT_ROOT'] . "/uploads/" . $anexo);
+            }
+        }
         if ($this->getemail() != '')
         {
             $array = array(
@@ -175,14 +171,7 @@ class Cliente extends Model {
     public function getProtocols()
     {
         $sql = new Sql();
-        $query = "SELECT
-                    p.id AS id,
-                    p.numero AS protocolo,
-                    s.titulo AS servico
-                FROM tb_protocolos AS p
-                    JOIN tb_clientes AS c ON p.idcliente = c.id
-                    JOIN tb_servicos AS s ON p.idservico = s.id
-                WHERE c.id = :id";
+        $query = "SELECT p.id AS id, p.numero AS protocolo, s.titulo AS servico FROM tb_protocolos AS p JOIN tb_clientes AS c ON p.idcliente = c.id JOIN tb_servicos AS s ON p.idservico = s.id WHERE c.id = :id";
         $response = $sql->select($query, array(
             ":id" => $this->getid()
         ));

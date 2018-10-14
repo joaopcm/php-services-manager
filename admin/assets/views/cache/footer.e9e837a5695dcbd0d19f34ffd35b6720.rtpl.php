@@ -44,13 +44,13 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js"></script>
 <!-- Chartist JS -->
 <script src="\assets/js/plugins/chartist.min.js"></script>
+<!-- Chartist Pointlabels Plugin JS -->
+<script src="\assets/js/plugins/chartist-plugin-pointlabels.min.js"></script>
 <!--  Notifications Plugin    -->
 <script src="\assets/js/plugins/bootstrap-notify.js"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="\assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript"></script>
-<!-- Material Dashboard DEMO methods, don't include it in your project! -->
-<script src="\assets/demo/demo.js"></script>
-<!-- Functions.js -->
+<!-- Functions JS -->
 <script src="\assets/js/main.js"></script>
 <script>
     $(document).ready(function () {

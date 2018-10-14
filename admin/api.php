@@ -37,6 +37,7 @@ use \CVA\Model\Cliente;
 use \CVA\Model\Recebimento;
 use \CVA\Model\Servico;
 use \CVA\Model\Protocolo;
+use \CVA\Model\Grafico;
 
 /* Instancia o Slim Framework */
 $app = new Slim();
@@ -444,6 +445,19 @@ $app->post("/consultar/protocolo/:protocolo", function($codigo) {
 $app->get("/baixar/anexo/:anexo", function($anexo) {
   $protocolo = new Protocolo();
   $protocolo->download($anexo);
+});
+
+/* Retorna os dados necessários para a funcionalidade do gráfico de clientes no dashboard */
+$app->post("/preencher/:grafico", function($grafico){
+  switch ($grafico) {
+    case 'clientes-mes-chart':
+      $grafico = new Grafico();
+      $results = $grafico->clientesMesChart();
+      echo json_encode($results);
+      break;
+    default:
+      break;
+  }
 });
 
 /* Inicia a API */

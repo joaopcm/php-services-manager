@@ -13,7 +13,6 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <link href="\assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet"/>
-  <link href="\assets/demo/demo.css" rel="stylesheet" />
 </head>
 <body>
   <div class="wrapper">
@@ -26,7 +25,7 @@
       <div class="sidebar-wrapper">
         <?php $array = explode('/', $_SERVER['REQUEST_URI']); ?>
         <ul class="nav">
-          <li class="nav-item <?php if( $_SERVER['REQUEST_URI'] === '/' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="Panel com dados analíticos da CVA Admin">
+          <li class="nav-item <?php if( $_SERVER['REQUEST_URI'] === '/' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="Painel com dados analíticos da CVA Admin">
             <a class="nav-link" href="/">
               <i class="material-icons">dashboard</i>
               <p>Painel</p>
@@ -57,7 +56,7 @@
               </div>
             </div>
           </li>
-          <li class="nav-item <?php if( $array["2"] === 'campanhas' or $array["2"] === 'campanha' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="Módulo de administração de campanhas de e-mail">
+          <li class="nav-item <?php if( $array["2"] === 'campanhas' or $array["2"] === 'campanha' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="INDISPONÍVEL - Módulo de administração de campanhas de e-mail">
             <a class="nav-link" href="/administrar/campanhas">
               <i class="material-icons">show_chart</i>
               <p>Campanhas</p>

@@ -227,7 +227,7 @@
                           </a><button type="button" class="btn btn-primary btn-table btn-copy-p" data-toggle="tooltip" data-placement="right" title="Copiar protocolo" onclick="copyToClipboard('#p<?php echo htmlspecialchars( $value1["idprotocolo"], ENT_COMPAT, 'UTF-8', FALSE ); ?>')">
                               <i class="material-icons">file_copy</i>
                             </button></td>
-                        <td><?php echo htmlspecialchars( $value1["servico"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                        <td><?php if( $value1["servico"] != '' ){ ?><?php echo htmlspecialchars( $value1["servico"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php }else{ ?>Serviço deletado<?php } ?></td>
                         <td><strong><?php if( $value1["valorBoleto"] != '' ){ ?>R$ <?php echo number_format($value1["valorBoleto"], 2, ',', '.'); ?><?php } ?></strong></td>
                         <td>
                           <?php if( $value1["dataVencimento"] != '' ){ ?>
@@ -274,6 +274,7 @@
               </div>
             </div>
           </div>
+          <?php if( $protocolos ){ ?>
           <div class="row">
             <div class="col-md-12">
               <div class="card">
@@ -316,6 +317,7 @@
               </div>
             </div>
           </div>
+          <?php } ?>
         </div>
       </div>
     </div>

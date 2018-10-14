@@ -41,7 +41,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="bmd-label-floating">Serviço</label>
-                      <input type="text" class="form-control" value="{$protocolo.servico}" disabled>
+                      <input type="text" class="form-control" value="{if="$protocolo.servico != ''"}{$protocolo.servico}{else}Serviço deletado{/if}" disabled>
                     </div>
                   </div>
                 </div>

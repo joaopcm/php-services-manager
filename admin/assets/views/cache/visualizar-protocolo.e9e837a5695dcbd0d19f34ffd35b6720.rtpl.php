@@ -41,7 +41,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="bmd-label-floating">Serviço</label>
-                      <input type="text" class="form-control" value="<?php echo htmlspecialchars( $protocolo["servico"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" disabled>
+                      <input type="text" class="form-control" value="<?php if( $protocolo["servico"] != '' ){ ?><?php echo htmlspecialchars( $protocolo["servico"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php }else{ ?>Serviço deletado<?php } ?>" disabled>
                     </div>
                   </div>
                 </div>
