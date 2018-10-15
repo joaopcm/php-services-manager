@@ -1,3 +1,4 @@
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -213,12 +214,6 @@ CREATE TABLE `tb_clientes` (
   `alteradoEm` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `tb_clientes` (`id`, `dataCadastro`, `nomeCliente`, `contatoLocal`, `cpf`, `cnpj`, `inscricaoEstadual`, `telefone`, `celular`, `cep`, `endereco`, `bairro`, `cidade`, `estado`, `email`, `emails`, `observacao`, `tipo`, `alteradoPor`, `alteradoEm`) VALUES
-(3, '2018-10-14 23:25:59', 'Cliente 1 - Out', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'PF', 'Admin', '2018-10-14 20:25'),
-(4, '2018-10-14 23:26:06', 'Cliente 2 - Out', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'PF', 'Admin', '2018-10-14 20:26'),
-(5, '2018-10-14 23:26:11', 'Cliente 3 - Out', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'PF', 'Admin', '2018-10-14 20:26'),
-(6, '2018-09-14 23:26:18', 'Cliente 1 - Set', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'PF', 'Admin', '2018-10-14 20:26');
-
 CREATE TABLE `tb_clientes_usuarios` (
   `id` int(6) NOT NULL,
   `idcliente` int(6) NOT NULL,
@@ -228,12 +223,6 @@ CREATE TABLE `tb_clientes_usuarios` (
   `dataCadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `tb_clientes_usuarios` (`id`, `idcliente`, `nome`, `usuario`, `senha`, `dataCadastro`) VALUES
-(3, 3, 'Cliente 1 - Out', 'cliente.out', '4f5fd228', '2018-10-14 23:25:59'),
-(4, 4, 'Cliente 2 - Out', 'cliente.out', '4056a7ff', '2018-10-14 23:26:06'),
-(5, 5, 'Cliente 3 - Out', 'cliente.out', '4056a7ff', '2018-10-14 23:26:11'),
-(6, 6, 'Cliente 1 - Set', 'cliente.set', '9f829f74', '2018-10-14 23:26:18');
-
 CREATE TABLE `tb_protocolos` (
   `id` int(6) NOT NULL,
   `idcliente` int(6) NOT NULL,
@@ -242,14 +231,6 @@ CREATE TABLE `tb_protocolos` (
   `dataCadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `tb_protocolos` (`id`, `idcliente`, `idservico`, `numero`, `dataCadastro`) VALUES
-(3, 3, 1, 'CVAPROTOCOL-991C60D0', '2018-10-14 23:33:22'),
-(4, 3, 3, 'CVAPROTOCOL-D6EB28C5', '2018-10-14 23:33:29'),
-(5, 4, 2, 'CVAPROTOCOL-E733B0C8', '2018-10-14 23:38:00'),
-(6, 6, 3, 'CVAPROTOCOL-35700BA9', '2018-09-14 23:39:27'),
-(7, 6, 1, 'CVAPROTOCOL-2FF03043', '2018-09-14 23:40:11'),
-(8, 5, 2, 'CVAPROTOCOL-5F4B15CD', '2018-10-14 23:41:27');
-
 CREATE TABLE `tb_protocolos_estado` (
   `id` int(6) NOT NULL,
   `idprotocolo` int(6) NOT NULL,
@@ -257,24 +238,6 @@ CREATE TABLE `tb_protocolos_estado` (
   `data` date NOT NULL,
   `anexo` varchar(56) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `tb_protocolos_estado` (`id`, `idprotocolo`, `estado`, `data`, `anexo`) VALUES
-(4, 4, 'Visita tÃ©cnica realizada. O documento de avaliaÃ§Ã£o estÃ¡ em anexo.', '2018-10-14', '2018.10.14-20.35.35.png'),
-(5, 4, 'Protocolo encerrado.', '2018-10-14', NULL),
-(6, 3, 'Anexo do documento de automaÃ§Ã£o.', '2018-10-14', '2018.10.14-20.37.11.jpg'),
-(7, 3, 'AutomaÃ§Ã£o realizada.', '2018-10-14', NULL),
-(8, 3, 'Protocolo encerrado.', '2018-10-14', NULL),
-(9, 5, 'ManutenÃ§Ã£o de peÃ§a X realizada.', '2018-10-14', NULL),
-(10, 5, 'Anexo de documento referente Ã  anÃ¡lise da manutenÃ§Ã£o em anexo.', '2018-10-14', '2018.10.14-20.38.57.jpg'),
-(11, 5, 'Protocolo encerrado.', '2018-10-14', NULL),
-(12, 6, 'Visita tÃ©cnica realizada.', '2018-10-14', NULL),
-(13, 6, 'Protocolo encerrado.', '2018-10-14', NULL),
-(14, 7, 'Documento de anÃ¡lise de automaÃ§Ã£o em anexo.', '2018-10-14', '2018.10.14-20.40.30.jpg'),
-(15, 7, 'AutomaÃ§Ã£o iniciada.', '2018-10-14', NULL),
-(16, 7, 'AutomaÃ§Ã£o finalizada.', '2018-10-14', NULL),
-(17, 7, 'Protocolo encerrado. Documento em anexo.', '2018-10-14', '2018.10.14-20.41.08.jpg'),
-(18, 8, 'ManutenÃ§Ã£o de peÃ§a Y realizada.', '2018-10-14', NULL),
-(19, 8, 'Protocolo encerrado.', '2018-10-14', NULL);
 
 CREATE TABLE `tb_recebimentos` (
   `id` int(6) NOT NULL,
@@ -295,24 +258,11 @@ CREATE TABLE `tb_recebimentos` (
   `alteradoEm` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `tb_recebimentos` (`id`, `dataRecebimento`, `idprotocolo`, `valorBoleto`, `dataVencimento`, `dataCompensacao`, `nBoleto`, `formaPagamento`, `parcelas`, `referencia`, `formaEnvio`, `enviadoPor`, `mes`, `ano`, `alteradoPor`, `alteradoEm`) VALUES
-(5, '2018-10-14', 3, '4520.00', '2018-10-21', '2018-10-16', '', 'Boleto', '1/1', '', 'E-mail', 'Admin', 10, 2018, 'Admin', '2018-10-14 21:06'),
-(6, '2018-10-10', 4, '250.00', '2018-10-17', '2018-10-14', '', 'Boleto', '1/1', '', 'E-mail', 'Admin', 10, 2018, 'Admin', '2018-10-14 20:50'),
-(7, '2018-10-01', 5, '750.50', '2018-10-08', '2018-10-03', '', 'Boleto', '1/1', '', 'E-mail', 'Admin', 10, 2018, 'Admin', '2018-10-14 20:52'),
-(8, '2018-10-14', 8, '860.23', '2018-10-21', NULL, '', 'Boleto', '1/1', '', 'E-mail', 'Admin', 10, 2018, 'Admin', '2018-10-14 20:52'),
-(9, '2018-09-05', 7, '4570.20', '2018-09-12', '2018-09-08', '', 'Boleto', '1/1', '', 'E-mail', 'Admin', 9, 2018, 'Admin', '2018-10-14 20:52'),
-(10, '2018-09-20', 6, '250.00', '2018-09-27', '2018-09-24', '', 'Boleto', '1/1', '', 'E-mail', 'Admin', 9, 2018, 'Admin', '2018-10-14 20:54');
-
 CREATE TABLE `tb_servicos` (
   `id` int(6) NOT NULL,
   `titulo` varchar(56) CHARACTER SET utf8 NOT NULL,
   `dataCadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `tb_servicos` (`id`, `titulo`, `dataCadastro`) VALUES
-(1, 'AutomaÃ§Ã£o', '2018-10-14 21:36:42'),
-(2, 'ManutenÃ§Ã£o', '2018-10-14 23:32:16'),
-(3, 'Visita TÃ©cnica', '2018-10-14 23:32:23');
 
 CREATE TABLE `tb_usuarios` (
   `id` int(6) NOT NULL,
@@ -325,7 +275,6 @@ CREATE TABLE `tb_usuarios` (
 
 INSERT INTO `tb_usuarios` (`id`, `nome`, `usuario`, `senha`, `acessoTotal`, `dataCadastro`) VALUES
 (2, 'Admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, '2018-10-06 02:13:17');
-
 
 ALTER TABLE `tb_clientes`
   ADD PRIMARY KEY (`id`);
@@ -354,19 +303,19 @@ ALTER TABLE `tb_usuarios`
 
 
 ALTER TABLE `tb_clientes`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 ALTER TABLE `tb_clientes_usuarios`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 ALTER TABLE `tb_protocolos`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 ALTER TABLE `tb_protocolos_estado`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 ALTER TABLE `tb_recebimentos`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 ALTER TABLE `tb_servicos`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;

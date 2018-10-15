@@ -126,7 +126,7 @@
                       <button type="button" class="btn btn-primary btn-table btn-copy-p" data-toggle="tooltip" data-placement="right" title="Copiar protocolo" onclick="copyToClipboard('#p<?php echo htmlspecialchars( $value1["id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>')">
                             <i class="material-icons">file_copy</i>
                           </button></td>
-                                        <td><?php if( $value1["serivo"] != '' ){ ?><?php echo htmlspecialchars( $value1["servico"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php }else{ ?>Serviço deletado<?php } ?></td>
+                                        <td><?php if( $value1["serivo"] != 'null' ){ ?><?php echo htmlspecialchars( $value1["servico"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php }else{ ?>Serviço deletado<?php } ?></td>
                                         <td><?php echo date('d/m/Y', strtotime($value1["data"])); ?></td>
                                     </tr>
                                     <?php } ?>

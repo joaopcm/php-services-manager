@@ -447,12 +447,15 @@ $app->get("/baixar/anexo/:anexo", function($anexo) {
   $protocolo->download($anexo);
 });
 
-/* Retorna os dados necessários para a funcionalidade do gráfico de clientes no dashboard */
+/* Retorna os dados necessários para a funcionalidade dos gráficos no dashboard */
 $app->post("/preencher/:grafico", function($grafico){
   switch ($grafico) {
     case 'clientes-mes-chart':
-      $grafico = new Grafico();
-      $results = $grafico->clientesMesChart();
+      $results = Grafico::clientesMesChart();
+      echo json_encode($results);
+      break;
+    case 'recebimentos-mes-chart':
+      $results = Grafico::recebimentosMesChart();
       echo json_encode($results);
       break;
     default:

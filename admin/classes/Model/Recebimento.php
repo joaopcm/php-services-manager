@@ -49,7 +49,7 @@ class Recebimento extends Model {
         $results = $sql->select($query, array(
             ":id" => $this->getprotocolo()
         ));
-        if ($this->getemail() != '') {
+        if ($results != '' && $results != null && $results[0]['email'] != '') {
             $array = array(
                 "name" => $results[0]['cliente'],
                 "protocol" => $results[0]['codigo'],

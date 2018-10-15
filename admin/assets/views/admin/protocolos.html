@@ -126,7 +126,7 @@
                       <button type="button" class="btn btn-primary btn-table btn-copy-p" data-toggle="tooltip" data-placement="right" title="Copiar protocolo" onclick="copyToClipboard('#p{$value.id}')">
                             <i class="material-icons">file_copy</i>
                           </button></td>
-                                        <td>{if="$value.serivo != ''"}{$value.servico}{else}Serviço deletado{/if}</td>
+                                        <td>{if="$value.serivo != 'null'"}{$value.servico}{else}Serviço deletado{/if}</td>
                                         <td>{function="date('d/m/Y', strtotime($value.data))"}</td>
                                     </tr>
                                     {/loop}

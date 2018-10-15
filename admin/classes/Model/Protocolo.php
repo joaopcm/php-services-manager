@@ -61,18 +61,20 @@ class Protocolo extends Model {
         } else {
             $new_name = null;
         }
-        $array = array(
-            "name" => $this->getcliente(),
-            "protocol" => $this->getcodigo(),
-            "service" => $this->getservico()
-        );
-        $mail = new Mail($array, 'update_protocol', $this->getemail());
         $sql->select("CALL sp_estados_save(:idprotocolo, :estado, :data, :anexo)", array(
             ":idprotocolo" => $this->getid(),
             ":estado" => $this->getpestado(),
             ":data" => $this->getpdata(),
             ":anexo" => $new_name
         ));
+        if ($this->getemail() != ''){
+            $array = array(
+                "name" => $this->getcliente(),
+                "protocol" => $this->getcodigo(),
+                "service" => $this->getservico()
+            );
+            $mail = new Mail($array, 'update_protocol', $this->getemail());
+        }
     }
 
     /* Deleta um estado de um protocolo */
