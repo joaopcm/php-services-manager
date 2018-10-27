@@ -1,0 +1,330 @@
+<div class="modal fade bd-example-modal-lg" id="img-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <a id="img-link" href="">
+          <img id="img-md" class="center" src="" alt="">
+        </a>
+      </div>
+      <div class="modal-footer">
+        <button id="redirect-btn" type="button" class="btn btn-primary">
+          <i class="material-icons">fullscreen</i>
+          Visualizar em tela cheia
+        </button>
+        <button id="download-img" type="button" class="btn btn-primary">
+          <i class="material-icons">cloud_download</i>
+          Baixar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Visão geral de {$cliente.nomeCliente}</h4>
+            <p class="card-category">{$cliente.email}</p>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Nome</label>
+                  <input type="text" class="form-control" name="nomeCliente" value="{$cliente.nomeCliente}" disabled>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Contato</label>
+                  <input type="text" class="form-control" name="contatoLocal" value="{$cliente.contatoLocal}" disabled>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="bmd-label-floating">CPF</label>
+                  <input type="text" class="form-control" name="cpf" value="{$cliente.cpf}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">CNPJ</label>
+                  <input type="text" class="form-control" name="cnpj" value="{$cliente.cnpj}" disabled>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Inscrição Estadual</label>
+                  <input type="text" class="form-control" name="inscricaoEstadual" value="{$cliente.inscricaoEstadual}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Telefone</label>
+                  <input type="text" class="form-control" name="telefone" value="{$cliente.telefone}" disabled>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Celular</label>
+                  <input type="text" class="form-control" name="celular" value="{$cliente.celular}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="bmd-label-floating">CEP</label>
+                  <input type="text" class="form-control" id="cep" name="cep" value="{$cliente.cep}" disabled>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Endereço</label>
+                  <input type="text" class="form-control" id="endereco" name="endereco" value="{$cliente.endereco}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Bairro</label>
+                  <input type="text" class="form-control" id="bairro" name="bairro" value="{$cliente.bairro}" disabled>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Cidade</label>
+                  <input type="text" class="form-control" id="cidade" name="cidade" value="{$cliente.cidade}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Estado</label>
+                  <input type="text" class="form-control" id="estado" name="estado" value="{$cliente.estado}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="bmd-label-floating">E-mail</label>
+                  <input type="text" class="form-control" name="email" value="{$cliente.email}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Observação</label>
+                  <div class="form-group">
+                    <textarea class="form-control" rows="3" name="observacao" value="{$cliente.observacao}" disabled></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Tipo</label>
+                  <input type="text" class="form-control" name="tipo" value="{$cliente.tipo}" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-profile">
+              <div class="card-avatar">
+                <a href="javascript:;;">
+                  <img class="img" src="https://pikmail.herokuapp.com/{$cliente.email}?size=150" alt="Sem perfil">
+                </a>
+              </div>
+              <div class="card-body">
+                <h6 class="card-category text-gray">Cliente {function="getenv('APP_NAME')"} <i class="material-icons">verified_user</i></h6>
+                <h4 class="card-title">{$cliente.nomeCliente}</h4>
+                <p class="card-description">
+                  {$cliente.endereco} - {$cliente.bairro}, {$cliente.cidade}, {$cliente.estado} - {$cliente.cep}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h4 class="card-title ">Protocolos cadastrados no nome de {$cliente.nomeCliente}</h4>
+                    <p class="card-category">Foram encontrados <strong>{$total}</strong> resultados</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table text-center">
+                    {if="$protocolos"}
+                    <thead class=" text-primary">
+                      <th>
+                        Data de Cadastro
+                      </th>
+                      <th>
+                        Protocolo
+                      </th>
+                      <th>
+                        Serviço
+                      </th>
+                      <th>
+                        Valor do Boleto
+                      </th>
+                      <th>
+                        Data de Vencimento
+                      </th>
+                      <th>
+                        Data de Compensação
+                      </th>
+                      <th>
+                        Estado
+                      </th>
+                      <th>
+                        Nº do Boleto
+                      </th>
+                      <th>
+                        Forma de Pagamento
+                      </th>
+                      <th>
+                        Forma de Envio
+                      </th>
+                      <th>
+                        Parcelas
+                      </th>
+                    </thead>
+                    <tbody>
+                      {loop="$protocolos"}
+                      <tr>
+                        <td>{function="date('d/m/Y', strtotime($value.dataCadastro))"}</td>
+                        {if="$_SESSION['User']['is_admin'] === true"}
+                        <td><a href="/admin/visualizar/protocolo/{$value.idprotocolo}">
+                            <span id="p{$value.idprotocolo}">{$value.codigo}</span>
+                            <button type="button" class="btn btn-primary btn-table" data-toggle="tooltip" data-placement="right" title="Visualizar protocolo">
+                              <i class="material-icons">share</i>
+                            </button>
+                          </a><button type="button" class="btn btn-primary btn-table btn-copy-p" data-toggle="tooltip" data-placement="right" title="Copiar protocolo" onclick="copyToClipboard('#p{$value.idprotocolo}')">
+                            <i class="material-icons">file_copy</i>
+                          </button></td>
+                        {else}
+                        <td>
+                          <span id="p{$value.idprotocolo}">{$value.codigo}</span><button type="button" class="btn btn-primary btn-table btn-copy-p" data-toggle="tooltip" data-placement="right" title="Copiar protocolo" onclick="copyToClipboard('#p{$value.idprotocolo}')">
+                            <i class="material-icons">file_copy</i>
+                          </button></td>
+                        {/if}
+
+                        <td>{if="$value.servico != ''"}{$value.servico}{else}Serviço deletado{/if}</td>
+                        <td><strong>{if="$value.valorBoleto != ''"}R$ {function="number_format($value.valorBoleto, 2, ',', '.')"}{/if}</strong></td>
+                        <td>
+                          {if="$value.dataVencimento != ''"}
+                          {function="date('d/m/Y', strtotime($value.dataVencimento))"}
+                          {/if}
+                        </td>
+                        <td>
+                          {if="$value.dataCompensacao != ''"}
+                          {function="date('d/m/Y', strtotime($value.dataCompensacao))"}
+                          {/if}
+                        </td>
+                        <td>
+                          {if="$value.dataCompensacao != ''"}
+                          <span style="font-weight: bold; color:green;">Pago</span>
+                          {else}
+                          {if="$value.dataVencimento != ''"}
+                          {$d1 = strtotime($value.dataVencimento)}
+                          {$d2 = strtotime(date('Y-m-d'))}
+                          {$dataFinal = ($d2 - $d1) / 86400}
+                          {if="$dataFinal < 0"} {$dataFinal=$dataFinal * -1} <span style="font-weight: bold; color:orange;">{$dataFinal}
+                            dias restantes</span>
+                            {else}
+                            <span style="font-weight: bold; color: red;">{$dataFinal} dias atrasados</span>
+                            {/if}
+                            {/if}
+                            {/if}
+                        </td>
+                        <td>{if="$value.nBoleto != ''"}{$value.nBoleto}{/if}</td>
+                        <td>{if="$value.formaPagamento != ''"}{$value.formaPagamento}{/if}</td>
+                        <td>{if="$value.formaEnvio != ''"}{$value.formaEnvio}{/if}</td>
+                        <td>{if="$value.parcelas != ''"}{$value.parcelas}{/if}</td>
+                      </tr>
+                      {/loop}
+                    </tbody>
+                    {else}
+                    <div class="alert alert-danger" role="alert">
+                      <strong>Ah não!</strong> {$cliente.nomeCliente} ainda não realizou negócios com a CVA
+                      Climatização. <a href="http://www.cvaclimatizacao.com.br" class="btn btn-danger" data-toggle="tooltip" data-placement="right" title="Realizar negócios com a CVA Climatização!">Começe por aqui!</a>
+                    </div>
+                </div>
+                {/if}
+                </table>
+              </div>
+            </div>
+          </div>
+          {if="$protocolos"}
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Consultar protocolo</h4>
+                  <p class="card-category">Digite o código de um protocolo para consultar seu estado</p>
+                </div>
+                <div class="card-body noresults-card">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Protocolo</label>
+                        <input type="text" class="form-control" id="pesquisar-protocolo" maxlength="20">
+                      </div>
+                    </div>
+                  </div>
+                  <div id="row-table-protocols" class="row">
+                    <div class="col-md-12">
+                      <div class="table-responsive">
+                        <table id="table-protocols" class="table estados_protocols">
+                          <thead class=" text-primary">
+                            <th>
+                              Estado
+                            </th>
+                            <th>
+                              Data
+                            </th>
+                            <td>
+                              Anexo
+                            </td>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/if}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,65 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <div class="row">
+              <div class="col-md-8">
+                <h4 class="card-title ">Serviços</h4>
+                <p class="card-category">Foram encontrados <strong>{$total}</strong> resultados</p>
+              </div>
+              <div class="col-md-4 text-right">
+                <a href="/admin/adicionar/servico" class="btn btn-primary btn-lg">Adicionar Serviço</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                {if="$servicos"}
+                <thead class=" text-primary">
+                  <th>
+                    #
+                  </th>
+                  <th>
+                    Título do Serviço
+                  </th>
+                  <th>
+                    Criado Em
+                  </th>
+                </thead>
+                <tbody>
+                  {loop="$servicos"}
+                  <tr>
+                    <td>
+                      <form action="/admin/excluir/servico/{$value.id}" method="post">
+                      <input type="hidden" name="_METHOD" value="DELETE"/>
+                      <button type="submit" class="btn btn-danger btn-table" onclick="return confirm('Deseja realmente excluir este serviço?')" data-toggle="tooltip"
+                        data-placement="right" title="Excluir">
+                        <i class="material-icons">close</i>
+                      </button>
+                      </form>
+                      <a href="/admin/editar/servico/{$value.id}" class="btn btn-success btn-table" data-toggle="tooltip" data-placement="right" title="Editar">
+                        <i class="material-icons">edit</i>
+                      </a>
+                    </td>
+                    <td>{$value.titulo}</td>
+                    <td>{function="date('d/m/Y', strtotime($value.dataCadastro))"}</td>
+                  </tr>
+                  {/loop}
+                </tbody>
+                {else}
+                <div class="alert alert-danger" role="alert">
+                  <strong>Ah não!</strong> Não existem serviços em nossos registros.
+                  <a href="/admin/adicionar/servico" class="btn btn-danger">Cadastrar um serviço</a>
+                </div>
+                {/if}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

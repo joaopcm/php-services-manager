@@ -2,88 +2,46 @@ version: "3"
 
 networks:
   banco:
-  # appsite:
-  appadmin:
-  appclient:
+  app:
 
 services:
 
-  # Banco de dados
   mysql:
     image: mysql:5.7
+    container_name: sourcess-mysql
     volumes:
       - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
     ports:
       - "3306:3306"
     networks:
       - banco
-    environment:
-      - MYSQL_USER=cva
-      - MYSQL_PASSWORD=4ut3nt1c4R
-      - MYSQL_ROOT_PASSWORD=4ut3nt1c4R
-      - MYSQL_DATABASE=db_cva
+    env_file:
+      - ./secrets.env
 
-  #App site
-  # appsite:
-  #   build: ./site
-  #   volumes: ./site:/var/www/html:z
-  #   ports:
-  #   - "4000:80"
-  #   networks:
-  #   - appsite
-
-  # App admin
-  appadmin:
-    build: ./admin
+  app:
+    build: ./src
+    container_name: sourcess-app
     volumes:
-      - ./admin:/var/www/html:z
+      - ./src:/var/www/html:z
     links:
       - mysql
     depends_on:
       - mysql
     ports:
-      - "4100:80"
+      - "8080:80"
     networks:
       - banco
-      - appadmin
-    environment:
-      - ON_PRODUCTION=false
-      - DBHOST=mysql
-      - MYSQL_USER=cva
-      - MYSQL_PASSWORD=4ut3nt1c4R
-      - MYSQL_DATABASE=db_cva
-      - MAIL_USERNAME=emailworkerwithpy@gmail.com
-      - MAIL_PASSWORD=emailworkerwithpy123
-      - MAIL_PORT=587
+      - app
+    env_file:
+      - ./secrets.env
 
-  # App client
-  appclient:
-    build: ./client
-    volumes:
-      - ./client:/var/www/html:z
-    links:
-      - mysql
-    depends_on:
-      - mysql
-    ports:
-      - "4200:80"
-    networks:
-      - banco
-      - appclient
-    environment:
-    - ON_PRODUCTION=false
-      - DBHOST=mysql
-      - MYSQL_USER=cva
-      - MYSQL_PASSWORD=4ut3nt1c4R
-      - MYSQL_DATABASE=db_cva
-
-  # PhpMyAdmin
   phpMyAdmin:
     image: phpmyadmin/phpmyadmin:latest
+    container_name: sourcess-phpmyadmin
     links:
       - mysql
     ports:
-      - "4300:80"
+      - "9000:80"
     networks:
       - banco
     environment:

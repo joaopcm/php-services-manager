@@ -1,0 +1,280 @@
+<div class="modal fade bd-example-modal-lg" id="img-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <a id="img-link" href="">
+          <img id="img-md" class="center" src="" alt="">
+        </a>
+      </div>
+      <div class="modal-footer">
+        <button id="redirect-btn" type="button" class="btn btn-primary">
+          <i class="material-icons">fullscreen</i>
+          Visualizar em tela cheia
+        </button>
+        <button id="download-img" type="button" class="btn btn-primary">
+          <i class="material-icons">cloud_download</i>
+          Baixar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title">Visão geral do protoloco {$protocolo.codigo}</h4>
+                <p class="card-category">{$cliente.email}</p>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Cliente</label>
+                      <input type="text" class="form-control" value="{$protocolo.cliente}" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Serviço</label>
+                      <input type="text" class="form-control" value="{if="$protocolo.servico != ''"}{$protocolo.servico}{else}Serviço deletado{/if}" disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Código</label>
+                      <input type="text" class="form-control" value="{$protocolo.codigo}" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Criado Em</label>
+                      <input type="text" class="form-control" value="{function="date('d/m/Y', strtotime($protocolo.dataCadastro))"}" disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title">Pagamento referente ao procotolo</h4>
+              </div>
+              <div class="card-body">
+                {if="$recebimento"}
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Data de Recebimento</label>
+                      <input type="text" class="form-control" value="{function="date('d/m/Y', strtotime($recebimento.dataRecebimento))"}" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Cliente</label>
+                      <input type="text" class="form-control" value="{$recebimento.cliente}" disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Valor do Boleto</label>
+                      <input type="text" class="form-control" value="R$ {function="number_format($recebimento.valorBoleto, 2, ',' , '.' )"}" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Data de Vencimento</label>
+                      <input type="text" class="form-control" value="{function="date('d/m/Y', strtotime($recebimento.dataVencimento))"}" disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Data de Compensação</label>
+                      <input type="text" class="form-control" {if="$recebimento.dataCompensacao != ''"} value="{function="date('d/m/Y', strtotime($recebimento.dataCompensacao))"}" {/if} disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Nº do Boleto</label>
+                      <input type="text" class="form-control" value="{$recebimento.nBoleto}" disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Forma de Pagamento</label>
+                      <input type="text" class="form-control" value="{$recebimento.formaPagamento}" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Parcelas</label>
+                      <input type="text" class="form-control" value="{$recebimento.parcelas}" disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Referência</label>
+                      <input type="text" class="form-control" value="{$recebimento.referencia}" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Forma de Envio</label>
+                      <input type="text" class="form-control" value="{$recebimento.formaEnvio}" disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="bmd-label-floating">Enviado Por</label>
+                      <input type="text" class="form-control" value="{$recebimento.enviadoPor}" disabled>
+                    </div>
+                  </div>
+                </div>
+                {else}
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="alert alert-danger" role="alert">
+                      <strong>Ah não!</strong> Este protocolo ainda não tem um recebimento. <a href="/adicionar/recebimento" class="btn btn-danger" data-toggle="tooltip" data-placement="right" title="Cadastrar um recebimento">Cadastrar um recebimento</a>
+                    </div>
+                  </div>
+                </div>
+                {/if}
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-profile">
+              <div class="card-avatar">
+                <a href="javascript:;;">
+                  <img class="img" src="https://pikmail.herokuapp.com/{$protocolo.email}?size=150" alt="Sem perfil">
+                </a>
+              </div>
+              <div class="card-body">
+                  <h6 class="card-category text-gray">Cliente {function="getenv('APP_NAME')"} <i class="material-icons">verified_user</i></h6>
+                <h4 class="card-title">{$protocolo.cliente}</h4>
+                <p class="card-description">
+                  {$protocolo.endereco} - {$protocolo.bairro}, {$protocolo.cidade}, {$protocolo.estado} -
+                  {$protocolo.cep}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h4 class="card-title ">Atualizações do protocolo</h4>
+                    <p class="card-category">Foram encontrados <strong>{$total}</strong> resultados</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table estados_protocols">
+                    <thead class="text-primary">
+                      <th>
+                        Estado
+                      </th>
+                      <th>
+                        Data
+                      </th>
+                      <th>
+                        Anexo
+                      </th>
+                      <th>
+                        #
+                      </th>
+                    </thead>
+                    <tbody>
+                      {if="$estados"}
+                      {loop="$estados"}
+                      <tr>
+                        <td>{$value.estado}</td>
+                        <td>{function="date('d/m/Y', strtotime($value.data))"}</td>
+                        <td>
+                          {if="$value.anexo != null"}
+                          <a data-image="{$value.anexo}" class="open-img-modal btn btn-primary btn-table" data-toggle="tooltip" data-placement="left"
+                            title="Abrir anexo">
+                            <i class="material-icons text-white">image</i>
+                          </a>
+                          {else}
+                          Sem anexo
+                          {/if}
+                        </td>
+                        <td>
+                          <form action="/admin/excluir/estado/{$value.id}" method="post">
+                          <input type="hidden" name="_METHOD" value="DELETE"/>
+                          <button type="submit" onclick="return confirm('Deseja realmente excluir este estado?')" class="btn btn-danger btn-table" data-toggle="tooltip" data-placement="left"
+                            title="Excluir">
+                            <i class="material-icons">close</i>
+                        </button>
+                      </form>
+                        </td>
+                      </tr>
+                      <tr>
+                      {/loop}
+                      {/if}
+                        <form action="/admin/atualizar/protocolo/{$protocolo.id}" method="post" enctype="multipart/form-data">
+                        <td>
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Estado</label>
+                            <input type="text" class="form-control" name="pestado" maxlength="112" required>
+                          </div>
+                        </td>
+                        <td colspan="2">
+                          <div class="form-group">
+                            <input type="date" class="form-control" name="pdata" required>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="form-group" style="display: inline">
+                            <label id="label-upload-os" role="button" class="btn btn-warning btn-table" for="opload-os" data-toggle="tooltip" data-placement="left" title="Enviar arquivo">
+                              <i class="material-icons">backup</i>
+                            </label>
+                            <input type="file" class="form-control-file" id="opload-os" name="fileUpload">
+                          </div>
+                          <button type="submit" class="btn btn-primary btn-table" data-toggle="tooltip" data-placement="left" title="Adicionar">
+                            <i class="material-icons">done</i>
+                          </button>
+                        </td>
+                        </form>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
