@@ -10,21 +10,6 @@
         <li>
           <small class="text-muted">v<?php echo getenv('APP_VERSION'); ?></small>
         </li>
-        <!-- <li>
-            <a href="#">
-              Sobre Nós
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              Blog
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              Licenças
-            </a>
-          </li> -->
       </ul>
     </nav>
     <div class="copyright float-right">
@@ -39,20 +24,20 @@
 </div>
 </div>
 <!--   Core JS Files   -->
-<script src="\assets/js/core/jquery.min.js" type="text/javascript"></script>
-<script src="\assets/js/core/popper.min.js" type="text/javascript"></script>
-<script src="\assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
-<script src="\assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+<script src="\assets/js/admin/core/jquery.min.js" type="text/javascript"></script>
+<script src="\assets/js/admin/core/popper.min.js" type="text/javascript"></script>
+<script src="\assets/js/admin/core/bootstrap-material-design.min.js" type="text/javascript"></script>
+<script src="\assets/js/admin/plugins/perfect-scrollbar.jquery.min.js"></script>
 <!-- Masked Input JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.min.js"></script>
 <!-- Chartist JS -->
-<script src="\assets/js/plugins/chartist.min.js"></script>
+<script src="\assets/js/admin/plugins/chartist.min.js"></script>
 <!-- Chartist Pointlabels Plugin JS -->
-<script src="\assets/js/plugins/chartist-plugin-pointlabels.min.js"></script>
+<script src="\assets/js/admin/plugins/chartist-plugin-pointlabels.min.js"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="\assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript"></script>
+<script src="\assets/js/admin/material-dashboard.min.js?v=2.1.0" type="text/javascript"></script>
 <!-- Functions JS -->
-<script src="\assets/js/main.js"></script>
+<script src="\assets/js/admin/main.js"></script>
 <script>
   $(document).ready(function () {
     md.initDashboardPageCharts();
