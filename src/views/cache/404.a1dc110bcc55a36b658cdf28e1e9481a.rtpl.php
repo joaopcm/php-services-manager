@@ -5,7 +5,7 @@
         <div class="card card-profile">
           <div class="card-avatar">
             <a href="#pablo">
-              <img class="img" src="\assets/img/icons/404.png"/>
+              <img class="img" src="\assets/img/admin/icons/404.png"/>
             </a>
           </div>
           <div class="card-body">
@@ -14,7 +14,7 @@
             <p class="card-description">
               Certifique-se que você está no endereço correto. Caso esteja, entre em contato com a equipe de desenvolvimento para realizar os devidos tratamentos.
             </p>
-            <a href="/" class="btn btn-primary">Voltar ao início</a>
+            <a href="<?php if( $_SESSION['User']['is_admin'] == 'true' ){ ?>/admin/painel<?php }else{ ?>/cliente/$_SESSION['User']['id_cliente']<?php } ?>" class="btn btn-primary">Voltar ao início</a>
           </div>
         </div>
       </div>

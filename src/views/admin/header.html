@@ -3,15 +3,16 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="\assets/img/favicon.png">
-  <link rel="icon" type="image/png" href="\assets/img/icons/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="\assets/img/admin/favicon.png">
+  <link rel="icon" type="image/png" href="\assets/img/admin/icons/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    {function="getenv('APP_NAME')"}
+    {function="getenv('APP_SYSTEM_NAME')"}
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link href="\assets/css/admin/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -19,7 +20,8 @@
     <div class="sidebar" data-color="purple" data-background-color="white" data-image="\\assets/img/admin/sidebar-3.jpg">
       <div class="logo">
         <a href="javascript:;;" class="simple-text logo-normal">
-          {function="getenv('APP_NAME')"}
+          <!-- {function="getenv('APP_SYSTEM_NAME')"} -->
+          <img src="\assets/img/admin/icons/logo-fundo-transparente.png" class="img-fluid" alt="{function="getenv('APP_SYSTEM_NAME')"} Logo">
         </a>
       </div>
       <div class="sidebar-wrapper">
@@ -50,18 +52,18 @@
               <p>Recebimentos</p>
             </a>
             <div class="dropdown-menu dropdown-menu-left" aria-labelledby="Recebimentos">
-              <a class="dropdown-item" href="/admin/recebimentos/{function=" date('m')"}/{function="date('Y')"}">Deste mês</a> <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/admin/recebimentos/{function="date('m')"}/{function="date('Y')"}">Deste mês</a> <div class="dropdown-divider"></div>
             <div class="container">
               <input type="text" id="search-recebimentos" class="form-control" placeholder="mm/aaaa">
             </div>
       </div>
       </li>
-      <li class="nav-item {if=" $array[2]==='campanhas' or $array[2]==='campanha'"}active{/if}" data-toggle="tooltip" data-placement="right" title="INDISPONÍVEL - Módulo de administração de campanhas de e-mail">
+      <!-- <li class="nav-item {if=" $array[2]==='campanhas' or $array[2]==='campanha'"}active{/if}" data-toggle="tooltip" data-placement="right" title="INDISPONÍVEL - Módulo de administração de campanhas de e-mail">
         <a class="nav-link" href="/admin/campanhas">
           <i class="material-icons">show_chart</i>
           <p>Campanhas</p>
         </a>
-      </li>
+      </li> -->
       <li class="nav-item {if=" $array[2]==='servicos' or $array[3]==='servico'"}active{/if}" data-toggle="tooltip" data-placement="right" title="Módulo de administração de serviços">
         <a class="nav-link" href="/admin/servicos">
           <i class="material-icons">work</i>

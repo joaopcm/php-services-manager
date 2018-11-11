@@ -12,15 +12,8 @@
 *
 **/
 
-session_start();
-
-require_once("libs/autoload.php");
-
-setlocale(LC_ALL, 'pt_BR', 'pt_BR.utl-8', 'portuguese');
-
-date_default_timezone_set('America/Sao_Paulo');
-
-define('ON_PRODUCTION', getenv('ON_PRODUCTION'));
+// Configurações
+require_once("config.php");
 
 use \Slim\Slim;
 use \Sourcess\Model\Page;
@@ -33,11 +26,14 @@ use \Sourcess\Model\Servico;
 use \Sourcess\Model\Protocolo;
 use \Sourcess\Model\Grafico;
 Use \Sourcess\Middleware\AuthenticateForRole;
+Use \Sourcess\Middleware\RedirectToOwnClientPage;
+use \Sourcess\Model\Mail;
 
 ON_PRODUCTION === 'false' ? $app = new Slim(array('mode' => 'development', 'debug' => true)) : $app = new Slim(array('debug' => false));
 
 // Middleware
 $authenticateForRole = new AuthenticateForRole();
+$redirectToOwnClientPage = new RedirectToOwnClientPage();
 
 $app->notFound(function () use ($app) {
   $page = new PageAdmin();
@@ -50,12 +46,12 @@ $app->get('/', function() {
     'header' => false,
     'footer' => false
   ]);
-  $page->setTpl('site');
+  $page->setTpl('index');
 });
 
 // Grupo de rotas administrativas
 $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
-  
+
   // Painel - GET
   $app->get("/painel", function() {
     User::verifyLogin();
@@ -96,9 +92,6 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
             "protocolos" => Protocolo::listAll(),
             "total" => count(Protocolo::listAll())
         ));
-        break;
-      default:
-        $page->setTpl("404");
         break;
     }
   });
@@ -396,24 +389,26 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
         $results = Grafico::recebimentosMesChart();
         echo json_encode($results);
         break;
-      default:
-        break;
     }
+  });
+
+  // Finaliza um protocolo
+  $app->put("/finalizar/protocolo/:id", function($id){
+    $protocolo = new Protocolo();
+    $protocolo->get((int)$id);
+    $protocolo->finalize();
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    exit;
   });
 
 });
 
 // Grupo de rotas responsável pela parte do cliente
-$app->group('/cliente', function () use ($app) {
+$app->group('/cliente', $redirectToOwnClientPage->call(), function () use ($app) {
 
   // Visualizar cliente - GET
   $app->get('/:id', function($id) {
     User::verifyLogin();
-    if ($id != $_SESSION['User']['id'] && $_SESSION['User']['is_admin'] === false)
-    {
-      header('Location: /cliente/' . $_SESSION['User']['id']);
-      exit;
-    }
     $page = new PageAdmin();
     $cliente = new Cliente();
     $protocolo = new Protocolo();
@@ -423,6 +418,11 @@ $app->group('/cliente', function () use ($app) {
         "protocolos" => $protocolo->getByClient($id),
         "total" => count($protocolo->getByClient($id))
     ));
+  });
+
+  $app->get('/:id_cliente/:id_protocolo', function($idc, $idp) {
+    User::verifyLogin();
+    echo $idp;
   });
 
 });
@@ -475,7 +475,7 @@ $app->get("/baixar/anexo/:anexo", function($anexo) {
   $protocolo->download($anexo);
 });
 
-// Atualizações de protocolos - POST
+// Consultar atualizações de protocolos - POST
 $app->post("/consultar/protocolo/:protocolo", function($codigo) {
   User::verifyLogin();
   $protocolo = new Protocolo();

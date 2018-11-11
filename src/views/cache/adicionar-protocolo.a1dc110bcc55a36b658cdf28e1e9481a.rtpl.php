@@ -11,6 +11,7 @@
             <form action="/admin/adicionar/protocolo" method="POST">
               <div class="row">
                 <div class="col-md-6">
+                  <?php if( $clientes ){ ?>
                   <div class="form-group">
                     <label>Cliente</label>
                     <select type="text" class="form-control" name="cliente">
@@ -19,8 +20,14 @@
                       <?php } ?>
                     </select>
                   </div>
+                  <?php }else{ ?>
+                  <div class="alert alert-danger" role="alert">
+                    <strong>Ah não!</strong> Não existem clientes em nossos registros.
+                  </div>
+                  <?php } ?>
                 </div>
                 <div class="col-md-6">
+                  <?php if( $servicos ){ ?>
                   <div class="form-group">
                     <label>Serviço</label>
                     <select type="text" class="form-control" name="servico">
@@ -29,10 +36,17 @@
                       <?php } ?>
                     </select>
                   </div>
+                  <?php }else{ ?>
+                  <div class="alert alert-danger" role="alert">
+                    <strong>Ah não!</strong> Não existem serviços em nossos registros.
+                  </div>
+                  <?php } ?>
                 </div>
               </div>
+              <?php if( $clientes and $servicos ){ ?>
               <button type="submit" class="btn btn-primary pull-right">Adicionar</button>
               <div class="clearfix"></div>
+              <?php } ?>
             </form>
           </div>
         </div>

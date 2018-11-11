@@ -4,8 +4,6 @@ namespace Sourcess\Model;
 
 use Rain\Tpl;
 
-define('ON_PRODUCTION', getenv('ON_PRODUCTION'));
-
 class Page {
 
 	private $tpl;

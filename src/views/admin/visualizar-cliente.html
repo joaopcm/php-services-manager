@@ -246,16 +246,16 @@
                         </td>
                         <td>
                           {if="$value.dataCompensacao != ''"}
-                          <span style="font-weight: bold; color:green;">Pago</span>
+                          <span style="font-weight: bold; color:green;">Pago 😊</span>
                           {else}
                           {if="$value.dataVencimento != ''"}
                           {$d1 = strtotime($value.dataVencimento)}
                           {$d2 = strtotime(date('Y-m-d'))}
                           {$dataFinal = ($d2 - $d1) / 86400}
                           {if="$dataFinal < 0"} {$dataFinal=$dataFinal * -1} <span style="font-weight: bold; color:orange;">{$dataFinal}
-                            dias restantes</span>
+                            dias restantes 🤔</span>
                             {else}
-                            <span style="font-weight: bold; color: red;">{$dataFinal} dias atrasados</span>
+                            <span style="font-weight: bold; color: red;">{$dataFinal} dias atrasados 😤</span>
                             {/if}
                             {/if}
                             {/if}

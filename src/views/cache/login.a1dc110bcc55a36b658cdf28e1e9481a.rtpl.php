@@ -2,7 +2,7 @@
 <html lang="pt_br">
 
 <head>
-  <title><?php echo getenv('APP_NAME'); ?> | Entrar</title>
+  <title><?php echo getenv('APP_SYSTEM_NAME'); ?> | Entrar</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="\assets/img/icons/favicon.png" />
@@ -19,7 +19,7 @@
     <div class="container-login100">
       <div class="wrap-login100">
         <form class="login100-form validate-form" action="/login" method="post"><span class="login100-form-title p-b-43">Entre
-            no <?php echo getenv('APP_NAME'); ?></span>
+            no <?php echo getenv('APP_SYSTEM_NAME'); ?></span>
           <div class="form-group"><label class="bmd-label-floating">Usuário</label><input type="text" class="form-control" name="login" required></div>
           <div class="form-group"><label class="bmd-label-floating">Senha</label><input type="password" class="form-control" name="password" required></div>
           <?php if( $_SESSION['login_err'] ){ ?>

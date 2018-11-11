@@ -84,12 +84,13 @@ class Cliente extends Model {
         ));
         if ($this->getemail() != '')
         {
-            $array = array(
+            $data = array(
                 "name" => $this->getnomeCliente(),
                 "username" => $usuario,
-                "password" => $senha
+                "password" => $senha,
+                "to" => $this->getemail()
             );
-            $mail = new Mail($array, "first_login", $this->getemail());
+            $mail = new Mail(100, $data);
         }
     }
 
@@ -144,10 +145,11 @@ class Cliente extends Model {
         }
         if ($this->getemail() != '')
         {
-            $array = array(
-                "name" => $this->getnomeCliente()
+            $data = array(
+                "name" => $this->getnomeCliente(),
+                "to" => $this->getemail()
             );
-            $mail = new Mail($array, "login_deleted", $this->getemail());
+            $mail = new Mail(600, $data);
         }
         $sql->select("CALL sp_clientes_delete(:id)", array(
             ":id" => $this->getid()

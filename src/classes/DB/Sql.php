@@ -2,11 +2,6 @@
 
 namespace Sourcess\DB;
 
-define('DBHOST', getenv('DBHOST'));
-define('MYSQL_USER', getenv('MYSQL_USER'));
-define('MYSQL_PASSWORD', getenv('MYSQL_PASSWORD'));
-define('MYSQL_DATABASE', getenv('MYSQL_DATABASE'));
-
 class Sql {
 
 	private $conn;
