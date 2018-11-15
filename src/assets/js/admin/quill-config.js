@@ -1,6 +1,13 @@
-var quill = new Quill('#editor', {
+var options = {
+  // debug: 'info',
+  // modules: {
+  //   toolbar: '#toolbar'
+  // },
+  placeholder: 'Digite o corpo do e-mail que será enviado...',
+  readOnly: false,
   theme: 'snow'
-});
+};
+var quill = new Quill('#editor', options);
 
 $('#ql-editor-submit').on('click', function() {
   if($('#assunto').val().length > 0){
