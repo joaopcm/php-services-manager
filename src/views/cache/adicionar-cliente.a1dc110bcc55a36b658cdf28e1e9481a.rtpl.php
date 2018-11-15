@@ -25,7 +25,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="bmd-label-floating">CPF</label>
-                    <input type="text" class="form-control" name="cpf" data-mask="000.000.000-00">
+                    <input type="text" id="c-cpf" class="form-control" name="cpf" data-mask="000.000.000-00">
                   </div>
                 </div>
               </div>
@@ -33,7 +33,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label class="bmd-label-floating">CNPJ</label>
-                    <input type="text" class="form-control" name="cnpj" data-mask="00.000.000/0000-00">
+                    <input type="text" class="form-control" id="c-cnpj" name="cnpj" data-mask="00.000.000/0000-00">
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -151,7 +151,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="bmd-label-floating">Tipo</label>
-                    <select class="form-control" name="tipo" />
+                    <select class="form-control" id="c-tipo" name="tipo" />
                       <option value="PF">Pessoa Física</option>
                       <option value="PJ">Pessoa Jurídica</option>
                     </select>

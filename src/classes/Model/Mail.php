@@ -2,24 +2,29 @@
 
 namespace Sourcess\Model;
 
-define('MAIL_USERNAME', getenv('MAIL_USERNAME'));
-define('MAIL_PASSWORD', getenv('MAIL_PASSWORD'));
-define('MAIL_PORT', getenv('MAIL_PORT'));
-define('APP_NAME', getenv('APP_NAME'));
-
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Mail {
 
   private $mail;
 
-  public function __construct($data, $kind, $to)
+  // Código dos processos
+  // 100 - Envia os dados de acesso para o cliente
+  // 200 - Envia o aviso de criação de protocolo para o cliente
+  // 300 - Envia o aviso de atualização de um protocolo para o cliente
+  // 400 - Envia o aviso de finalização de um protocolo para o cliente
+  // 500 - Envia o aviso de geração de um pagamento para o cliente
+  // 600 - Envia o aviso de exclusão de conta para o cliente
+
+  public function __construct($type, $data)
   {
+    // Configurações estáticas
     $this->mail = new PHPMailer(true);
     $this->mail = new PHPMailer(true);
     $this->mail->SMTPDebug = 2;
     $this->mail->CharSet = 'UTF-8';
     $this->mail->isSMTP();
+    $this->mail->isHTML(true);
     $this->mail->Host = 'smtp.gmail.com';
     $this->mail->SMTPAuth = true;
     $this->mail->Username = MAIL_USERNAME;
@@ -27,92 +32,102 @@ class Mail {
     $this->mail->SMTPSecure = 'tls';
     $this->mail->Port = MAIL_PORT;
     $this->mail->setFrom(MAIL_USERNAME, APP_NAME);
-    switch ($kind) {
-      case 'first_login':
-        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/login.html");
+    $this->mail->AddEmbeddedImage($_SERVER['DOCUMENT_ROOT'] . "/assets/img/admin/icons/logo-fundo-transparente-com-slogan.png", "logo");
+    // Configurações dinâmicas
+    switch ($type) {
+      case 100: // 100 - Envia os dados de acesso para o cliente
+        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/dados-de-acesso.html");
         $body = str_replace('%nome%', $data['name'], $body);
         $body = str_replace('%usuario%', $data['username'], $body);
         $body = str_replace('%senha%', $data['password'], $body);
+        $body = str_replace('%app_name%', APP_NAME, $body);
         try {
-          $this->mail->addAddress($to, $data['name']);
-          $this->mail->isHTML(true);
+          $this->mail->addAddress($data['to'], $data['name']);
           $this->mail->Subject = "Aqui está sua conta de acesso, " . $data['name']. "!";
           $this->mail->MsgHTML($body);
-          $this->mail->AddEmbeddedImage($_SERVER['DOCUMENT_ROOT'] . "/assets/img/icons/logo-completa-transparente.png", "logo");
           $this->mail->AltBody = 'Você agora faz parte dos nossos clientes!';
           $this->mail->send();
         } catch (Exception $e) {
-          throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+          throw new Exception("O e-mail não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
         }
         break;
-      case 'login_deleted':
-        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/account-deleted.html");
-        $body = str_replace('%nome%', $data['name'], $body);
-        try {
-          $this->mail->addAddress($to, $data['name']);
-          $this->mail->isHTML(true);
-          $this->mail->Subject = "Sua conta foi deletada, " . $data['name']. "!";
-          $this->mail->MsgHTML($body);
-          $this->mail->AddEmbeddedImage($_SERVER['DOCUMENT_ROOT'] . "/assets/img/icons/logo-completa-transparente.png", "logo");
-          $this->mail->AltBody = 'Você não faz parte mais dos nossos clientes. Mas esperamos um dia voltar a trabalhar com você!';
-          $this->mail->send();
-        } catch (Exception $e) {
-          throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
-        }
-        break;
-      case 'new_protocol':
-        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/protocolo.html");
+      case 200: // 200 - Envia o aviso de criação de protocolo para o cliente
+        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/novo-protocolo.html");
         $body = str_replace('%nome%', $data['name'], $body);
         $body = str_replace('%protocolo%', $data['protocol'], $body); 
         $body = str_replace('%servico%', $data['service'], $body);
+        $body = str_replace('%app_name%', APP_NAME, $body);
         try {
-          $this->mail->addAddress($to, $data['name']);
-          $this->mail->isHTML(true);
+          $this->mail->addAddress($data['to'], $data['name']);
           $this->mail->Subject = "Protocolo de acompanhamento do serviço de " . $data['service'] . ".";
           $this->mail->MsgHTML($body);
-          $this->mail->AddEmbeddedImage($_SERVER['DOCUMENT_ROOT'] . "/assets/img/icons/logo-completa-transparente.png", "logo");
           $this->mail->AltBody = 'Você fechou um serviço com ' . APP_NAME . '!';
           $this->mail->send();
         } catch (Exception $e) {
-          throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+          throw new Exception("O e-mail não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
         }
         break;
-      case 'update_protocol':
-        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/update-protocol.html");
+      case 300: // 300 - Envia o aviso de atualização de um protocolo para o cliente
+        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/protocolo-atualizado.html");
         $body = str_replace('%nome%', $data['name'], $body);
         $body = str_replace('%protocolo%', $data['protocol'], $body); 
         $body = str_replace('%servico%', $data['service'], $body);
+        $body = str_replace('%app_name%', APP_NAME, $body);
         try {
-          $this->mail->addAddress($to, $data['name']);
-          $this->mail->isHTML(true);
+          $this->mail->addAddress($data['to'], $data['name']);
           $this->mail->Subject = "Protocolo referente ao serviço de " . $data['service'] . " foi atualizado.";
           $this->mail->MsgHTML($body);
-          $this->mail->AddEmbeddedImage($_SERVER['DOCUMENT_ROOT'] . "/assets/img/icons/logo-completa-transparente.png", "logo");
           $this->mail->AltBody = 'O serviço que você contratou está em andamento!';
           $this->mail->send();
         } catch (Exception $e) {
-          throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+          throw new Exception("O e-mail não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
         }
         break;
-      case 'new_payment':
-      $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/pagamento.html");
-      $body = str_replace('%nome%', $data['name'], $body);
-      $body = str_replace('%protocolo%', $data['protocol'], $body);
-      $body = str_replace('%servico%', $data['service'], $body);
-      try {
-        $this->mail->addAddress($to, $data['name']);
-        $this->mail->isHTML(true);
-        $this->mail->Subject = "Pagamento referente ao protocolo " . $data['protocol'] . " de serviço de " . $data['service'] . ".";
-        $this->mail->MsgHTML($body);
-        $this->mail->AddEmbeddedImage($_SERVER['DOCUMENT_ROOT'] . "/assets/img/icons/logo-completa-transparente.png", "logo");
-        $this->mail->AltBody = 'Estamos na última etapa! O pagamento já foi criado.';
-        $this->mail->send();
-      } catch (Exception $e) {
-        throw new Exception("O e-maill não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
-      }
+      case 400: // 400 - Envia o aviso de finalização de um protocolo para o cliente
+        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/protocolo-finalizado.html");
+        $body = str_replace('%nome%', $data['name'], $body);
+        $body = str_replace('%protocolo%', $data['protocol'], $body); 
+        $body = str_replace('%servico%', $data['service'], $body);
+        $body = str_replace('%app_name%', APP_NAME, $body);
+        try {
+          $this->mail->addAddress($data['to'], $data['name']);
+          $this->mail->Subject = "Protocolo " . $data['protocol'] . " foi finalizado!";
+          $this->mail->MsgHTML($body);
+          $this->mail->AltBody = 'Tudo feito! Que tal responder uma pesquisa de satisfação?';
+          $this->mail->send();
+        } catch (Exception $e) {
+          throw new Exception("O e-mail não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+        }
         break;
-      default:
-        return false;
+      case 500: // 500 - Envia o aviso de geração de um pagamento para o cliente
+        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/novo-pagamento.html");
+        $body = str_replace('%nome%', $data['name'], $body);
+        $body = str_replace('%protocolo%', $data['protocol'], $body);
+        $body = str_replace('%servico%', $data['service'], $body);
+        $body = str_replace('%app_name%', APP_NAME, $body);
+        try {
+          $this->mail->addAddress($data['to'], $data['name']);
+          $this->mail->Subject = "Pagamento referente ao protocolo " . $data['protocol'] . " de serviço de " . $data['service'] . ".";
+          $this->mail->MsgHTML($body);
+          $this->mail->AltBody = 'Estamos na última etapa! O pagamento já foi criado.';
+          $this->mail->send();
+        } catch (Exception $e) {
+          throw new Exception("O e-mail não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+        }
+        break;
+      case 600: // 600 - Envia o aviso de exclusão de conta para o cliente
+        $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/dados-de-acesso-deletados.html");
+        $body = str_replace('%nome%', $data['name'], $body);
+        $body = str_replace('%app_name%', APP_NAME, $body);
+        try {
+          $this->mail->addAddress($data['to'], $data['name']);
+          $this->mail->Subject = "Sua conta foi deletada, " . $data['name']. "!";
+          $this->mail->MsgHTML($body);
+          $this->mail->AltBody = 'Você não faz parte mais dos nossos clientes. Mas esperamos um dia voltar a trabalhar com você!';
+          $this->mail->send();
+        } catch (Exception $e) {
+          throw new Exception("O e-mail não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+        }
         break;
     }
   }

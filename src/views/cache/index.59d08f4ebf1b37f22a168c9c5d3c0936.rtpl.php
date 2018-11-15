@@ -1,0 +1,1 @@
+<?php if(!class_exists('Rain\Tpl')){exit;}?><a href="http://localhost:8080/login">Entrar</a>

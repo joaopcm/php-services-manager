@@ -43,12 +43,13 @@ class Recebimento extends Model {
             ":id" => $this->getprotocolo()
         ));
         if ($results != '' && $results != null && $results[0]['email'] != '') {
-            $array = array(
+            $data = array(
                 "name" => $results[0]['cliente'],
                 "protocol" => $results[0]['codigo'],
-                "service" => $results[0]['servico']
+                "service" => $results[0]['servico'],
+                "to" => $results[0]['email']
             );
-            $mail = new Mail($array, "new_payment", $results[0]['email']);
+            $mail = new Mail(500, $data);
         }
     }
 

@@ -80,7 +80,7 @@
                         <i class="material-icons">edit</i>
                       </a>
                       {/if}
-                      <a href="javascript:;;" class="btn btn-info btn-table" data-toggle="tooltip" data-placement="right" title="Última vez alterado por {$value.alteradoPor} em {function=" date( 'd/m/Y' , strtotime($value.alteradoEm))"} às {function="date('H:i', strtotime($value.alteradoEm))" }">
+                      <a href="javascript:;;" class="btn btn-info btn-table" data-toggle="tooltip" data-placement="right" title="Última vez alterado por {$value.alteradoPor} em {function="date( 'd/m/Y' , strtotime($value.alteradoEm))"} às {function="date('H:i', strtotime($value.alteradoEm))"}">
                         <i class="material-icons">history</i>
                       </a>
                     </td>
@@ -117,12 +117,12 @@
                     </td>
                     <td>
                       {if="$value.dataCompensacao != ''"}
-                      <span style="font-weight: bold; color:green;">Pago</span> {else} {$d1 = strtotime($value.dataVencimento)} {$d2 = strtotime(date('Y-m-d'))} {$dataFinal = ($d2 - $d1) / 86400} {if="$dataFinal
+                      <span style="font-weight: bold; color:green;">Pago 😊</span> {else} {$d1 = strtotime($value.dataVencimento)} {$d2 = strtotime(date('Y-m-d'))} {$dataFinal = ($d2 - $d1) / 86400} {if="$dataFinal
                       < 0 "}
                               {$dataFinal = $dataFinal * -1}
-                              <span style=" font-weight: bold; color:orange; ">{$dataFinal} dias restantes</span>
+                              <span style=" font-weight: bold; color:orange; ">{$dataFinal} dias restantes 🤔</span>
                           {else}
-                              <span style=" font-weight: bold; color: red; ">{$dataFinal} dias atrasados</span>
+                              <span style=" font-weight: bold; color: red; ">{$dataFinal} dias atrasados 😤</span>
                           {/if}
                       {/if}
                     </td>

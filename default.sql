@@ -8,7 +8,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-CREATE DATABASE IF NOT EXISTS `default` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `default` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `default`;
 
 DELIMITER $$
@@ -72,6 +72,13 @@ CREATE DEFINER=`root`@`%` PROCEDURE `sp_protocolos_delete` (IN `pid` INT(6))  NO
 BEGIN
 
 	DELETE FROM tb_protocolos WHERE id = pid;
+
+END$$
+
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_protocolos_finalize` (IN `pid` TINYINT(1))  NO SQL
+BEGIN
+
+	UPDATE tb_protocolos SET finalized = 1 WHERE id = pid;
 
 END$$
 
@@ -226,7 +233,8 @@ CREATE TABLE `tb_protocolos` (
   `idcliente` int(6) NOT NULL,
   `idservico` int(6) NOT NULL,
   `numero` varchar(20) NOT NULL,
-  `dataCadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `dataCadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `finalized` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tb_protocolos_estado` (
@@ -258,7 +266,7 @@ CREATE TABLE `tb_recebimentos` (
 
 CREATE TABLE `tb_servicos` (
   `id` int(6) NOT NULL,
-  `titulo` varchar(56) CHARACTER SET utf8 NOT NULL,
+  `titulo` varchar(56) NOT NULL,
   `dataCadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -301,22 +309,22 @@ ALTER TABLE `tb_usuarios`
 
 
 ALTER TABLE `tb_clientes`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `tb_clientes_usuarios`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `tb_protocolos`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `tb_protocolos_estado`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `tb_recebimentos`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `tb_servicos`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `tb_usuarios`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;

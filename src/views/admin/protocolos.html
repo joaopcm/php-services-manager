@@ -98,6 +98,9 @@
                     Serviço
                   </th>
                   <th>
+                    Estado
+                  </th>
+                  <th>
                     Criado Em
                   </th>
                 </thead>
@@ -127,6 +130,13 @@
                         <i class="material-icons">file_copy</i>
                       </button></td>
                     <td>{if="$value.serivo != 'null'"}{$value.servico}{else}Serviço deletado{/if}</td>
+                    <td>
+                      {if="$value.finalized === '1'"}
+                      Finalizado 😊
+                      {else}
+                      Aberto
+                      {/if}
+                    </td>
                     <td>{function="date('d/m/Y', strtotime($value.data))"}</td>
                   </tr>
                   {/loop}

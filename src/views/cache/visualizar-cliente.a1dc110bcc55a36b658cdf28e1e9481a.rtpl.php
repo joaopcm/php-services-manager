@@ -246,16 +246,16 @@
                         </td>
                         <td>
                           <?php if( $value1["dataCompensacao"] != '' ){ ?>
-                          <span style="font-weight: bold; color:green;">Pago</span>
+                          <span style="font-weight: bold; color:green;">Pago 😊</span>
                           <?php }else{ ?>
                           <?php if( $value1["dataVencimento"] != '' ){ ?>
                           <?php $d1 = strtotime($value1["dataVencimento"]); ?>
                           <?php $d2 = strtotime(date('Y-m-d')); ?>
                           <?php $dataFinal = ($d2 - $d1) / 86400; ?>
                           <?php if( $dataFinal < 0 ){ ?> <?php $dataFinal=$dataFinal * -1; ?> <span style="font-weight: bold; color:orange;"><?php echo htmlspecialchars( $dataFinal, ENT_COMPAT, 'UTF-8', FALSE ); ?>
-                            dias restantes</span>
+                            dias restantes 🤔</span>
                             <?php }else{ ?>
-                            <span style="font-weight: bold; color: red;"><?php echo htmlspecialchars( $dataFinal, ENT_COMPAT, 'UTF-8', FALSE ); ?> dias atrasados</span>
+                            <span style="font-weight: bold; color: red;"><?php echo htmlspecialchars( $dataFinal, ENT_COMPAT, 'UTF-8', FALSE ); ?> dias atrasados 😤</span>
                             <?php } ?>
                             <?php } ?>
                             <?php } ?>

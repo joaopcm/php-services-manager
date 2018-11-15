@@ -209,9 +209,11 @@
                       <th>
                         Anexo
                       </th>
+                      <?php if( $protocolo["finalized"] != '1' ){ ?>
                       <th>
                         #
                       </th>
+                      <?php } ?>
                     </thead>
                     <tbody>
                       <?php if( $estados ){ ?>
@@ -229,6 +231,7 @@
                           Sem anexo
                           <?php } ?>
                         </td>
+                        <?php if( $protocolo["finalized"] != '1' ){ ?>
                         <td>
                           <form action="/admin/excluir/estado/<?php echo htmlspecialchars( $value1["id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" method="post">
                           <input type="hidden" name="_METHOD" value="DELETE"/>
@@ -238,20 +241,22 @@
                         </button>
                       </form>
                         </td>
+                        <?php } ?>
                       </tr>
+                      <?php } ?>
+                      <?php } ?>
+                      <?php if( $protocolo["finalized"] != '1' ){ ?>
                       <tr>
-                      <?php } ?>
-                      <?php } ?>
-                        <form action="/admin/atualizar/protocolo/<?php echo htmlspecialchars( $protocolo["id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" method="post" enctype="multipart/form-data">
+                        <form id="update-form" action="/admin/atualizar/protocolo/<?php echo htmlspecialchars( $protocolo["id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" method="post" enctype="multipart/form-data"></form>
                         <td>
                           <div class="form-group">
                             <label class="bmd-label-floating">Estado</label>
-                            <input type="text" class="form-control" name="pestado" maxlength="112" required>
+                            <input type="text" class="form-control" name="pestado" maxlength="112" required form="update-form">
                           </div>
                         </td>
                         <td colspan="2">
                           <div class="form-group">
-                            <input type="date" class="form-control" name="pdata" required>
+                            <input type="date" class="form-control" name="pdata" required form="update-form">
                           </div>
                         </td>
                         <td>
@@ -259,14 +264,27 @@
                             <label id="label-upload-os" role="button" class="btn btn-warning btn-table" for="opload-os" data-toggle="tooltip" data-placement="left" title="Enviar arquivo">
                               <i class="material-icons">backup</i>
                             </label>
-                            <input type="file" class="form-control-file" id="opload-os" name="fileUpload">
+                            <input type="file" class="form-control-file" id="opload-os" name="fileUpload" form="update-form">
                           </div>
-                          <button type="submit" class="btn btn-primary btn-table" data-toggle="tooltip" data-placement="left" title="Adicionar">
-                            <i class="material-icons">done</i>
+                          <button type="submit" class="btn btn-primary btn-table" data-toggle="tooltip" data-placement="left" title="Enviar" form="update-form">
+                            <i class="material-icons">send</i>
                           </button>
+                          <form id="finalize-form" action="/admin/finalizar/protocolo/<?php echo htmlspecialchars( $protocolo["id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" method="post"></form>
+                            <input type="hidden" name="_METHOD" value="PUT" form="finalize-form"/>
+                            <button type="submit" class="btn btn-success btn-table" data-toggle="tooltip" data-placement="left" title="Finalizar protocolo" form="finalize-form" onclick="return confirm('Deseja mesmo finalizar este protocolo?')">
+                              <i class="material-icons">done</i>
+                            </button>
                         </td>
-                        </form>
                       </tr>
+                      <?php }else{ ?>
+                      <tr class="text-center">
+                        <td colspan="4">
+                            <div class="alert alert-success" role="alert">
+                              Este protocolo foi finalizado 😊
+                            </div>
+                        </td>
+                      </tr>
+                      <?php } ?>
                     </tbody>
                   </table>
                 </div>

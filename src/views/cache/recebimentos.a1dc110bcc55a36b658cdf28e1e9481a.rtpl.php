@@ -80,7 +80,7 @@
                         <i class="material-icons">edit</i>
                       </a>
                       <?php } ?>
-                      <a href="javascript:;;" class="btn btn-info btn-table" data-toggle="tooltip" data-placement="right" title="Última vez alterado por <?php echo htmlspecialchars( $value1["alteradoPor"], ENT_COMPAT, 'UTF-8', FALSE ); ?> em {function=" date( 'd/m/Y' , strtotime($value.alteradoEm))"} às {function="date('H:i', strtotime($value.alteradoEm))" }">
+                      <a href="javascript:;;" class="btn btn-info btn-table" data-toggle="tooltip" data-placement="right" title="Última vez alterado por <?php echo htmlspecialchars( $value1["alteradoPor"], ENT_COMPAT, 'UTF-8', FALSE ); ?> em <?php echo date( 'd/m/Y' , strtotime($value1["alteradoEm"])); ?> às <?php echo date('H:i', strtotime($value1["alteradoEm"])); ?>">
                         <i class="material-icons">history</i>
                       </a>
                     </td>
@@ -117,11 +117,11 @@
                     </td>
                     <td>
                       <?php if( $value1["dataCompensacao"] != '' ){ ?>
-                      <span style="font-weight: bold; color:green;">Pago</span> <?php }else{ ?> <?php $d1 = strtotime($value1["dataVencimento"]); ?> <?php $d2 = strtotime(date('Y-m-d')); ?> <?php $dataFinal = ($d2 - $d1) / 86400; ?><?php if( $dataFinal
+                      <span style="font-weight: bold; color:green;">Pago 😊</span> <?php }else{ ?> <?php $d1 = strtotime($value1["dataVencimento"]); ?> <?php $d2 = strtotime(date('Y-m-d')); ?> <?php $dataFinal = ($d2 - $d1) / 86400; ?><?php if( $dataFinal
                       < 0  ){ ?><?php $dataFinal = $dataFinal * -1; ?>
-                              <span style=" font-weight: bold; color:orange; "><?php echo htmlspecialchars( $dataFinal, ENT_COMPAT, 'UTF-8', FALSE ); ?> dias restantes</span>
+                              <span style=" font-weight: bold; color:orange; "><?php echo htmlspecialchars( $dataFinal, ENT_COMPAT, 'UTF-8', FALSE ); ?> dias restantes 🤔</span>
                           <?php }else{ ?>
-                              <span style=" font-weight: bold; color: red; "><?php echo htmlspecialchars( $dataFinal, ENT_COMPAT, 'UTF-8', FALSE ); ?> dias atrasados</span>
+                              <span style=" font-weight: bold; color: red; "><?php echo htmlspecialchars( $dataFinal, ENT_COMPAT, 'UTF-8', FALSE ); ?> dias atrasados 😤</span>
                           <?php } ?>
                       <?php } ?>
                     </td>

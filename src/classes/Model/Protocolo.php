@@ -11,7 +11,7 @@ class Protocolo extends Model {
     public static function listAll()
     {
         $sql = new Sql();
-        $query = "SELECT c.nomeCliente AS cliente, c.id AS idcliente, p.numero AS codigo, p.id AS id, p.dataCadastro AS data, s.titulo AS servico FROM tb_clientes AS c JOIN tb_protocolos AS p ON p.idcliente = c.id LEFT JOIN tb_servicos AS s ON p.idservico = s.id ORDER BY p.dataCadastro DESC";
+        $query = "SELECT c.nomeCliente AS cliente, c.id AS idcliente, p.numero AS codigo, p.id AS id, p.dataCadastro AS data, s.titulo AS servico, p.finalized AS finalized FROM tb_clientes AS c JOIN tb_protocolos AS p ON p.idcliente = c.id LEFT JOIN tb_servicos AS s ON p.idservico = s.id ORDER BY p.dataCadastro DESC, p.finalized ASC";
         return $sql->select($query);
     }
 
@@ -27,14 +27,14 @@ class Protocolo extends Model {
         $this->setData($results[0]);
         if ($this->getemail() !== '')
         {
-            $array = array(
+            $data = array(
                 "name" => $this->getcliente(),
                 "protocol" => $protocol,
-                "service" => $this->getservico()
+                "service" => $this->getservico(),
+                "to" => $this->getemail()
             );
-            $mail = new Mail($array, "new_protocol", $this->getemail());
+            $mail = new Mail(200, $data);
         }
-        echo $this->getservico();
     }
 
     public function saveStatus()
@@ -60,12 +60,13 @@ class Protocolo extends Model {
             ":anexo" => $new_name
         ));
         if ($this->getemail() != ''){
-            $array = array(
+            $data = array(
                 "name" => $this->getcliente(),
                 "protocol" => $this->getcodigo(),
-                "service" => $this->getservico()
+                "service" => $this->getservico(),
+                "to" => $this->getemail()
             );
-            $mail = new Mail($array, 'update_protocol', $this->getemail());
+            $mail = new Mail(300, $data);
         }
     }
 
@@ -85,7 +86,7 @@ class Protocolo extends Model {
     public function get($id)
     {
         $sql = new Sql();
-        $query = "SELECT c.nomeCliente AS cliente, c.email AS email, c.endereco AS endereco, c.bairro AS bairro, c.cidade AS cidade, c.estado AS estado, c.cep AS cep, p.numero AS codigo, p.id AS id, p.dataCadastro AS dataCadastro, s.titulo AS servico FROM tb_protocolos AS p JOIN tb_clientes AS c ON p.idcliente = c.id LEFT JOIN tb_servicos AS s ON p.idservico = s.id WHERE p.id = :id ORDER BY p.dataCadastro DESC";
+        $query = "SELECT c.nomeCliente AS cliente, c.email AS email, c.endereco AS endereco, c.bairro AS bairro, c.cidade AS cidade, c.estado AS estado, c.cep AS cep, p.numero AS codigo, p.finalized AS finalized, p.id AS id, p.dataCadastro AS dataCadastro, s.titulo AS servico FROM tb_protocolos AS p JOIN tb_clientes AS c ON p.idcliente = c.id LEFT JOIN tb_servicos AS s ON p.idservico = s.id WHERE p.id = :id ORDER BY p.dataCadastro DESC";
         $results = $sql->select($query, array(
             ":id" => $id
         ));
@@ -152,7 +153,8 @@ class Protocolo extends Model {
         ));
     }
 
-    public function download($anexo) {
+    public function download($anexo)
+    {
         $sql = new Sql();
         set_time_limit(0);
         $exists_in_db = $sql->select("SELECT anexo FROM tb_protocolos_estado WHERE anexo = :anexo", array(
@@ -177,6 +179,25 @@ class Protocolo extends Model {
         } else {
             echo "<script type='text/javascript'>alert('Este arquivo não está em nossos servidores.'); window.location.href = '/administrar/protocolos';</script>";
             exit;
+        }
+    }
+
+    public function finalize()
+    {
+        $sql = new Sql();
+        $query = "CALL sp_protocolos_finalize (:id)";
+        $sql->select($query, array(
+            ':id' => $this->getid()
+        ));
+        if ($this->getemail() !== '')
+        {
+            $data = array(
+                "name" => $this->getcliente(),
+                "protocol" => $this->getcodigo(),
+                "service" => $this->getservico(),
+                "to" => $this->getemail()
+            );
+            $mail = new Mail(400, $data);
         }
     }
 
