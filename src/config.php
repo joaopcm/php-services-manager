@@ -22,7 +22,6 @@ define('MYSQL_DATABASE', getenv('MYSQL_DATABASE'));
 define('DBHOST', getenv('DBHOST'));
 
 // Variáveis de e-mail
-define('API_KEY', getenv('API_KEY'));
 define('MAIL_USERNAME', getenv('MAIL_USERNAME'));
 define('MAIL_PASSWORD', getenv('MAIL_PASSWORD'));
 define('MAIL_PORT', getenv('MAIL_PORT'));
