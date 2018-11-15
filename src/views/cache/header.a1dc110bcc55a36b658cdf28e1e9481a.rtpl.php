@@ -13,6 +13,7 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link href="\assets/css/admin/material-dashboard.css?v=2.1.0" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 
 <body>
@@ -20,8 +21,8 @@
     <div class="sidebar" data-color="purple" data-background-color="white" data-image="\\assets/img/admin/sidebar-3.jpg">
       <div class="logo">
         <a href="javascript:;;" class="simple-text logo-normal">
-          <!-- <?php echo getenv('APP_SYSTEM_NAME'); ?> -->
-          <img src="\assets/img/admin/icons/logo-fundo-transparente.png" class="img-fluid" alt="<?php echo getenv('APP_SYSTEM_NAME'); ?> Logo">
+          <?php echo getenv('APP_SYSTEM_NAME'); ?>
+          <!-- <img src="\assets/img/admin/icons/logo-fundo-transparente.png" class="img-fluid" alt="<?php echo getenv('APP_SYSTEM_NAME'); ?> Logo"> -->
         </a>
       </div>
       <div class="sidebar-wrapper">
@@ -58,16 +59,16 @@
             </div>
       </div>
       </li>
-      <!-- <li class="nav-item <?php if(  $array["2"]==='campanhas' or $array["2"]==='campanha' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="INDISPONÍVEL - Módulo de administração de campanhas de e-mail">
-        <a class="nav-link" href="/admin/campanhas">
-          <i class="material-icons">show_chart</i>
-          <p>Campanhas</p>
-        </a>
-      </li> -->
       <li class="nav-item <?php if(  $array["2"]==='servicos' or $array["3"]==='servico' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="Módulo de administração de serviços">
         <a class="nav-link" href="/admin/servicos">
           <i class="material-icons">work</i>
           <p>Serviços</p>
+        </a>
+      </li>
+      <li class="nav-item <?php if(  $array["2"]==='emails' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="Módulo de envio de e-mails para clientes">
+        <a class="nav-link" href="/admin/e-mails">
+          <i class="material-icons">email</i>
+          <p>E-mails</p>
         </a>
       </li>
       <li class="nav-item <?php if(  $array["2"]==='usuarios' or $array["2"]==='usuario' ){ ?>active<?php } ?>" data-toggle="tooltip" data-placement="right" title="Módulo de administração de usuários">
@@ -97,9 +98,11 @@
   <div class="main-panel">
     <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
       <div class="container-fluid">
+        <?php if( $_SESSION['User']['is_admin'] == 'true' ){ ?>
         <div class="navbar-wrapper">
           <a class="navbar-brand" href="/admin/painel">Painel</a>
         </div>
+        <?php } ?>
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
           <span class="sr-only">Alternar visão</span>
           <span class="navbar-toggler-icon icon-bar"></span>

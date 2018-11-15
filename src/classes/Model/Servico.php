@@ -10,7 +10,14 @@ class Servico extends Model {
     public static function listAll()
     {
         $sql = new Sql();
-        return $sql->select("SELECT * FROM tb_servicos ORDER BY titulo");
+        return $sql->select("SELECT
+                                s.*,
+                                AVG(ps.nota) AS avaliacao
+                            FROM tb_servicos AS s
+                                LEFT JOIN tb_protocolos AS p ON p.idservico = s.id
+                                LEFT JOIN tb_pesquisa_satisfacao AS ps ON ps.id_protocolo = p.id
+                            GROUP BY s.id
+                            ORDER BY s.titulo");
     }
 
     public function save()

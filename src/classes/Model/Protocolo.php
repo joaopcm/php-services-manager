@@ -86,17 +86,54 @@ class Protocolo extends Model {
     public function get($id)
     {
         $sql = new Sql();
-        $query = "SELECT c.nomeCliente AS cliente, c.email AS email, c.endereco AS endereco, c.bairro AS bairro, c.cidade AS cidade, c.estado AS estado, c.cep AS cep, p.numero AS codigo, p.finalized AS finalized, p.id AS id, p.dataCadastro AS dataCadastro, s.titulo AS servico FROM tb_protocolos AS p JOIN tb_clientes AS c ON p.idcliente = c.id LEFT JOIN tb_servicos AS s ON p.idservico = s.id WHERE p.id = :id ORDER BY p.dataCadastro DESC";
+        $query = "SELECT c.id AS idcliente, c.nomeCliente AS cliente, c.email AS email, c.endereco AS endereco, c.bairro AS bairro, c.cidade AS cidade, c.estado AS estado, c.cep AS cep, p.numero AS codigo, p.finalized AS finalized, p.id AS id, p.dataCadastro AS dataCadastro, s.titulo AS servico FROM tb_protocolos AS p JOIN tb_clientes AS c ON p.idcliente = c.id LEFT JOIN tb_servicos AS s ON p.idservico = s.id WHERE p.id = :id ORDER BY p.dataCadastro DESC";
         $results = $sql->select($query, array(
             ":id" => $id
         ));
         $this->setData($results[0]);
     }
 
-    public function getByCode($code)
+    public function getByCode($code, $filter = false)
     {
         $sql = new Sql();
-        $query = "SELECT e.estado AS estado, e.data AS data, e.anexo AS anexo FROM tb_protocolos AS p JOIN tb_protocolos_estado AS e ON e.idprotocolo = p.id WHERE p.numero = :codigo ORDER BY e.data DESC";
+        switch ($filter) {
+            case false:
+                $query = "SELECT
+                            e.estado AS estado,
+                            e.data AS data,
+                            e.anexo AS anexo,
+                            c.id AS idcliente,
+                            p.id AS idprotocolo,
+                            s.titulo AS servico,
+                            p.numero AS codigo
+                        FROM tb_protocolos AS p
+                            JOIN tb_protocolos_estado AS e ON e.idprotocolo = p.id
+                            JOIN tb_clientes AS c ON p.idcliente = c.id
+                            JOIN tb_servicos AS s ON p.idservico = s.id
+                        WHERE p.numero = :codigo
+                        ORDER BY e.data DESC";
+                break;
+            case true:
+                $query = "SELECT
+                            e.estado AS estado,
+                            e.data AS data,
+                            e.anexo AS anexo,
+                            c.id AS idcliente,
+                            p.id AS idprotocolo,
+                            s.titulo AS servico,
+                            p.numero AS codigo
+                        FROM tb_protocolos AS p
+                            LEFT JOIN tb_protocolos_estado AS e ON e.idprotocolo = p.id
+                            JOIN tb_clientes AS c ON p.idcliente = c.id
+                            JOIN tb_servicos AS s ON p.idservico = s.id
+                        WHERE p.numero = :codigo
+                            AND NOT EXISTS (
+                                SELECT * FROM tb_pesquisa_satisfacao AS ps JOIN tb_protocolos AS p ON ps.id_protocolo = p.id WHERE p.numero = :codigo
+                            )
+                        ORDER BY e.data DESC";
+                break;
+        }
+        
         $results = $sql->select($query, array(
             ":codigo" => $code
         ));
@@ -192,6 +229,7 @@ class Protocolo extends Model {
         if ($this->getemail() !== '')
         {
             $data = array(
+                "id" => $this->getidcliente(),
                 "name" => $this->getcliente(),
                 "protocol" => $this->getcodigo(),
                 "service" => $this->getservico(),
@@ -199,6 +237,16 @@ class Protocolo extends Model {
             );
             $mail = new Mail(400, $data);
         }
+    }
+
+    public function avaliar()
+    {
+        $sql = new Sql();
+        $sql->select("INSERT INTO tb_pesquisa_satisfacao (id_protocolo, obs, nota) VALUES (:id_protocolo, :obs, :nota)", array(
+            ':id_protocolo' => $this->getidprotocolo(),
+            ':nota' => $this->getavaliacao(),
+            ':obs' => $this->getobs()
+        ));
     }
 
 }

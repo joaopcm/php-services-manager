@@ -1,5 +1,5 @@
-*/admin/assets/views/cache
-*/libs
-*/composer.lock
-*/composer.phar
-*/uploads
+**cache
+**libs
+**composer.lock
+**composer.phar
+**uploads

@@ -228,6 +228,13 @@ CREATE TABLE `tb_clientes_usuarios` (
   `dataCadastro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `tb_pesquisa_satisfacao` (
+  `id` int(6) NOT NULL,
+  `id_protocolo` int(6) NOT NULL,
+  `obs` varchar(112) DEFAULT NULL,
+  `nota` tinyint(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `tb_protocolos` (
   `id` int(6) NOT NULL,
   `idcliente` int(6) NOT NULL,
@@ -289,6 +296,10 @@ ALTER TABLE `tb_clientes_usuarios`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_idcliente_idx` (`idcliente`);
 
+ALTER TABLE `tb_pesquisa_satisfacao`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_idprotocolo_x` (`id_protocolo`);
+
 ALTER TABLE `tb_protocolos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_idcliente_idx` (`idcliente`);
@@ -314,6 +325,9 @@ ALTER TABLE `tb_clientes`
 ALTER TABLE `tb_clientes_usuarios`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
+ALTER TABLE `tb_pesquisa_satisfacao`
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `tb_protocolos`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
@@ -327,11 +341,14 @@ ALTER TABLE `tb_servicos`
   MODIFY `id` int(6) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `tb_usuarios`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 
 ALTER TABLE `tb_clientes_usuarios`
   ADD CONSTRAINT `fk_idcliente_cu` FOREIGN KEY (`idcliente`) REFERENCES `tb_clientes` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `tb_pesquisa_satisfacao`
+  ADD CONSTRAINT `fk_idprotocolo_x` FOREIGN KEY (`id_protocolo`) REFERENCES `tb_protocolos` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `tb_protocolos`
   ADD CONSTRAINT `fk_idcliente_p` FOREIGN KEY (`idcliente`) REFERENCES `tb_clientes` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;

@@ -25,9 +25,9 @@ use \Sourcess\Model\Recebimento;
 use \Sourcess\Model\Servico;
 use \Sourcess\Model\Protocolo;
 use \Sourcess\Model\Grafico;
+use \Sourcess\Model\Mail;
 Use \Sourcess\Middleware\AuthenticateForRole;
 Use \Sourcess\Middleware\RedirectToOwnClientPage;
-use \Sourcess\Model\Mail;
 
 ON_PRODUCTION === 'false' ? $app = new Slim(array('mode' => 'development', 'debug' => true)) : $app = new Slim(array('debug' => false));
 
@@ -63,6 +63,18 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
     ));
   });
 
+  // Página de envio de e-mails
+  $app->get('/e-mails', function() {
+    $page = new PageAdmin();
+    $page->setTpl('enviar-emails');
+  });
+
+  // Envio de e-mails - POST
+  $app->post('/e-mails', function() {
+    echo '<script>alert("Enviando e-mail para todos os clientes...")</script>';
+    $mail = new Mail(700, $_POST);
+  });
+
   // Listar Cadastros - GET
   $app->get("/:opcao", function($opcao){
     User::verifyLogin();
@@ -92,6 +104,10 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
             "protocolos" => Protocolo::listAll(),
             "total" => count(Protocolo::listAll())
         ));
+        break;
+      default:
+        header('Location: /admin/painel');
+        exit;
         break;
     }
   });
@@ -226,6 +242,10 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
         {
             $_POST['dataCompensacao'] = NULL;
         }
+        if (!isset($_POST['nBoleto']))
+        {
+          $_POST['nBoleto'] = NULL;
+        }
         $recebimento->setData($_POST);
         $recebimento->save();
         header("Location: /admin/recebimentos/" . date('m') . "/" . date('Y'));
@@ -287,6 +307,10 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
         if ($_POST['dataCompensacao'] === '')
         {
           $_POST['dataCompensacao'] = NULL;
+        }
+        if (!isset($_POST['nBoleto']))
+        {
+          $_POST['nBoleto'] = NULL;
         }
         $recebimento->setData($_POST);
         $recebimento->update();
@@ -394,6 +418,7 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
 
   // Finaliza um protocolo
   $app->put("/finalizar/protocolo/:id", function($id){
+    User::verifyLogin();
     $protocolo = new Protocolo();
     $protocolo->get((int)$id);
     $protocolo->finalize();
@@ -420,11 +445,37 @@ $app->group('/cliente', $redirectToOwnClientPage->call(), function () use ($app)
     ));
   });
 
-  $app->get('/:id_cliente/:id_protocolo', function($idc, $idp) {
+  // Pesquisa de satisfação - GET
+  $app->get('/:id_cliente/pesquisa/:codigo', function($idc, $codigo) {
     User::verifyLogin();
-    echo $idp;
+    $protocolo = new Protocolo();
+    $page = new PageAdmin();
+    $result = $protocolo->getByCode($codigo, true);
+    if ($idc != $result[0]['idcliente'])
+    {
+      header('Location: /cliente/' . $idc);
+      exit;
+    }
+    $page->setTpl('pesquisa-satisfacao', array(
+      'detalhes' => $result[0]
+    ));
   });
 
+});
+
+// Pesquisa de satisfação - POST
+$app->post('/responder/pesquisa-satisfacao', function() {
+  User::verifyLogin();
+  $protocolo = new Protocolo();
+  $protocolo->setData($_POST);
+  $protocolo->avaliar();
+  if ($_SESSION['User']['is_admin'] == false)
+  {
+    header("Location: /cliente/" . $_SESSION['User']['id']);
+  } else {
+    header("Location: /admin/protocolos");
+  }
+  exit;
 });
 
 // Login - GET
@@ -434,7 +485,7 @@ $app->get("/login", function() {
     header("Location: /admin/painel");
     exit;
   } elseif (isset($_SESSION['User']) && $_SESSION['User']['is_admin'] == false) {
-    header("Location: /cliente/" . $_SESSION['User']['id_cliente']);
+    header("Location: /cliente/" . $_SESSION['User']['id']);
     exit;
   }
   $page = new PageAdmin([

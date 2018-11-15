@@ -1,0 +1,96 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-stats">
+          <div class="card-header card-header-primary card-header-icon">
+            <div class="card-icon">
+              <i class="material-icons">info</i>
+            </div>
+            <p class="card-category">{$detalhes.codigo}</p>
+            <h3 class="card-title">{$detalhes.servico}</h3>
+          </div>
+          <div class="card-footer">
+            <div class="stats">
+              <i class="material-icons">info</i> Informações referentes ao protocolo da pesquisa de satisfação
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Responder pesquisa de satisfação</h4>
+            <p class="card-category">Ajude {function="getenv('APP_NAME')"} com a sua opinião</p>
+          </div>
+          <div class="card-body">
+            <form action="/responder/pesquisa-satisfacao" method="POST">
+              <input type="hidden" name="idprotocolo" value="{$detalhes.idprotocolo}">
+              <div class="row text-center">
+                <div class="col-md-12">
+                  <div class="form-check form-check-radio form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input form-in" type="radio" name="avaliacao" value="1">
+                      Péssimo 😡
+                      <span class="circle">
+                        <span class="check"></span>
+                      </span>
+                    </label>
+                  </div>
+                  <div class="form-check form-check-radio form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="avaliacao" value="2">
+                      Ruim 😤
+                      <span class="circle">
+                        <span class="check"></span>
+                      </span>
+                    </label>
+                  </div>
+                  <div class="form-check form-check-radio form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="avaliacao" value="3">
+                      Normal 😬
+                      <span class="circle">
+                        <span class="check"></span>
+                      </span>
+                    </label>
+                  </div>
+                  <div class="form-check form-check-radio form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="avaliacao" value="4">
+                      Bom 😃
+                      <span class="circle">
+                        <span class="check"></span>
+                      </span>
+                    </label>
+                  </div>
+                  <div class="form-check form-check-radio form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="avaliacao" value="5">
+                      Ótimo 😁
+                      <span class="circle">
+                        <span class="check"></span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Observação</label>
+                    <input type="text" class="form-control" name="obs" maxlength="112">
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary pull-right">Responder</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

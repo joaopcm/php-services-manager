@@ -1,0 +1,40 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Enviar e-mails para todos os clientes</h4>
+            <p class="card-category">Envie e-mails por {function="getenv('APP_NAME')"}</p>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Assunto</label>
+                  <input type="text" class="form-control" name="subject" id="assunto" maxlength="112" required>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Mensagem</label>
+                    <textarea type="text" class="form-control" name="message"></textarea>
+                  </div>
+                </div>
+              </div> -->
+            <div class="row">
+              <div class="col-md-12">
+                <div name="test" id="editor"></div>
+              </div>
+            </div>
+            <div style="height: 50px"></div>
+            <button type="submit" id="ql-editor-submit" class="btn btn-primary pull-right">Enviar</button>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

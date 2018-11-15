@@ -26,6 +26,9 @@
                     Título do Serviço
                   </th>
                   <th>
+                    Avaliação Média
+                  </th>
+                  <th>
                     Criado Em
                   </th>
                 </thead>
@@ -45,6 +48,13 @@
                       </a>
                     </td>
                     <td>{$value.titulo}</td>
+                    <td>
+                      {if="$value.avaliacao == ''"}
+                      Não avaliado
+                      {else}
+                      {function="round($value.avaliacao, 2)"} ⭐
+                      {/if}
+                    </td>
                     <td>{function="date('d/m/Y', strtotime($value.dataCadastro))"}</td>
                   </tr>
                   {/loop}

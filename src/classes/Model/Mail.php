@@ -3,6 +3,7 @@
 namespace Sourcess\Model;
 
 use PHPMailer\PHPMailer\PHPMailer;
+use \Sourcess\DB\Sql;
 
 class Mail {
 
@@ -15,6 +16,7 @@ class Mail {
   // 400 - Envia o aviso de finalização de um protocolo para o cliente
   // 500 - Envia o aviso de geração de um pagamento para o cliente
   // 600 - Envia o aviso de exclusão de conta para o cliente
+  // 700 - Envia e-mails para todos os clientes
 
   public function __construct($type, $data)
   {
@@ -87,6 +89,7 @@ class Mail {
         $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/protocolo-finalizado.html");
         $body = str_replace('%nome%', $data['name'], $body);
         $body = str_replace('%protocolo%', $data['protocol'], $body); 
+        $body = str_replace('%idcliente%', $data['id'], $body);
         $body = str_replace('%servico%', $data['service'], $body);
         $body = str_replace('%app_name%', APP_NAME, $body);
         try {
@@ -128,6 +131,25 @@ class Mail {
         } catch (Exception $e) {
           throw new Exception("O e-mail não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
         }
+        break;
+      case 700: // 700 - Envia e-mails para todos os clientes
+        $sql = new Sql();
+        $emails = $sql->select("SELECT email, nomeCliente AS nome FROM tb_clientes WHERE email != ''");
+        foreach ($emails as $indice => $array) { // Percorre o array de e-mails
+          $body = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/views/emails/padrao.html");
+          $body = str_replace('%nome%', $emails[$indice]['nome'], $body);
+          $body = str_replace('%body%', $data['html'], $body);
+          $body = str_replace('%app_name%', APP_NAME, $body);
+          try {
+            $this->mail->addAddress($emails[$indice]['email'], $emails[$indice]['nome']);
+            $this->mail->Subject = $data['subject'];
+            $this->mail->MsgHTML($body);
+            $this->mail->AltBody = 'Temos uma mensagem especialmente para você!';
+            $this->mail->send();
+          } catch (Exception $e) {
+            throw new Exception("O e-mail não pode ser enviado. Erro: " . $this->mail->ErrorInfo);
+          }  
+         }
         break;
     }
   }

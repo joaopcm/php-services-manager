@@ -36,6 +36,10 @@
 <script src="\assets/js/admin/plugins/chartist-plugin-pointlabels.min.js"></script>
 <!-- Select 2 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<!-- Quill -->
+<!-- <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script> -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script src="\assets/js/admin/quill-config.js"></script>
 <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="\assets/js/admin/material-dashboard.min.js?v=2.1.0" type="text/javascript"></script>
 <!-- Functions JS -->

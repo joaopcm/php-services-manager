@@ -31,6 +31,20 @@
                 </div>
               </div>
               <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                      <label>Forma de Pagamento</label>
+                      <select type="text" class="form-control" id="r-type" name="formaPagamento">
+                        <option value="Boleto" {if="$recebimento.formaPagamento === 'Boleto'"}selected{/if}>Boleto</option>
+                        <option value="Depósito" {if="$recebimento.formaPagamento === 'Depósito'"}selected{/if}>Depósito</option>
+                        <option value="Cheque" {if="$recebimento.formaPagamento === 'Cheque'"}selected{/if}>Cheque</option>
+                        <option value="Dinheiro" {if="$recebimento.formaPagamento === 'Dinheiro'"}selected{/if}>Dinheiro</option>
+                        <option value="Transferência Bancária" {if="$recebimento.formaPagamento === 'Transferência Bancária'"}selected{/if}>Transferência Bancária</option>
+                      </select>
+                    </div>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-md-5">
                   <div class="form-group">
                     <label>Data de Recebimento</label>
@@ -51,31 +65,17 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 ticket-dependent-change">
                   <div class="form-group">
                     <label>Data de Compensação</label>
                     <input type="date" class="form-control" name="dataCompensacao" value="{$recebimento.dataCompensacao}">
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 ticket-dependent">
                   <div class="form-group">
                     <label class="bmd-label-floating">Número do Boleto</label>
                     <input type="text" class="form-control" name="nBoleto" value="{$recebimento.nBoleto}" maxlength="15">
                   </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                      <label>Forma de Pagamento</label>
-                      <select type="text" class="form-control" name="formaPagamento">
-                        <option value="Boleto" {if="$recebimento.formaPagamento === 'Boleto'"}selected{/if}>Boleto</option>
-                        <option value="Depósito" {if="$recebimento.formaPagamento === 'Depósito'"}selected{/if}>Depósito</option>
-                        <option value="Cheque" {if="$recebimento.formaPagamento === 'Cheque'"}selected{/if}>Cheque</option>
-                        <option value="Dinheiro" {if="$recebimento.formaPagamento === 'Dinheiro'"}selected{/if}>Dinheiro</option>
-                        <option value="Transferência Bancária" {if="$recebimento.formaPagamento === 'Transferência Bancária'"}selected{/if}>Transferência Bancária</option>
-                      </select>
-                    </div>
                 </div>
               </div>
               <div class="row">

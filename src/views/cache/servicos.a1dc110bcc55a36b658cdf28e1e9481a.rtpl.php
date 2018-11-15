@@ -26,6 +26,9 @@
                     Título do Serviço
                   </th>
                   <th>
+                    Avaliação Média
+                  </th>
+                  <th>
                     Criado Em
                   </th>
                 </thead>
@@ -45,6 +48,13 @@
                       </a>
                     </td>
                     <td><?php echo htmlspecialchars( $value1["titulo"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                    <td>
+                      <?php if( $value1["avaliacao"] == '' ){ ?>
+                      Não avaliado
+                      <?php }else{ ?>
+                      <?php echo round($value1["avaliacao"], 2); ?> ⭐
+                      <?php } ?>
+                    </td>
                     <td><?php echo date('d/m/Y', strtotime($value1["dataCadastro"])); ?></td>
                   </tr>
                   <?php } ?>
