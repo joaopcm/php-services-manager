@@ -53,6 +53,9 @@
                       Não avaliado
                       <?php }else{ ?>
                       <?php echo round($value1["avaliacao"], 2); ?> ⭐
+                      <button type="button" class="btn btn-primary btn-table open-modal__ca" service-id="<?php echo htmlspecialchars( $value1["id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" data-toggle="tooltip" data-placement="right" title="Ver avaliação unitária">
+                        <i class="material-icons">list</i>
+                      </button>
                       <?php } ?>
                     </td>
                     <td><?php echo date('d/m/Y', strtotime($value1["dataCadastro"])); ?></td>
@@ -72,4 +75,21 @@
       </div>
     </div>
   </div>
+</div>
+<div class="modal fade" id="modal__ca" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-body text-center">
+				<table class="table table-sm">
+					<thead>
+							<th scope="col">Cliente</th>
+              <th scope="col">Nota</th>
+              <th scope="col">Observação</th>
+					</thead>
+					<tbody class="modal__ca-to-be-inserted">
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>

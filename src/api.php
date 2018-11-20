@@ -426,6 +426,13 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
     exit;
   });
 
+  // Retorna os clientes que responderam a pesquisa de satisfação de tal serviço
+  $app->post("/pesquisas/resultados", function () {
+    $servico = new Servico();
+    $results = $servico->listAllAnswersById((int)$_POST['id']);
+    echo json_encode($results);
+  });
+
 });
 
 // Grupo de rotas responsável pela parte do cliente

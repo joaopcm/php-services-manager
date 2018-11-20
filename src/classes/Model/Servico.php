@@ -57,6 +57,25 @@ class Servico extends Model {
         ));
     }
 
+    public function listAllAnswersById($id)
+    {
+        $sql = new Sql();
+        $query = "SELECT
+                    c.id AS idcliente,
+                    c.nomeCliente AS nomecliente,
+                    ps.obs AS observacao,
+                    ps.nota AS nota
+                FROM tb_servicos AS s
+                    LEFT JOIN tb_protocolos AS p ON p.idservico = s.id
+                    LEFT JOIN tb_clientes AS c ON p.idcliente = c.id
+                    LEFT JOIN tb_pesquisa_satisfacao AS ps ON ps.id_protocolo = p.id
+                WHERE s.id = :id
+                ORDER BY ps.nota ASC";
+        return $sql->select($query, array(
+            ':id' => $id
+        ));
+    }
+
 }
 
 ?>

@@ -214,6 +214,25 @@ $('#r-type').on('change', function() {
 	}
 })
 
+// Exibe os clientes que responderam a pesquisa de satisfação de tal serviço
+$('.open-modal__ca').on('click', function() {
+	id = $(this).attr('service-id')
+	$.ajax({
+		url: '/admin/pesquisas/resultados',
+		type: 'post',
+		data: {id: id},
+		success: function (data) {
+			$('.modal__ca-to-be-inserted').html('')
+			data = $.parseJSON(data)
+			$('#modal__ca').modal()
+			for (let index = 0; index < data.length; index++) {
+				tr = "<tr><td><a href='/admin/visualizar/cliente/" + data[index]['idcliente'] + "'>" + data[index]['nomecliente'] + "<button type='button' class='btn btn-primary btn-table' data-toggle='tooltip' data-placement='right' title='Visualizar cliente'><i class='material-icons'>share</i></button></a></td><td>" + data[index]['nota'] + " ⭐</td><td>" + data[index]['observacao'] + "</td></tr>"
+				$('.modal__ca-to-be-inserted').append(tr)
+			}
+		}
+	})
+})
+
 // Código executado ao carregar a página
 $(function (c) {
 	console.log('Sourcess Admin - Seja bem-vindo! Tudo foi executado como o esperado 💖');
