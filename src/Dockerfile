@@ -9,3 +9,5 @@ RUN apt-get update && apt-get install -y wget mysql-client
 RUN docker-php-ext-install pdo_mysql
 RUN wget https://getcomposer.org/download/1.6.5/composer.phar
 RUN php composer.phar install
+RUN mkdir uploads
+RUN chmod 777 uploads

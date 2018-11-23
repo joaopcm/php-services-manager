@@ -17,7 +17,9 @@ class Page {
 	public function __construct($opts = array(), $tpl_dir = "/views/site/")
 	{
 		$this->options = array_merge($this->defaults, $opts);
-		$cache_dir = ON_PRODUCTION === 'false' ? $_SERVER['DOCUMENT_ROOT'] . "/views/cache/" : "/tmp/";
+		$cache_dir = "/tmp/";
+		// Descomente a linha abaixo caso o ambiente de desenvolvimento seja Windows
+		// $cache_dir = ON_PRODUCTION === 'false' ? $_SERVER['DOCUMENT_ROOT'] . "/views/cache/" : "/tmp/";
 		$config = array(
 		    "base_url"      => null,
 			"tpl_dir"       => $_SERVER['DOCUMENT_ROOT'] . $tpl_dir,
