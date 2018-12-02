@@ -203,15 +203,15 @@ class Protocolo extends Model {
             echo "<script type='text/javascript'>alert('Este arquivo não está em nossos servidores.'); window.location.href = '/administrar/protocolos';</script>";
             exit;
             }
-            $newname = 'anexo-src-' . $anexo;
-                header('Content-Description: File Transfer');
-                header('Content-Disposition: attachment; filename="' . $newname . '"');
-                header('Content-Type: application/octet-stream');
-                header('Content-Transfer-Encoding: binary');
-                header('Content-Length: ' . filesize($filepath));
-                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-                header('Pragma: public');
-                header('Expires: 0');
+            $newname = 'anexo-' . $anexo;
+            header('Content-Description: File Transfer');
+            header('Content-Disposition: attachment; filename="' . $newname . '"');
+            header('Content-Type: application/octet-stream');
+            header('Content-Transfer-Encoding: binary');
+            header('Content-Length: ' . filesize($filepath));
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+            header('Expires: 0');
             readfile($filepath);
         } else {
             echo "<script type='text/javascript'>alert('Este arquivo não está em nossos servidores.'); window.location.href = '/administrar/protocolos';</script>";

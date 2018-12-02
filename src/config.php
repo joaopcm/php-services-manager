@@ -12,7 +12,7 @@ define('APP_NAME', getenv('APP_NAME'));
 define('APP_SYSTEM_NAME', getenv('APP_SYSTEM_NAME'));
 define('APP_URL', getenv('APP_URL'));
 define('APP_VERSION', getenv('APP_VERSION'));
-define('ON_PRODUCTION', getenv('ON_PRODUCTION'));
+define('PRODUCTION_MODE', getenv('PRODUCTION_MODE'));
 
 // Variáveis MySQL
 define('MYSQL_USER', getenv('MYSQL_USER'));

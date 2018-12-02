@@ -4,6 +4,7 @@ namespace Sourcess\Model;
 
 use \Sourcess\DB\Sql;
 use \Sourcess\Model\Model;
+use \DateTime;
 
 class Recebimento extends Model {
 
@@ -20,35 +21,48 @@ class Recebimento extends Model {
     public function save()
     {
         $sql = new Sql();
-        $results = $sql->select("CALL sp_recebimentos_save(:dataRecebimento, :idprotocolo, :valorBoleto, :dataVencimento, :dataCompensacao, :nBoleto, :formaPagamento, :parcelas, :referencia, :formaEnvio, :enviadoPor, :mes, :ano, :alteradoPor, :alteradoEm)", array(
-            ":dataRecebimento" => $this->getdataRecebimento(),
-            ":idprotocolo" => (int)$this->getprotocolo(),
-            ":valorBoleto" => (float)$this->getvalorBoleto(),
-            ":dataVencimento" => $this->getdataVencimento(),
-            ":dataCompensacao" => $this->getdataCompensacao(),
-            ":nBoleto" => $this->getnBoleto(),
-            ":formaPagamento" => $this->getformaPagamento(),
-            ":parcelas" => $this->getparcelas(),
-            ":referencia" => $this->getreferencia(),
-            ":formaEnvio" => $this->getformaEnvio(),
-            ":enviadoPor" => $this->getenviadoPor(),
-            ":mes" => date('m'),
-            ":ano" => date('Y'),
-            ":alteradoPor" => $_SESSION["User"]["nome"],
-            ":alteradoEm" => date('Y-m-d H:i')
-        ));
-        $this->setData($results[0]);
-        $query = "SELECT p.numero AS codigo, c.nomeCliente AS cliente, c.email AS email, s.titulo AS servico FROM tb_recebimentos AS r JOIN tb_protocolos AS p ON r.idprotocolo = p.id JOIN tb_servicos AS s ON p.idservico = s.id JOIN tb_clientes AS c ON p.idcliente = c.id WHERE p.id = :id";
-        $results = $sql->select($query, array(
-            ":id" => $this->getprotocolo()
-        ));
-        if ($results != '' && $results != null && $results[0]['email'] != '') {
-            $data = array(
-                "name" => $results[0]['cliente'],
-                "protocol" => $results[0]['codigo'],
-                "service" => $results[0]['servico'],
-                "to" => $results[0]['email']
-            );
+            $sql = new Sql();
+            $qtdParcelas = explode('/', $this->getparcelas())[1];
+            $mediaValor = $this->getvalorBoleto() / $qtdParcelas;
+            $vencimento = new DateTime($this->getdataVencimento());
+            for ($i=0; $i < $qtdParcelas; $i++) {
+                if ($i > 0)
+                {
+                    $vencimento->modify("+1 month");
+                    $dataVencimento = $vencimento->format('Y-m-d');
+                } else {
+                    $dataVencimento = $vencimento->format('Y-m-d');
+                }
+                $results = $sql->select("CALL sp_recebimentos_save(:dataRecebimento, :idprotocolo, :valorBoleto, :dataVencimento, :dataCompensacao, :nBoleto, :formaPagamento, :parcelas, :referencia, :formaEnvio, :enviadoPor, :mes, :ano, :alteradoPor, :alteradoEm)", array(
+                    ":dataRecebimento" => $this->getdataRecebimento(),
+                    ":idprotocolo" => $this->getprotocolo(),
+                    ":valorBoleto" => $mediaValor,
+                    ":dataVencimento" => $dataVencimento,
+                    ":dataCompensacao" => $this->getdataCompensacao(),
+                    ":nBoleto" => $this->getnBoleto(),
+                    ":formaPagamento" => $this->getformaPagamento(),
+                    ":parcelas" => $this->getparcelas(),
+                    ":referencia" => $this->getreferencia(),
+                    ":formaEnvio" => $this->getformaEnvio(),
+                    ":enviadoPor" => $this->getenviadoPor(),
+                    ":mes" => $vencimento->format('m'),
+                    ":ano" => $vencimento->format('Y'),
+                    ":alteradoPor" => $_SESSION["User"]["nome"],
+                    ":alteradoEm" => date('Y-m-d H:i')
+                ));
+                $this->setData($results[0]);
+            }
+            $query = "SELECT p.numero AS codigo, c.nomeCliente AS cliente, c.email AS email, s.titulo AS servico FROM tb_recebimentos AS r JOIN tb_protocolos AS p ON r.idprotocolo = p.id JOIN tb_servicos AS s ON p.idservico = s.id JOIN tb_clientes AS c ON p.idcliente = c.id WHERE p.id = :id";
+            $results = $sql->select($query, array(
+                ":id" => $this->getprotocolo()
+            ));
+            if ($results != '' && $results != null && $results[0]['email'] != '') {
+                $data = array(
+                    "name" => $results[0]['cliente'],
+                    "protocol" => $results[0]['codigo'],
+                    "service" => $results[0]['servico'],
+                    "to" => $results[0]['email']
+                );
             $mail = new Mail(500, $data);
         }
     }

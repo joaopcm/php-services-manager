@@ -29,7 +29,7 @@ use \Sourcess\Model\Mail;
 Use \Sourcess\Middleware\AuthenticateForRole;
 Use \Sourcess\Middleware\RedirectToOwnClientPage;
 
-ON_PRODUCTION === 'false' ? $app = new Slim(array('mode' => 'development', 'debug' => true)) : $app = new Slim(array('debug' => false));
+PRODUCTION_MODE === 'false' ? $app = new Slim(array('mode' => 'development', 'debug' => true)) : $app = new Slim(array('debug' => false));
 
 // Middleware
 $authenticateForRole = new AuthenticateForRole();
