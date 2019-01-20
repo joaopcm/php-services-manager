@@ -1,4 +1,3 @@
-DELIMITER //
 CREATE PROCEDURE `sp_clientes_delete` (IN `pid` INT(6))  BEGIN
 
 	DELETE FROM tb_clientes WHERE id = pid;
