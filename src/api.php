@@ -46,7 +46,10 @@ $app->get('/', function() {
     'header' => false,
     'footer' => false
   ]);
-  $page->setTpl('index');
+  $page->setTpl('index', [
+    'clientes' => count(Cliente::listAll()),
+    'servicos' => count(Protocolo::listAll())
+  ]);
 });
 
 // Grupo de rotas administrativas
