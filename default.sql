@@ -1,22 +1,10 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
-CREATE DATABASE IF NOT EXISTS default DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE default;
 
 DELIMITER //
 CREATE PROCEDURE sp_clientes_delete (IN pid INT(6))  BEGIN
 
 	DELETE FROM tb_clientes WHERE id = pid;
 
-END//
+END;
 
 CREATE PROCEDURE sp_clientes_save (IN pnomeCliente VARCHAR(56), IN pcontatoLocal VARCHAR(56), IN pcpf VARCHAR(14), IN pcnpj VARCHAR(18), IN pinscricaoEstadual VARCHAR(15), IN ptelefone VARCHAR(56), IN pcelular VARCHAR(56), IN pcep VARCHAR(9), IN pendereco VARCHAR(112), IN pbairro VARCHAR(56), IN pcidade VARCHAR(56), IN pestado VARCHAR(2), IN pemail VARCHAR(56), IN pemails VARCHAR(224), IN pobservacao VARCHAR(112), IN ptipo VARCHAR(2), IN palteradoPor VARCHAR(56), IN palteradoEm VARCHAR(16))  BEGIN
 
@@ -25,7 +13,7 @@ CREATE PROCEDURE sp_clientes_save (IN pnomeCliente VARCHAR(56), IN pcontatoLocal
 
 	SELECT * FROM tb_clientes WHERE id = LAST_INSERT_ID();
 
-END//
+END;
 
 CREATE PROCEDURE sp_clientes_update (IN pid INT(6), IN pnomeCliente VARCHAR(56), IN pcontatoLocal VARCHAR(56), IN pcpf VARCHAR(14), IN pcnpj VARCHAR(18), IN pinscricaoEstadual VARCHAR(15), IN ptelefone VARCHAR(56), IN pcelular VARCHAR(56), IN pcep VARCHAR(9), IN pendereco VARCHAR(112), IN pbairro VARCHAR(56), IN pcidade VARCHAR(56), IN pestado VARCHAR(2), IN pemail VARCHAR(56), IN pemails VARCHAR(224), IN pobservacao VARCHAR(112), IN ptipo VARCHAR(2), IN palteradoPor VARCHAR(56), IN palteradoEm VARCHAR(16))  BEGIN
 
@@ -52,35 +40,35 @@ CREATE PROCEDURE sp_clientes_update (IN pid INT(6), IN pnomeCliente VARCHAR(56),
         
 	SELECT * FROM tb_clientes;
 
-END//
+END;
 
 CREATE DEFINER=root@% PROCEDURE sp_estados_delete (IN pid INT(6))  NO SQL
 BEGIN
 	
     DELETE FROM tb_protocolos_estado WHERE id = pid;
 
-END//
+END;
 
 CREATE DEFINER=root@% PROCEDURE sp_estados_save (IN pidprotocolo INT(6), IN pestado VARCHAR(112), IN pdata DATE, IN panexo VARCHAR(56))  NO SQL
 BEGIN
 
 	INSERT INTO tb_protocolos_estado (idprotocolo, estado, data, anexo) VALUES (pidprotocolo, pestado, pdata, panexo);
 
-END//
+END;
 
 CREATE DEFINER=root@% PROCEDURE sp_protocolos_delete (IN pid INT(6))  NO SQL
 BEGIN
 
 	DELETE FROM tb_protocolos WHERE id = pid;
 
-END//
+END;
 
 CREATE DEFINER=root@% PROCEDURE sp_protocolos_finalize (IN pid TINYINT(1))  NO SQL
 BEGIN
 
 	UPDATE tb_protocolos SET finalized = 1 WHERE id = pid;
 
-END//
+END;
 
 CREATE DEFINER=root@% PROCEDURE sp_protocolos_save (IN pidcliente INT(6), IN pidservico INT(6), IN pnumero VARCHAR(20))  NO SQL
 BEGIN
@@ -96,14 +84,14 @@ BEGIN
         JOIN tb_servicos AS s ON p.idservico = s.id
 	WHERE c.id = pidcliente;
 
-END//
+END;
 
 CREATE PROCEDURE sp_recebimentos_delete (IN pid INT(6))  NO SQL
 BEGIN
 
 	DELETE FROM tb_recebimentos WHERE id = pid;
 
-END//
+END;
 
 CREATE PROCEDURE sp_recebimentos_save (IN pdataRecebimento DATE, IN pidprotocolo INT(6), IN pvalorBoleto DECIMAL(10,2), IN pdataVencimento DATE, IN pdataCompensacao DATE, IN pnBoleto VARCHAR(15), IN pformaPagamento VARCHAR(25), IN pparcelas VARCHAR(3), IN preferencia VARCHAR(112), IN pformaEnvio VARCHAR(25), IN penviadoPor VARCHAR(56), IN pmes INT(2), IN pano INT(4), IN palteradoPor VARCHAR(56), IN palteradoEm VARCHAR(16))  NO SQL
 BEGIN
@@ -112,7 +100,7 @@ BEGIN
     
     SELECT * FROM tb_recebimentos;
 
-END//
+END;
 
 CREATE PROCEDURE sp_recebimentos_update (IN pid INT(6), IN pdataRecebimento DATE, IN pidprotocolo INT(6), IN pvalorBoleto DECIMAL(10,2), IN pdataVencimento DATE, IN pdataCompensacao DATE, IN pnBoleto VARCHAR(15), IN pformaPagamento VARCHAR(25), IN pparcelas VARCHAR(3), IN preferencia VARCHAR(112), IN pformaEnvio VARCHAR(25), IN penviadoPor VARCHAR(56), IN palteradoPor VARCHAR(56), IN palteradoEm VARCHAR(16))  NO SQL
 BEGIN
@@ -135,14 +123,14 @@ BEGIN
         
 	SELECT * FROM tb_recebimentos;
 
-END//
+END;
 
 CREATE DEFINER=root@% PROCEDURE sp_servicos_delete (IN pid INT(6))  NO SQL
 BEGIN
 
 	DELETE FROM tb_servicos WHERE id = pid;
 
-END//
+END;
 
 CREATE DEFINER=root@% PROCEDURE sp_servicos_save (IN ptitulo VARCHAR(56))  NO SQL
 BEGIN
@@ -151,7 +139,7 @@ BEGIN
     
     SELECT * FROM tb_servicos;
 
-END//
+END;
 
 CREATE DEFINER=root@% PROCEDURE sp_servicos_update (IN pid INT(6), IN ptitulo VARCHAR(56))  NO SQL
 BEGIN
@@ -162,14 +150,14 @@ BEGIN
     
     SELECT * FROM tb_servicos;
     
-END//
+END;
 
 CREATE PROCEDURE sp_usuarios_delete (IN pid INT(6))  NO SQL
 BEGIN
 
 	DELETE FROM tb_usuarios WHERE id = pid;
 
-END//
+END;
 
 CREATE PROCEDURE sp_usuarios_save (IN pnome VARCHAR(56), IN pusuario VARCHAR(25), IN psenha VARCHAR(32))  NO SQL
 BEGIN
@@ -179,7 +167,7 @@ BEGIN
         
     SELECT * FROM tb_usuarios;
 
-END//
+END;
 
 CREATE PROCEDURE sp_usuarios_update (IN pid INT(6), IN pnome VARCHAR(56), IN pusuario VARCHAR(25), IN psenha VARCHAR(32))  NO SQL
 BEGIN
@@ -192,7 +180,7 @@ BEGIN
         
 	SELECT * FROM tb_usuarios;
 
-END//
+END;
 
 DELIMITER ;
 
