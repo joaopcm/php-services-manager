@@ -1,11 +1,11 @@
 version: "3"
-
 networks:
   banco:
   app:
-
+volumes:
+  database-volume:
+  app-volume:
 services:
-
   mysql:
     image: mysql:5.7
     container_name: sourcess-mysql
@@ -19,12 +19,11 @@ services:
       - banco
     env_file:
       - ./secrets.env
-
   app:
     build: ./src
     container_name: sourcess-app
     volumes:
-      - ./src:/var/www/html
+      - app-volume:/var/www/html
     links:
       - mysql
     depends_on:
@@ -36,6 +35,3 @@ services:
       - app
     env_file:
       - ./secrets.env
-
-volumes:
-  database-volume:
