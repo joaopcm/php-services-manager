@@ -52,6 +52,15 @@ $app->get('/', function() {
   ]);
 });
 
+$app->get('/sendgrid', function() {
+  $mail = new Mail(100, [
+    'name' => 'Nome',
+    'username' => 'Usuário',
+    'password' => 'Senha',
+    'to' => 'joao.pedro6532@gmail.com'
+  ]);
+});
+
 // Grupo de rotas administrativas
 $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
 
@@ -74,8 +83,8 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
 
   // Envio de e-mails - POST
   $app->post('/e-mails', function() {
-    echo '<script>alert("Enviando e-mail para todos os clientes...")</script>';
-    $mail = new Mail(700, $_POST);
+    // echo '<script>alert("Enviando e-mail para todos os clientes...")</script>';
+    Mail::malaDireta($_POST);
   });
 
   // Listar Cadastros - GET
@@ -199,15 +208,15 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
             "cliente" => $cliente->getValues()
         ));
         break;
-      case 'recebimento':
-        $recebimento = new Recebimento();
-        $recebimento->get((int)$id);
-        $page->setTpl("editar-recebimento", array(
-            "recebimento" => $recebimento->getValues(),
-            "clientes" => Cliente::listAll(),
-            "usuarios" => User::listAll()
-        ));
-        break;
+      // case 'recebimento':
+      //   $recebimento = new Recebimento();
+      //   $recebimento->get((int)$id);
+      //   $page->setTpl("editar-recebimento", array(
+      //       "recebimento" => $recebimento->getValues(),
+      //       "clientes" => Cliente::listAll(),
+      //       "usuarios" => User::listAll()
+      //   ));
+      //   break;
       case 'usuario':
         $usuario = new Usuario();
         $usuario->get((int)$id);
@@ -353,9 +362,8 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
         break;
       case 'recebimento':
         $recebimento = new Recebimento();
-        $recebimento->get((int)$id);
-        $recebimento->delete();
-        header("Location: /admin/recebimentos/" . date('m') . "/" . date('Y'));
+        $recebimento->delete($id);
+        header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;
         break;
       case 'usuario':
