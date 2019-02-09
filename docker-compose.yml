@@ -1,48 +1,37 @@
 version: "3"
-
 networks:
   banco:
   app:
-
+volumes:
+  database-volume:
+  app-volume:
 services:
-
   mysql:
     image: mysql:5.7
     container_name: sourcess-mysql
     volumes:
       - ./default.sql:/docker-entrypoint-initdb.d/dump.sql
+      # - database-volume:/var/lib/mysql
     ports:
       - "3306:3306"
     networks:
       - banco
     env_file:
       - ./secrets.env
-
   app:
     build: ./src
     container_name: sourcess-app
     volumes:
-      - ./src:/var/www/html:z
+      - ./src:/var/www/html
+      # - app-volume:/var/www/html
     links:
       - mysql
     depends_on:
       - mysql
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       - banco
       - app
     env_file:
       - ./secrets.env
-
-  phpMyAdmin:
-    image: phpmyadmin/phpmyadmin:latest
-    container_name: sourcess-phpmyadmin
-    links:
-      - mysql
-    ports:
-      - "9000:80"
-    networks:
-      - banco
-    environment:
-      - PMA_ARBITRARY=1

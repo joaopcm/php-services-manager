@@ -235,5 +235,5 @@ $('.open-modal__ca').on('click', function() {
 
 // Código executado ao carregar a página
 $(function (c) {
-	console.log('Sourcess Admin - Seja bem-vindo! Tudo foi executado como o esperado 💖');
+	console.log('Sucesso! - Seja bem-vindo! Tudo foi executado como o esperado 💖');
 });

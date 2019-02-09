@@ -13,6 +13,10 @@ define('APP_SYSTEM_NAME', getenv('APP_SYSTEM_NAME'));
 define('APP_URL', getenv('APP_URL'));
 define('APP_VERSION', getenv('APP_VERSION'));
 define('PRODUCTION_MODE', getenv('PRODUCTION_MODE'));
+define('APP_MAIL', getenv('APP_MAIL'));
+
+// Variáveis SendGrid
+define('SENDGRID_API_KEY', getenv('SENDGRID_API_KEY'));
 
 // Variáveis MySQL
 define('MYSQL_USER', getenv('MYSQL_USER'));

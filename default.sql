@@ -98,10 +98,10 @@ BEGIN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recebimentos_delete` (IN `pid` INT(6))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recebimentos_delete` (IN `pnum` VARCHAR(64))  NO SQL
 BEGIN
 
-	DELETE FROM tb_recebimentos WHERE id = pid;
+	DELETE r FROM `tb_recebimentos` AS r LEFT JOIN tb_protocolos AS p ON p.id = r.idprotocolo WHERE p.numero = pnum;
 
 END$$
 

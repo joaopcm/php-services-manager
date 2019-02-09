@@ -69,17 +69,17 @@
                   {loop="$recebimentos"}
                   <tr>
                     <td>
-                      <form action="/admin/excluir/recebimento/{$value.id}" method="post">
+                      <form action="/admin/excluir/recebimento/{$value.codigo}" method="post">
                         <input type="hidden" name="_METHOD" value="DELETE"/>
                         <button type="submit" class="btn btn-danger btn-table" onclick="return confirm('Deseja realmente excluir este recebimento?')" data-toggle="tooltip" data-placement="right" title="Excluir">
                           <i class="material-icons">close</i>
                         </button>
                       </form>
-                      {if="$value.cliente != null"}
+                      <!-- {if="$value.cliente != null"}
                       <a href="/admin/editar/recebimento/{$value.id}" class="btn btn-success btn-table" data-toggle="tooltip" data-placement="right" title="Editar">
                         <i class="material-icons">edit</i>
                       </a>
-                      {/if}
+                      {/if} -->
                       <a href="javascript:;;" class="btn btn-info btn-table" data-toggle="tooltip" data-placement="right" title="Última vez alterado por {$value.alteradoPor} em {function="date( 'd/m/Y' , strtotime($value.alteradoEm))"} às {function="date('H:i', strtotime($value.alteradoEm))"}">
                         <i class="material-icons">history</i>
                       </a>

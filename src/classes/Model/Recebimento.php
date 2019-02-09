@@ -25,7 +25,7 @@ class Recebimento extends Model {
             $qtdParcelas = explode('/', $this->getparcelas())[1];
             $mediaValor = $this->getvalorBoleto() / $qtdParcelas;
             $vencimento = new DateTime($this->getdataVencimento());
-            for ($i=0; $i < $qtdParcelas; $i++) {
+            for ($i = 0; $i < $qtdParcelas; $i++) {
                 if ($i > 0)
                 {
                     $vencimento->modify("+1 month");
@@ -41,7 +41,7 @@ class Recebimento extends Model {
                     ":dataCompensacao" => $this->getdataCompensacao(),
                     ":nBoleto" => $this->getnBoleto(),
                     ":formaPagamento" => $this->getformaPagamento(),
-                    ":parcelas" => $this->getparcelas(),
+                    ":parcelas" => $i + 1 . '/' . $qtdParcelas,
                     ":referencia" => $this->getreferencia(),
                     ":formaEnvio" => $this->getformaEnvio(),
                     ":enviadoPor" => $this->getenviadoPor(),
@@ -109,11 +109,11 @@ class Recebimento extends Model {
         $this->setData($results[0]);
     }
 
-    public function delete()
+    public function delete($pnum)
     {
         $sql = new Sql();
-        $sql->select("CALL sp_recebimentos_delete(:id)", array(
-            ":id" => $this->getid()
+        $sql->select("CALL sp_recebimentos_delete(:pnum)", array(
+            ":pnum" => $pnum
         ));
     }
 

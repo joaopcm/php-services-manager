@@ -40,15 +40,17 @@ class Protocolo extends Model {
     public function saveStatus()
     {
         $sql = new Sql();
+        // var_dump($_FILES['fileUpload']);
+        // die();
         if ($_FILES['fileUpload']['error'] !== 4)
         {
             $file = $_FILES['fileUpload'];
             $ext = strtolower(substr($file['name'], -4));
             $new_name = date("Y.m.d-H.i.s") . $ext;
-            $dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads/";
+            $dir = $_SERVER['DOCUMENT_ROOT'] . "/uploads";
             if (!is_dir($dir)) mkdir($dir);
             if (!move_uploaded_file($file['tmp_name'], $dir . DIRECTORY_SEPARATOR . $new_name)) {
-                throw new Exception('Erro - Não foi possível realizar o upload.');
+                throw new \Exception('Erro - Não foi possível realizar o upload.');
             }
         } else {
             $new_name = null;
