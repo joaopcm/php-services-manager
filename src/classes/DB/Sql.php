@@ -9,7 +9,7 @@ class Sql {
 	public function __construct()
 	{
 		$this->conn = new \PDO(
-			"mysql:dbname=" . MYSQL_DATABASE . ";host=" . DBHOST, MYSQL_USER, MYSQL_PASSWORD
+			"mysql:dbname=" . MYSQL_DATABASE . ";host=" . DBHOST, 'root', MYSQL_PASSWORD
 		);
 	}
 
