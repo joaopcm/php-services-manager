@@ -61,28 +61,6 @@ class Cliente extends Model {
                 ":alteradoEm" => date("Y-m-d H:i")
             ));
             $this->setData($results[0]);
-            var_dump(array(
-                ":nomeCliente" => $this->getnomeCliente(),
-                ":contatoLocal" => $this->getcontatoLocal(),
-                ":cpf" => $this->getcpf(),
-                ":cnpj" => $this->getcnpj(),
-                ":inscricaoEstadual" => $this->getinscricaoEstadual(),
-                ":telefone" => $this->gettelefone(),
-                ":celular" => $this->getcelular(),
-                ":cep" => $this->getcep(),
-                ":endereco" => $this->getendereco(),
-                ":bairro" => $this->getbairro(),
-                ":cidade" => $this->getcidade(),
-                ":estado" => $this->getestado(),
-                ":email" => $this->getemail(),
-                ":emails" => $this->getemails(),
-                ":observacao" => $this->getobservacao(),
-                ":tipo" => $this->gettipo(),
-                ":alteradoPor" => $_SESSION["User"]["nome"],
-                ":alteradoEm" => date("Y-m-d H:i")
-            ));
-            die();
-            exit;
             $this->userGenerator();
         }
     }
