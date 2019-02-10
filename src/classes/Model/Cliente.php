@@ -27,11 +27,11 @@ class Cliente extends Model {
     public function save()
     {
         $sql = new Sql();
-        if ($this->getcnpj() != "")
+        if ($this->getcnpj() != "" && $this->getcnpj() != null)
         {
             $checkCnpj = $sql->select("SELECT * FROM tb_clientes WHERE cnpj = :cpf", array(":cpf" => $this->getcnpj()));
         }
-        if ($this->getcpf() != "")
+        if ($this->getcpf() != "" && $this->getcpf() != null)
         {
             $checkCpf = $sql->select("SELECT * FROM tb_clientes WHERE cpf = :cpf", array(":cpf" => $this->getcpf()));
         }
