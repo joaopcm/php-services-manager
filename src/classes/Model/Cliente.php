@@ -60,7 +60,6 @@ class Cliente extends Model {
                 ":alteradoPor" => $_SESSION["User"]["nome"],
                 ":alteradoEm" => date("Y-m-d H:i")
             ));
-            $this->setData($results[0]);
             $this->userGenerator();
         }
     }
