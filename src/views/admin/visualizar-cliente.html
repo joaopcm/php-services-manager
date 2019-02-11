@@ -269,8 +269,7 @@
                     </tbody>
                     {else}
                     <div class="alert alert-danger" role="alert">
-                      <strong>Ah não!</strong> {$cliente.nomeCliente} ainda não realizou negócios com a CVA
-                      Climatização. <a href="http://www.cvaclimatizacao.com.br" class="btn btn-danger" data-toggle="tooltip" data-placement="right" title="Realizar negócios com a CVA Climatização!">Começe por aqui!</a>
+                      <strong>Ah não!</strong> {$cliente.nomeCliente} ainda não realizou negócios com {function="getenv('APP_NAME')"}. <a href="{function="getenv('APP_URL')"}" class="btn btn-danger" data-toggle="tooltip" data-placement="right" title="Realizar negócios com {function="getenv('APP_NAME')"}!">Começe por aqui!</a>
                     </div>
                 </div>
                 {/if}
