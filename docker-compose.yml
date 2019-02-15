@@ -10,8 +10,8 @@ services:
     image: mysql:5.7
     container_name: sourcess-mysql
     volumes:
-      - ./default.sql:/docker-entrypoint-initdb.d/dump.sql
-      # - database-volume:/var/lib/mysql
+      # - ./default.sql:/docker-entrypoint-initdb.d/dump.sql
+      - database-volume:/var/lib/mysql
     ports:
       - "3306:3306"
     networks:
@@ -22,8 +22,8 @@ services:
     build: ./src
     container_name: sourcess-app
     volumes:
-      - ./src:/var/www/html
-      # - app-volume:/var/www/html
+      # - ./src:/var/www/html
+      - app-volume:/var/www/html
     links:
       - mysql
     depends_on:
