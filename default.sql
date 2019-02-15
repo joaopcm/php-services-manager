@@ -114,12 +114,10 @@ BEGIN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recebimentos_update` (IN `pid` INT(6), IN `pdataRecebimento` DATE, IN `pidprotocolo` INT(6), IN `pvalorBoleto` DECIMAL(10,2), IN `pdataVencimento` DATE, IN `pdataCompensacao` DATE, IN `pnBoleto` VARCHAR(15), IN `pformaPagamento` VARCHAR(25), IN `pparcelas` VARCHAR(3), IN `preferencia` VARCHAR(112), IN `pformaEnvio` VARCHAR(25), IN `penviadoPor` VARCHAR(56), IN `palteradoPor` VARCHAR(56), IN `palteradoEm` VARCHAR(16))  NO SQL
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recebimentos_update` (IN `pid` INT(6), IN `pdataCompensacao` DATE)  NO SQL
 BEGIN
 
-	UPDATE tb_recebimentos
-		SET dataCompensacao = pdataCompensacao
-		WHERE id = pid;
+	UPDATE tb_recebimentos SET dataCompensacao = pdataCompensacao WHERE id = pid;
 
 END$$
 
