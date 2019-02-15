@@ -208,15 +208,15 @@ $app->group('/admin', $authenticateForRole->call(), function () use ($app) {
             "cliente" => $cliente->getValues()
         ));
         break;
-      // case 'recebimento':
-      //   $recebimento = new Recebimento();
-      //   $recebimento->get((int)$id);
-      //   $page->setTpl("editar-recebimento", array(
-      //       "recebimento" => $recebimento->getValues(),
-      //       "clientes" => Cliente::listAll(),
-      //       "usuarios" => User::listAll()
-      //   ));
-      //   break;
+      case 'recebimento':
+        $recebimento = new Recebimento();
+        $recebimento->get((int)$id);
+        $page->setTpl("editar-recebimento", array(
+            "recebimento" => $recebimento->getValues(),
+            "clientes" => Cliente::listAll(),
+            "usuarios" => User::listAll()
+        ));
+        break;
       case 'usuario':
         $usuario = new Usuario();
         $usuario->get((int)$id);

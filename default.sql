@@ -118,22 +118,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_recebimentos_update` (IN `pid` I
 BEGIN
 
 	UPDATE tb_recebimentos
-		SET dataRecebimento = pdataRecebimento,
-            idprotocolo = pidprotocolo,
-            valorBoleto = pvalorBoleto,
-            dataVencimento = pdataVencimento,
-            dataCompensacao = pdataCompensacao,
-            nBoleto = pnBoleto,
-            formaPagamento = pformaPagamento,
-            parcelas = pparcelas,
-            referencia = preferencia,
-            formaEnvio = pformaEnvio,
-            enviadoPor = penviadoPor,
-            alteradoPor = palteradoPor,
-            alteradoEm = palteradoEm
+		SET dataCompensacao = pdataCompensacao
 		WHERE id = pid;
-        
-	SELECT * FROM tb_recebimentos;
 
 END$$
 
