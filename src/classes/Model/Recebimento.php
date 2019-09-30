@@ -90,23 +90,10 @@ class Recebimento extends Model {
     public function update()
     {
         $sql = new Sql();
-        $results = $sql->select("CALL sp_recebimentos_update(:id, :dataRecebimento, :idprotocolo, :valorBoleto, :dataVencimento, :dataCompensacao, :nBoleto, :formaPagamento, :parcelas, :referencia, :formaEnvio, :enviadoPor, :alteradoPor, :alteradoEm)", array(
+        $results = $sql->select("CALL sp_recebimentos_update(:id, :dataCompensacao)", array(
             ":id" => $this->getid(),
-            ":dataRecebimento" => $this->getdataRecebimento(),
-            ":idprotocolo" => $this->getprotocolo(),
-            ":valorBoleto" => $this->getvalorBoleto(),
-            ":dataVencimento" => $this->getdataVencimento(),
-            ":dataCompensacao" => $this->getdataCompensacao(),
-            ":nBoleto" => $this->getnBoleto(),
-            ":formaPagamento" => $this->getformaPagamento(),
-            ":parcelas" => $this->getparcelas(),
-            ":referencia" => $this->getreferencia(),
-            ":formaEnvio" => $this->getformaEnvio(),
-            ":enviadoPor" => $this->getenviadoPor(),
-            ":alteradoPor" => $_SESSION["User"]["nome"],
-            ":alteradoEm" => date('Y-m-d H:i')
+            ":dataCompensacao" => $this->getdataCompensacao()
         ));
-        $this->setData($results[0]);
     }
 
     public function delete($pnum)

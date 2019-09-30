@@ -27,42 +27,28 @@ class Cliente extends Model {
     public function save()
     {
         $sql = new Sql();
-        if ($this->getcnpj() != "")
-        {
-            $checkCnpj = $sql->select("SELECT * FROM tb_clientes WHERE cnpj = :cpf", array(":cpf" => $this->getcnpj()));
-        }
-        if ($this->getcpf() != "")
-        {
-            $checkCpf = $sql->select("SELECT * FROM tb_clientes WHERE cpf = :cpf", array(":cpf" => $this->getcpf()));
-        }
-        if (isset($checkCpf[0]) || isset($checkCnpj[0]))
-        {
-            echo '<script language="javascript">alert("Este CPF/CNPJ já está cadastrado na lista de clientes."); window.location = "/adicionar/cliente"</script>';
-            die();
-        } else {
-            $results = $sql->select("CALL sp_clientes_save(:nomeCliente, :contatoLocal, :cpf, :cnpj, :inscricaoEstadual, :telefone, :celular, :cep, :endereco, :bairro, :cidade, :estado, :email, :emails, :observacao, :tipo, :alteradoPor, :alteradoEm)", array(
-                ":nomeCliente" => $this->getnomeCliente(),
-                ":contatoLocal" => $this->getcontatoLocal(),
-                ":cpf" => $this->getcpf(),
-                ":cnpj" => $this->getcnpj(),
-                ":inscricaoEstadual" => $this->getinscricaoEstadual(),
-                ":telefone" => $this->gettelefone(),
-                ":celular" => $this->getcelular(),
-                ":cep" => $this->getcep(),
-                ":endereco" => $this->getendereco(),
-                ":bairro" => $this->getbairro(),
-                ":cidade" => $this->getcidade(),
-                ":estado" => $this->getestado(),
-                ":email" => $this->getemail(),
-                ":emails" => $this->getemails(),
-                ":observacao" => $this->getobservacao(),
-                ":tipo" => $this->gettipo(),
-                ":alteradoPor" => $_SESSION["User"]["nome"],
-                ":alteradoEm" => date("Y-m-d H:i")
-            ));
-            $this->setData($results[0]);
-            $this->userGenerator();
-        }
+        $results = $sql->select("CALL sp_clientes_save(:nomeCliente, :contatoLocal, :cpf, :cnpj, :inscricaoEstadual, :telefone, :celular, :cep, :endereco, :bairro, :cidade, :estado, :email, :emails, :observacao, :tipo, :alteradoPor, :alteradoEm)", array(
+            ":nomeCliente" => $this->getnomeCliente(),
+            ":contatoLocal" => $this->getcontatoLocal(),
+            ":cpf" => $this->getcpf(),
+            ":cnpj" => $this->getcnpj(),
+            ":inscricaoEstadual" => $this->getinscricaoEstadual(),
+            ":telefone" => $this->gettelefone(),
+            ":celular" => $this->getcelular(),
+            ":cep" => $this->getcep(),
+            ":endereco" => $this->getendereco(),
+            ":bairro" => $this->getbairro(),
+            ":cidade" => $this->getcidade(),
+            ":estado" => $this->getestado(),
+            ":email" => $this->getemail(),
+            ":emails" => $this->getemails(),
+            ":observacao" => $this->getobservacao(),
+            ":tipo" => $this->gettipo(),
+            ":alteradoPor" => $_SESSION["User"]["nome"],
+            ":alteradoEm" => date("Y-m-d H:i")
+        ));
+        $this->setData($results[0]);
+        $this->userGenerator();
     }
 
     private function userGenerator()
