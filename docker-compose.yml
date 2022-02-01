@@ -22,8 +22,8 @@ services:
     build: ./src
     container_name: sourcess-app
     volumes:
-      # - ./src:/var/www/html
-      - app-volume:/var/www/html
+      - ./src:/var/www/html
+      # - app-volume:/var/www/html
     links:
       - mysql
     depends_on:
